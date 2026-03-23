@@ -1,6 +1,10 @@
 // Глобальные переменные
 let entries = JSON.parse(localStorage.getItem('weddingEntries')) || [];
 let confirmedCount = 0;
+// Глобальная переменная для админки
+window.confirmedCount = confirmedCount;
+window.entries = entries;
+window.updateGuestCounter = updateGuestCounter;
 let isNightMode = false;
 const weddingDate = new Date('2027-07-07T14:00:00').getTime();
 
