@@ -334,7 +334,39 @@ header {
     0%, 100% { transform: scale(1); }
     50% { transform: scale(1.05); }
 }
+/* Исправления для плавных анимаций */
+.hero-content *, .section [data-aos] {
+    will-change: transform, opacity;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+}
 
+.floating-heart {
+    position: fixed;
+    font-size: 20px;
+    pointer-events: none;
+    z-index: 1000;
+    animation: floatHeart 6s ease-out forwards;
+}
+
+@keyframes floatHeart {
+    0% { transform: translateY(100vh) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(-100px) rotate(360deg); opacity: 0; }
+}
+
+#particles-canvas {
+    will-change: contents;
+}
+
+/* Отключение анимаций на слабых устройствах */
+@media (prefers-reduced-motion: reduce), (max-width: 480px) {
+    *, *:before, *:after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.3s !important;
+    }
+    [data-aos] { opacity: 1 !important; transform: none !important; }
+}
 /* Responsive */
 @media (max-width: 768px) {
     .nav-menu { display: none; }
