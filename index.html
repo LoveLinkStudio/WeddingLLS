@@ -139,28 +139,23 @@
 
         /* Hero Section - Минималистичный */
         .hero {
-            height: 100vh;
-            background: var(--gradient);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-        }
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  /* УБРАЛИ background var(--gradient) */
+}
 
         .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(circle at 20% 80%, rgba(244, 228, 240, 0.3) 0%, transparent 50%),
-                radial-gradient(circle at 80% 20%, rgba(232, 213, 226, 0.3) 0%, transparent 50%);
-            animation: float 20s infinite linear;
-        }
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(244, 228, 240, 0.5); /* Полупрозрачный оверлей */
+  z-index: 1;
+}
 
         @keyframes float {
             0% { transform: translateY(0px) rotate(0deg); }
@@ -844,6 +839,20 @@
                 transition-duration: 0.01ms !important;
             }
         }
+        /* 🎥 ФОНОВОЕ ВИДЕО */
+#bgVideo {
+  position: fixed !important;
+  top: 0; left: 0; width: 100%; height: 100vh;
+  object-fit: cover;
+  z-index: -2;
+}
+
+.hero-content { position: relative; z-index: 3; }
+header { z-index: 1001 !important; }
+
+@media (max-width: 768px) {
+  #bgVideo { object-fit: cover; object-position: center; }
+}
     </style>
 </head>
 <body>
@@ -1180,6 +1189,11 @@
 
     <!-- Notification -->
     <div class="notification" id="notification"></div>
+    <!-- 🎥 ФОНОВОЕ ВИДЕО LoveLinkStudio -->
+<video id="bgVideo" autoplay muted loop playsinline style="display:none;">
+  <source src="https://raw.githubusercontent.com/LoveLinkStudio/WeddingLLS/main/Video.mp4" type="video/mp4">
+  Видео не загрузилось (проверьте GitHub)
+</video>
     <!-- Фоновая музыка -->
 <audio id="bgMusic" loop preload="auto" style="display:none;">
   <source src="https://muzpro.net/files/2024/01/02/2110/01/yulianna-karaulova-vneorbitnye.mp3" type="audio/mpeg">
@@ -1597,6 +1611,18 @@ initVneorbitnyeMusic();
         window.addEventListener('resize', () => {
             if (map) map.container.fitToViewport();
         });
+        // 🎥 Фоновое видео
+function initBgVideo() {
+  const video = document.getElementById('bgVideo');
+  video.volume = 0; // Без звука
+  video.play().catch(e => console.log('🎥 Видео автоплей заблокирован'));
+}
+
+// После загрузки
+document.addEventListener('DOMContentLoaded', function() {
+  initAOS(); initProgressBar(); initCountdown(); // ... остальные init
+  initBgVideo(); // ДОБАВИЛИ!
+});
     </script>
 </body>
 </html>
