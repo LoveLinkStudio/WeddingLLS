@@ -363,7 +363,40 @@
             backdrop-filter: blur(25px);
             border: var(--border);
         }
+            .rsvp-form .form-group {
+    margin-bottom: 2.5rem;
+}
 
+.rsvp-form .form-group label {
+    display: block;
+    margin-bottom: 0.75rem;
+    font-weight: 600;
+    color: var(--text-dark);
+    font-size: 0.95rem;
+}
+
+.rsvp-form .form-group input,
+.rsvp-form .form-group select,
+.rsvp-form .form-group textarea {
+    width: 100%;
+    padding: 1.25rem;
+    border: var(--border);
+    border-radius: 20px;
+    font-size: 1rem;
+    transition: all 0.4s ease;
+    font-family: inherit;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.rsvp-form .form-group input:focus,
+.rsvp-form .form-group select:focus,
+.rsvp-form .form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px rgba(215, 185, 213, 0.15);
+    background: white;
+    transform: translateY(-2px);
+}
         .form-group {
             margin-bottom: 2.5rem;
         }
@@ -1181,33 +1214,29 @@
 
         // 4. RSVP Form
         function initRSVPForm() {
-            const form = document.getElementById('rsvpForm');
-            form.addEventListener('submit', e => {
-                e.preventDefault();
-                
-                const entry = {
-                    id: Date.now(),
-                    name: document.getElementById('guestName').value,
-                    count: document.getElementById('guestCount').value,
-                    attendance: document.getElementById('attendance').value,
-                    diet: document.getElementById('diet').value,
-                    wishes: document.getElementById('wishes').value,
-                    timestamp: new Date().toISOString()
-                };
-                
-                entries.push(entry);
-                localStorage.setItem('weddingEntries', JSON.stringify(entries));
-                
-                if (entry.attendance === 'yes') {
-                    confirmedCount++;
-                    updateGuestCounter();
-                }
-                
-                showNotification('✅ Спасибо за подтверждение! 💕');
-                form.reset();
-                createFloatingHeart();
-            });
-        }
+    const form = document.getElementById('rsvpForm');
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        const entry = {
+            id: Date.now(),
+            name: document.getElementById('guestName').value,
+            count: document.getElementById('guestCountSelect').value,
+            attendance: document.getElementById('attendance').value,
+            phone: document.getElementById('guestPhone').value,
+            wishes: document.getElementById('specialRequests').value,
+            timestamp: new Date().toISOString()
+        };
+        
+        entries.push(entry);
+        localStorage.setItem('weddingEntries', JSON.stringify(entries));
+        
+        if (entry.attendance === 'yes') confirmedCount++;
+        updateGuestCounter();
+        showNotification('✅ Подтверждение отправлено!');
+        form.reset();
+        createFloatingHeart();
+    });
+}
 
         // 5. Guest Counter
         function updateGuestCounter() {
