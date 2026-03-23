@@ -112,7 +112,42 @@ header {
     background: rgba(255, 255, 255, 0.6); border-radius: 30px; margin: 2rem auto;
     border: var(--border); backdrop-filter: blur(10px);
 }
+.countdown-item {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(15px);
+    padding: 2.5rem 1rem;
+    border-radius: 25px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transition: all 0.3s ease;
+}
 
+.countdown-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+.countdown-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #ff69b4, #d7b9d5);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.countdown-label {
+    font-size: 0.95rem;
+    opacity: 0.9;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    font-weight: 300;
+}
 .section-title {
     font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.5rem);
     text-align: center; margin-bottom: 4rem; position: relative;
