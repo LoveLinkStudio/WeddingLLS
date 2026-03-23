@@ -38,23 +38,33 @@ function initCountdown() {
         const now = new Date().getTime();
         const distance = weddingDate - now;
         
+        if (distance < 0) {
+            const grid = document.getElementById('countdownGrid');
+            if (grid) {
+                grid.innerHTML = '<h2 style="grid-column: 1 / -1; color: white; font-size: 3rem; font-family: Playfair Display, serif;">СВАДЬБА! 💕</h2>';
+                return;
+            }
+        }
+        
         const days = Math.floor(distance / (1000 * 60 * 60 * 24));
         const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
         
-        document.getElementById('days').textContent = days.toString().padStart(2, '0');
-        document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-        document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-        document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        // Безопасное обновление с проверкой элементов
+        const updateElement = (id, value) => {
+            const el = document.getElementById(id);
+            if (el) el.textContent = value.toString().padStart(2, '0');
+        };
         
-        if (distance < 0) {
-            document.getElementById('countdownGrid').innerHTML = 
-                '<h2 style="grid-column: 1 / -1; color: white; font-size: 3rem;">СВАДЬБА! 🎉</h2>';
-        }
+        updateElement('days', days);
+        updateElement('hours', hours);
+        updateElement('minutes', minutes);
+        updateElement('seconds', seconds);
     };
-    updateCountdown();
-    setInterval(updateCountdown, 1000);
+    
+    updateCountdown(); // Первый запуск
+    setInterval(updateCountdown, 1000); // Каждую секунду
 }
 
 function initRSVPForm() {
