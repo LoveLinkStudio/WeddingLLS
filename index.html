@@ -885,7 +885,7 @@ header { z-index: 1001 !important; }
     <section id="hero" class="hero">
         <div class="hero-video">
   <video autoplay muted loop playsinline class="hero-bg-video">
-    <source src="your-welcome-video.mp4" type="video/mp4">
+    <source src="https://raw.githubusercontent.com/LoveLinkStudio/WeddingLLS/main/Video.mp4" type="video/mp4">
   </video>
   <div class="hero-content">
     <!-- существующий контент -->
@@ -1190,9 +1190,8 @@ header { z-index: 1001 !important; }
     <!-- Notification -->
     <div class="notification" id="notification"></div>
     <!-- 🎥 ФОНОВОЕ ВИДЕО LoveLinkStudio -->
-<video id="bgVideo" autoplay muted loop playsinline style="display:none;">
+<video id="bgVideo" autoplay muted loop playsinline style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; object-fit: cover; z-index: -2;">
   <source src="https://raw.githubusercontent.com/LoveLinkStudio/WeddingLLS/main/Video.mp4" type="video/mp4">
-  Видео не загрузилось (проверьте GitHub)
 </video>
     <!-- Фоновая музыка -->
 <audio id="bgMusic" loop preload="auto" style="display:none;">
@@ -1614,8 +1613,9 @@ initVneorbitnyeMusic();
         // 🎥 Фоновое видео
 function initBgVideo() {
   const video = document.getElementById('bgVideo');
-  video.volume = 0; // Без звука
-  video.play().catch(e => console.log('🎥 Видео автоплей заблокирован'));
+  video.volume = 0;
+  video.muted = true; // Обязательно для autoplay
+  video.play().catch(e => console.log('Autoplay blocked:', e));
 }
 
 // После загрузки
