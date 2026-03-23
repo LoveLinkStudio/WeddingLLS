@@ -739,7 +739,34 @@
             border: var(--border);
             backdrop-filter: blur(20px);
         }
+        .music-control {
+  position: fixed; bottom: 120px; left: 30px; 
+  width: 70px; height: 70px; background: var(--gradient);
+  color: white; border: none; border-radius: 50%; 
+  font-size: 1.3rem; cursor: pointer; box-shadow: var(--shadow);
+  z-index: 1003; transition: all 0.4s ease;
+  display: flex; flex-direction: column; align-items: center; 
+  justify-content: center; gap: 2px; font-weight: 500;
+  font-size: 0.7rem; line-height: 1; text-align: center;
+  backdrop-filter: blur(20px); border: var(--border);
+}
 
+.music-control:hover { 
+  transform: scale(1.1) rotate(360deg); 
+  box-shadow: 0 20px 50px rgba(74, 63, 90, 0.3);
+}
+
+.music-control.pause i::before { content: "⏸️"; font-size: 1.5rem; }
+.music-title { font-size: 0.65rem; opacity: 0.9; }
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+  .music-control { 
+    bottom: 180px; left: 20px; width: 60px; height: 60px; 
+    font-size: 1.1rem;
+  }
+  .music-title { font-size: 0.6rem; }
+}
         /* Progress Bar */
         .progress-bar {
             position: fixed;
@@ -1153,7 +1180,18 @@
 
     <!-- Notification -->
     <div class="notification" id="notification"></div>
+    <!-- Фоновая музыка -->
+<audio id="bgMusic" loop preload="auto" style="display:none;">
+  <!-- ЗАМЕНИТЕ на прямую ссылку на MP3 -->
+  <source src="https://example.com/vneorbitnye.mp3" type="audio/mpeg">
+  <source src="https://example.com/vneorbitnye.ogg" type="audio/ogg">
+  Ваш браузер не поддерживает аудио
+</audio>
 
+<button id="musicToggle" class="music-control" title="🎵 Внеорбитные - Юлианна Караулова">
+  <i class="fas fa-volume-up"></i>
+  <span class="music-title">Внеорбитные</span>
+</button>
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
@@ -1484,7 +1522,59 @@ launchConfetti();
                 }
             });
         }
+// Фоновая музыка "Внеорбитные"
+function initVneorbitnyeMusic() {
+  const audio = document.getElementById('bgMusic');
+  const toggle = document.getElementById('musicToggle');
+  let isPlaying = false;
+  let userInteracted = false;
 
+  // Кнопка вкл/выкл
+  toggle.addEventListener('click', () => {
+    if (isPlaying) {
+      audio.pause();
+      toggle.classList.remove('pause');
+      toggle.querySelector('i').className = 'fas fa-volume-up';
+      isPlaying = false;
+    } else {
+      audio.play().catch(e => {
+        showNotification('🔊 Нажмите по сайту для запуска музыки', 'error');
+      });
+      toggle.classList.add('pause');
+      toggle.querySelector('i').className = 'fas fa-pause';
+      isPlaying = true;
+    }
+  });
+
+  // Автозапуск после первого взаимодействия
+  function enableAutoplay() {
+    if (!userInteracted) {
+      audio.volume = 0.3; // Тихо для фона
+      audio.play().then(() => {
+        toggle.classList.add('pause');
+        toggle.querySelector('i').className = 'fas fa-pause';
+        isPlaying = true;
+        userInteracted = true;
+      }).catch(() => {
+        // Браузер блокирует автозвук
+      });
+    }
+  }
+
+  // Запуск после любого клика по сайту
+  document.addEventListener('click', enableAutoplay, { once: true });
+  document.addEventListener('touchstart', enableAutoplay, { once: true });
+
+  // Пауза при уходе со страницы
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden && isPlaying) {
+      audio.pause();
+    }
+  });
+}
+
+// Добавить в DOMContentLoaded
+initVneorbitnyeMusic();
         // Инициализация
         document.addEventListener('DOMContentLoaded', () => {
             initAOS();
