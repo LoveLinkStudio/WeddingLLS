@@ -1,6 +1,10 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+<link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoi0KHQqNC10LXRgdGC0YwsINCi0LXRgdGCIFdlZGRpbmciLCJzaG9ydF9uYW1lIjoi0KHQqNC10LXRgdGCiLCJzdGFydF91cmwiOiIvIiwic3RhcnRVUkwiOiIvIiwiYmFja2dyb3VuZF9jb2xvciI6IiNmNGU0ZjAiLCJ0aGVtZV9jb2xvciI6IiNkN2I5ZDUiLCJpY29ucyI6W3sic3JjIjoiZGF0YTppbWFnZS9zdmcreG1sO2Jhc2U2NCxQSE5zdllYQnliM0p1WVhScGJtVjBhVzl1SUZOQ1lXc1FHWnJhVDFCWjJWeWRtVnliR2hwSUZSMmFXRW9JQ0lzSUVFeU1EQXdNakkwTURkMFlXSTBPVEl6T0RnNU1qQT0iLCJzaXplcyI6IjE5MngxOTIiLCJ0eXBlIjoiaW1hZ2Uvc3ZnK3htbCJ9XX0=">
+<meta name="theme-color" content="#d7b9d5">
+<script>if('serviceWorker' in navigator)navigator.serviceWorker.register('data:text/javascript;base64,c2VsZi5hZGRFdmVudExpc3RlbmVyKCdJbnN0YWxsJywgZSA9PiBlLndhaXRVbnRpbChzZWxmLnNraXBXYWl0aW5nKCkpKTsKc2VsZi5hZGRFdmVudExpc3RlbmVyKCdBY3RpdmF0ZScsIGUgPT4gZS53YWl0VW50aWwoc2VsZi5jbGllbnRzLmNsYWltKCkpKTs=');</script>
+<style>/* GitHub Pages Map Fix */#map:empty:before{content:"📍 Карта появится с API ключом Яндекс";display:flex;align-items:center;justify-content:center;height:450px;background:linear-gradient(135deg,#f0e6f2,#d7b9d5);border-radius:25px;color:var(--text-light);font-size:1.2rem;}@media(max-width:768px){#map:empty:before{height:350px;font-size:1rem;}}</style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>07.07.2027</title>
