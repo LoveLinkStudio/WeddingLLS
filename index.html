@@ -853,6 +853,9 @@ header { z-index: 1001 !important; }
 @media (max-width: 768px) {
   #bgVideo { object-fit: cover; object-position: center; }
 }
+     .map-buttons .cta-button {
+    display: flex; align-items: center; gap: 0.5rem; padding: 1rem 1.5rem;
+}   
     </style>
 </head>
 <body>
@@ -1101,29 +1104,28 @@ header { z-index: 1001 !important; }
 
     <!-- Location -->
     <section id="location" class="section">
-        <h2 class="section-title" data-aos="fade-up">Где это будет</h2>
-        <div class="container">
-            <div class="map-container" id="map"></div>
-            <div style="text-align: center; margin-top: 3rem;">
-                <p data-aos="fade-up" data-aos-delay="100">
-                    <strong>Усадьба "Золотые Сосны"</strong><br>
-                    Московская область, Красногорск, д. 12
-                </p>
-                <p data-aos="fade-up" data-aos-delay="200">
-                    Парковка на 150 мест. Детская площадка.<br>
-                    Удобный подъезд для гостей из Москвы.
-                </p>
-            </div>
-            <div style="margin-top: 3rem;" data-aos="fade-up" data-aos-delay="300">
-                <a href="https://yandex.ru/maps/?rtext=55.7558%2C37.6176~55.7558%2C37.6176&rtt=auto" target="_blank" class="cta-button" style="margin-right: 1rem;">
-                    <i class="fas fa-map-marker-alt"></i> Путь Яндекс
-                </a>
-                <a href="yandex://maps/?uri=ymapsbm%2F%2Froute%2Fto%3Fdata%3DCgAAAAAB9v8AoT3IgoC4AAAAAABAAAGAAiC4AAAAACAAIAAAAAAAAAAe4AAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYL9v8AoT3IgoC4AAAAAABAAAGAAiC4AAAAACAAIAAAAAAAAAAe4AAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAYgBAgEEAMAAABkvwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA3D" class="cta-button">
-                    <i class="fab fa-yandex"></i> Go
-                </a>
-            </div>
+    <h2 class="section-title" data-aos="fade-up">Место проведения</h2>
+    <div class="container">
+        <div class="map-container" id="map"></div>
+        <!-- Новые кнопки такси -->
+        <div class="map-buttons" style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem;">
+            <a href="https://yandex.ru/maps/?uri=ymapsbm01%2Froute%2Fto%3Fdata%3DCgAAAA...AYgBAgEEAQAAAdSvwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA3D" 
+               class="cta-button" style="margin-right: 0.5rem;" target="_blank">
+                <i class="fab fa-yandex"></i> Яндекс Go
+            </a>
+            <a href="https://2gis.ru/tyumen/firm/70000001041618161" class="cta-button" target="_blank">
+                <i class="fas fa-map-marked-alt"></i> 2ГИС
+            </a>
         </div>
-    </section>
+        <div style="text-align: center; margin-top: 3rem;">
+            <p data-aos="fade-up" data-aos-delay="100">
+                <strong>Улица Виктора Соколова, 7</strong><br>
+                с. Кулига, Тюменский район, Тюменская область, 625525
+            </p>
+            <p data-aos="fade-up" data-aos-delay="200">Расстояние от Тюмени ~150 км</p>
+        </div>
+    </div>
+</section>
 
     <!-- Dress Code - Финальное подтверждение -->
     <section class="confirm-section">
@@ -1462,24 +1464,22 @@ launchConfetti();
 
         // 12. Map
         function initMap() {
-            ymaps.ready(() => {
-                map = new ymaps.Map('map', {
-                    center: [55.7558, 37.6176],
-                    zoom: 16,
-                    controls: ['zoomControl', 'fullscreenControl']
-                });
-                
-                const placemark = new ymaps.Placemark([55.7558, 37.6176], {
-                    hintContent: 'Усадьба "Золотые Сосны"',
-                    balloonContent: 'Усадьба "Золотые Сосны"<br>Московская область, Красногорск, д. 12<br>18:00 - Банкет'
-                }, {
-                    preset: 'islands#icon',
-                    iconColor: '#ff69b4'
-                });
-                
-                map.geoObjects.add(placemark);
-            });
-        }
+    ymaps.ready(function() {
+        map = new ymaps.Map('map', {
+            center: [57.258832, 65.108490],  // Новые координаты!
+            zoom: 16,
+            controls: ['zoomControl', 'fullscreenControl']
+        });
+        const placemark = new ymaps.Placemark([57.258832, 65.108490], {
+            hintContent: 'Ул. Виктора Соколова, 7',
+            balloonContent: '<strong>Свадьба Игоря & Марии</strong><br>с. Кулига, Тюменская обл.<br>07.07.2027',
+        }, {
+            preset: 'islands#icon',
+            iconColor: '#ff69b4'
+        });
+        map.geoObjects.add(placemark);
+    });
+}
 
         // 13. Smooth Scroll
         function initSmoothScroll() {
