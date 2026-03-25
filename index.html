@@ -11,7 +11,21 @@
     <script src="https://api-maps.yandex.ru/2.1/?apikey=ваш-api-ключ-yandex-maps&lang=ru_RU" type="text/javascript"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Great+ Vibes&display=swap" rel="stylesheet">
-    
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyC2zHfSvobeo0cpVVtUy0iPur2ao-test-1lA",
+    authDomain: "weddingllsezhunov.firebaseapp.com",
+    databaseURL: "https://weddingllsezhunov-default-rtdb.europe-west1.firebasedatabase.app/",  ← ДОБАВИТЕ ЭТО!
+    projectId: "weddingllsezhunov",
+    storageBucket: "weddingllsezhunov.firebasestorage.app",
+    messagingSenderId: "838708765760",
+    appId: "1:838708765760:web:2844d915fc5fa7b91ceba5"
+  };
+  firebase.initializeApp(firebaseConfig);  ← ← ← ДОБАВЬТЕ ЭТУ СТРОКУ!
+  const db = firebase.database();
+</script>
     <style>
         :root {
             /* Пастельная романтическая палитра */
@@ -1239,6 +1253,28 @@ header { z-index: 1001 !important; }
         </div>
     </div>
 </section>
+    <!-- Викторины и Trivia -->
+<section id="quiz-section" class="section" style="background: linear-gradient(135deg, var(--accent), var(--primary)); color: white; text-align: center;">
+  <h2 class="section-title" data-aos="fade-up" style="color: white;">🧠 Угадай о нас</h2>
+  <p data-aos="fade-up" data-aos-delay="100" style="font-size: 1.2rem; max-width: 600px; margin: 0 auto 3rem;">
+    10 вопросов о нашей истории. Таймер 30 сек на вопрос. Соревнуйтесь в лидерборде за виртуальный приз!
+  </p>
+  
+  <div id="quiz-container" style="background: rgba(255,255,255,0.1); padding: 3rem; border-radius: 30px; backdrop-filter: blur(20px); border: var(--border); max-width: 700px; margin: 0 auto;">
+    <div id="question-display" style="font-size: 1.5rem; margin-bottom: 2rem; font-family: 'Playfair Display', serif;"></div>
+    <div id="answers-display" style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin: 2rem 0;"></div>
+    <div style="display: flex; justify-content: space-between; align-items: center; font-size: 1.4rem; font-weight: 600; margin: 2rem 0;">
+      <span id="timer" style="background: rgba(255,255,255,0.2); padding: 1rem 1.5rem; border-radius: 20px;">30</span>
+      <span id="score">0 / 10</span>
+    </div>
+    <button id="quiz-start" class="cta-button" style="padding: 1.2rem 3rem; font-size: 1.1rem;">🚀 Начать викторину</button>
+  </div>
+  
+  <div id="leaderboard-section" style="background: rgba(255,255,255,0.1); padding: 2rem; border-radius: 25px; backdrop-filter: blur(15px); max-width: 500px; margin: 3rem auto 0;">
+    <h3 style="margin-bottom: 1.5rem;">🏆 Лидерборд (топ-10)</h3>
+    <ul id="leaderboard-list" style="list-style: none; padding: 0;"></ul>
+  </div>
+</section>
     <!-- Controls -->
     <div class="controls-panel">
         <button class="mode-toggle" id="modeToggle">
@@ -1712,5 +1748,91 @@ document.addEventListener('DOMContentLoaded', function() {
   initBgVideo(); // ДОБАВИЛИ!
 });
     </script>
+    // 🔥 ГОТОВЫЙ КОД ВИКТОРИНЫ — вставьте перед </body>
+const questions = [
+  { q: "Где Игорь и Мария познакомились?", a: ["В Тюмени", "В Москве", "На работе", "Через друзей"], correct: 0 },
+  { q: "Любимый цвет Марии?", a: ["Розовый", "Синий", "Зелёный", "Фиолетовый"], correct: 0 },
+  { q: "Дата первого свидания?", a: ["14 февраля", "07 июля", "Новый год", "ДР"], correct: 1 },
+  { q: "Первый совместный отпуск?", a: ["Турция", "Египет", "Крым", "Греция"], correct: 2 },
+  { q: "Любимое блюдо Игоря?", a: ["Плов", "Шашлык", "Пицца", "Суши"], correct: 1 },
+  { q: "Где было предложение?", a: ["Парк", "Дома", "Кафе", "Кино"], correct: 0 },
+  { q: "Наш общий талисман?", a: ["Котик", "Сердечко", "Цветок", "Кольцо"], correct: 1 },
+  { q: "Первая ссора из-за?", a: ["Фото", "Еды", "Друзей", "Путешествий"], correct: 0 },
+  { q: "Любимый фильм пары?", a: ["Титаник", "Интерстеллар", "Ла-Ла Ленд", "Гладиатор"], correct: 2 },
+  { q: "Место мечты?", a: ["Мальдивы", "Париж", "Бали", "Италия"], correct: 1 }
+];
+
+let currentQuestion = 0, score = 0, timer = 30, interval;
+const playerName = localStorage.getItem('quizName') || prompt('Ваше имя для лидерборда?') || 'Гость';
+localStorage.setItem('quizName', playerName);
+
+document.getElementById('quiz-start').onclick = function() {
+  this.style.display = 'none';
+  currentQuestion = 0; score = 0; timer = 30;
+  showQuestion();
+  interval = setInterval(tick, 1000);
+};
+
+function tick() {
+  timer--; document.getElementById('timer').textContent = timer;
+  if (timer <= 0) endQuiz();
+}
+
+function showQuestion() {
+  const q = questions[currentQuestion];
+  document.getElementById('question-display').innerHTML = `<strong>${currentQuestion + 1}/10. ${q.q}</strong>`;
+  document.getElementById('answers-display').innerHTML = 
+    q.a.map((ans, i) => 
+      `<button class="cta-button" style="width:100%;padding:1rem;font-size:1rem;margin:0.5rem 0;" 
+       onclick="answer(${i})">${ans}</button>`
+    ).join('');
+  document.getElementById('score').textContent = `${score} / 10`;
+}
+
+function answer(selected) {
+  clearInterval(interval);
+  if (selected === questions[currentQuestion].correct) score++;
+  nextQuestion();
+}
+
+function nextQuestion() {
+  currentQuestion++;
+  if (currentQuestion < questions.length) {
+    timer = 30;
+    showQuestion();
+    interval = setInterval(tick, 1000);
+  } else {
+    endQuiz();
+  }
+}
+
+function endQuiz() {
+  document.getElementById('quiz-container').innerHTML = `
+    <h2 style="font-size:3rem;color:var(--accent);">🎉 ${score}/10!</h2>
+    <p style="font-size:1.3rem;margin:2rem 0;">Отличный результат, ${playerName}!</p>
+    <button onclick="location.reload()" class="cta-button" style="padding:1.2rem 3rem;font-size:1.1rem;">🔄 Играть снова</button>
+  `;
+  // Сохранить в Firebase
+  db.ref('wedding-quiz').push({
+    name: playerName, 
+    score: score, 
+    date: Date.now()
+  });
+}
+
+// Лидерборд обновляется автоматически
+db.ref('wedding-quiz').orderByChild('score').limitToLast(10).on('value', function(snapshot) {
+  const scores = [];
+  snapshot.forEach(function(child) {
+    scores.push(child.val());
+  });
+  scores.reverse();
+  document.getElementById('leaderboard-list').innerHTML = 
+    scores.map(s => 
+      `<li style="padding:1rem;background:rgba(255,255,255,0.2);margin:0.5rem 0;border-radius:20px;font-weight:600;text-align:left;">
+        ${s.name}: <strong style="color:var(--accent);float:right;">${s.score}</strong>
+      </li>`
+    ).join('');
+});
 </body>
 </html>
