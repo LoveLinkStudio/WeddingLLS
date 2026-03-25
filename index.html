@@ -150,11 +150,18 @@
 }
 
         .hero::before {
-  content: '';
+  content: 'Игорь и Мария';
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: rgba(244, 228, 240, 0.5); /* Полупрозрачный оверлей */
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 6vw, 4rem);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-shadow: 0 4px 12px rgba(0,0,0,0.7);
   z-index: 1;
+  background: rgba(244, 228, 240, 0.1); /* Оставьте лёгкий оверлей опционально */
 }
 
         @keyframes float {
