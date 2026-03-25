@@ -1656,56 +1656,6 @@ launchConfetti();
                 }
             });
         }
-// Фоновая музыка "Внеорбитные"
-function initVneorbitnyeMusic() {
-  const audio = document.getElementById('bgMusic');
-  const toggle = document.getElementById('musicToggle');
-  let isPlaying = false;
-  let userInteracted = false;
-  // Кнопка вкл/выкл
-  toggle.addEventListener('click', () => {
-    if (isPlaying) {
-      audio.pause();
-      toggle.classList.remove('pause');
-      toggle.querySelector('i').className = 'fas fa-volume-up';
-      isPlaying = false;
-    } else {
-      audio.play().catch(e => {
-        showNotification('🔊 Нажмите по сайту для запуска музыки', 'error');
-      });
-      toggle.classList.add('pause');
-      toggle.querySelector('i').className = 'fas fa-pause';
-      isPlaying = true;
-    }
-  });
-
-  // Автозапуск после первого взаимодействия
-  function enableAutoplay() {
-    if (!userInteracted) {
-      audio.volume = 0.3; // Тихо для фона
-      audio.play().then(() => {
-        toggle.classList.add('pause');
-        toggle.querySelector('i').className = 'fas fa-pause';
-        isPlaying = true;
-        userInteracted = true;
-      }).catch(() => {
-        // Браузер блокирует автозвук
-      });
-    }
-  }
-
-  // Запуск после любого клика по сайту
-  document.addEventListener('click', enableAutoplay, { once: true });
-  document.addEventListener('touchstart', enableAutoplay, { once: true });
-
-  // Пауза при уходе со страницы
-  document.addEventListener('visibilitychange', () => {
-    if (document.hidden && isPlaying) {
-      audio.pause();
-    }
-  });
-}
-
 
         // Инициализация
         document.addEventListener('DOMContentLoaded', () => {
@@ -1738,12 +1688,8 @@ function initBgVideo() {
   video.play().catch(e => console.log('Autoplay blocked:', e));
 }
 
-// После загрузки
-document.addEventListener('DOMContentLoaded', function() {
-  initAOS(); initProgressBar(); initCountdown(); // ... остальные init
-  initBgVideo(); // ДОБАВИЛИ!
-});
-    <!-- 🔥 ГОТОВЫЙ КОД ВИКТОРИНЫ — вставьте перед </body> -->
+
+    <!-- 🔥 ГОТОВЫЙ КОД ВИКТОРИНЫ ->
 <script>
 const questions = [
   { q: "Где Игорь и Мария познакомились?", a: ["В Тюмени", "В Москве", "На работе", "Через друзей"], correct: 0 },
