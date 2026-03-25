@@ -11,6 +11,7 @@
     <script src="https://api-maps.yandex.ru/2.1/?apikey=ваш-api-ключ-yandex-maps&lang=ru_RU" type="text/javascript"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Great+ Vibes&display=swap" rel="stylesheet">
+    
     <style>
         :root {
             /* Пастельная романтическая палитра */
@@ -150,23 +151,26 @@
 }
 
         .hero::before {
-  content: 'Игорь и Мария \\A Два сердца бьются в унисон'; /* \\A для новой строки */
+  content: 'Игорь и Мария \\A Два сердца бьются в унисон';
   position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  font-family: 'Great Vibes', 'Playfair Display', serif; /* Основной + fallback */
-  font-size: clamp(2.5rem, 7vw, 5rem);
-  color: rgba(255, 255, 255, 0.95);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  font-family: 'Great Vibes', cursive;
+  font-weight: 400;
+  font-size: clamp(3rem, 8vw, 6rem);
+  line-height: 0.9;
+  color: rgba(255, 255, 255, 0.98);
   text-align: center;
-  line-height: 1.2;
+  letter-spacing: 0.02em;
   text-shadow: 
-    0 2px 4px rgba(0,0,0,0.5),
-    0 0 20px rgba(244, 228, 240, 0.3); /* Мягкая тень с градиентом */
-  z-index: 1;
-  background: rgba(244, 228, 240, 0.25); /* Лёгкий оверлей для глубины */
+    0 2px 8px rgba(0,0,0,0.6),
+    0 0 30px rgba(244, 228, 240, 0.4);
+  z-index: 2; /* Выше видео */
+  background: rgba(244, 228, 240, 0.1);
+  padding: 2rem;
+  border-radius: 20px;
+  white-space: pre-line; /* Сохраняет \\A как перенос */
+  max-width: 90vw;
 }
 
         @keyframes float {
