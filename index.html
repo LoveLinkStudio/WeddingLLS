@@ -1747,8 +1747,8 @@ document.addEventListener('DOMContentLoaded', function() {
   initAOS(); initProgressBar(); initCountdown(); // ... остальные init
   initBgVideo(); // ДОБАВИЛИ!
 });
-    </script>
-    // 🔥 ГОТОВЫЙ КОД ВИКТОРИНЫ — вставьте перед </body>
+    <!-- 🔥 ГОТОВЫЙ КОД ВИКТОРИНЫ — вставьте перед </body> -->
+<script>
 const questions = [
   { q: "Где Игорь и Мария познакомились?", a: ["В Тюмени", "В Москве", "На работе", "Через друзей"], correct: 0 },
   { q: "Любимый цвет Марии?", a: ["Розовый", "Синий", "Зелёный", "Фиолетовый"], correct: 0 },
@@ -1766,6 +1766,18 @@ let currentQuestion = 0, score = 0, timer = 30, interval;
 const playerName = localStorage.getItem('quizName') || prompt('Ваше имя для лидерборда?') || 'Гость';
 localStorage.setItem('quizName', playerName);
 
+// Инициализация Firebase (добавьте свои ключи)
+firebase.initializeApp({
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_PROJECT.firebaseapp.com",
+  databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_PROJECT.appspot.com",
+  messagingSenderId: "123456789",
+  appId: "YOUR_APP_ID"
+});
+const db = firebase.database();
+
 document.getElementById('quiz-start').onclick = function() {
   this.style.display = 'none';
   currentQuestion = 0; score = 0; timer = 30;
@@ -1774,7 +1786,8 @@ document.getElementById('quiz-start').onclick = function() {
 };
 
 function tick() {
-  timer--; document.getElementById('timer').textContent = timer;
+  timer--; 
+  document.getElementById('timer').textContent = timer;
   if (timer <= 0) endQuiz();
 }
 
@@ -1834,5 +1847,6 @@ db.ref('wedding-quiz').orderByChild('score').limitToLast(10).on('value', functio
       </li>`
     ).join('');
 });
+</script>
 </body>
 </html>
