@@ -1413,19 +1413,15 @@ header { z-index: 1001 !important; }
                     timestamp: new Date().toISOString()
                 };
                 
-                entries.push(entry);
-                localStorage.setItem('weddingEntries', JSON.stringify(entries));
-                
-                if (entry.attendance === 'yes') {
-                    confirmedCount++;
-                    updateGuestCounter();
-                }
-                
-                showNotification('✅ Спасибо за подтверждение! 💕');
-                form.reset();
-                createFloatingHeart();
-            });
-        }
+                db.ref('rsvp').push(entry).then(() => {
+      if (entry.attendance === 'yes') confirmedCount++;
+      updateGuestCounter();
+      showNotification('✅ Заявка сохранена!');
+      form.reset();
+      createFloatingHeart();
+    }).catch(err => showNotification('❌ Ошибка: ' + err.message, 'error'));
+  });
+}
 
         // 5. Guest Counter
         function updateGuestCounter() {
