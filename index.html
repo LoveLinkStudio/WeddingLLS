@@ -855,7 +855,49 @@ header { z-index: 1001 !important; }
 }
      .map-buttons .cta-button {
     display: flex; align-items: center; gap: 0.5rem; padding: 1rem 1.5rem;
-}   
+}   .wishlist-section {
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  text-align: center;
+  padding: 100px 0;
+  margin: 5rem auto;
+  border-radius: 30px;
+  border: var(--border);
+  backdrop-filter: blur(10px);
+}
+.wishlist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+.wishlist-item {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 2.5rem;
+  border-radius: 25px;
+  box-shadow: var(--shadow);
+  border: var(--border);
+  transition: transform 0.3s ease;
+}
+.wishlist-item:hover {
+  transform: translateY(-10px);
+}
+.wishlist-icon {
+  width: 80px;
+  height: 80px;
+  background: var(--gradient);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  font-size: 2rem;
+  color: white;
+}
+.wishlist-item h4 {
+  font-family: 'Playfair Display', serif;
+  margin-bottom: 1rem;
+  color: var(--dark);
+}
     </style>
 </head>
 <body>
@@ -1145,18 +1187,45 @@ header { z-index: 1001 !important; }
     </div>
 </section>
 
-    <!-- Dress Code - Финальное подтверждение -->
-    <section class="confirm-section">
-        <div style="max-width: 800px; margin: 0 auto; padding: 0 2rem;">
-            <h2 class="section-title" style="color: white; margin-bottom: 2rem;">Подтвердите участие</h2>
-            <div class="confirm-circle">
-                <i class="fas fa-heart" style="color: #e91e63;"></i>
+    <!-- Колодец желаний -->
+<section class="wishlist-section" id="wishlist">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+        <h2 class="section-title" style="color: white; margin-bottom: 2rem;">Колодец желаний</h2>
+        <p style="text-align: center; font-size: 1.2rem; margin-bottom: 3rem; color: rgba(255,255,255,0.9); max-width: 700px; margin-left: auto; margin-right: auto;">
+            Ваше присутствие — лучший подарок! Но если хотите порадовать нас, вот идеи. Ссылки ведут на магазины.
+        </p>
+        <div class="wishlist-grid">
+            <div class="wishlist-item" data-aos="fade-up" data-aos-delay="100">
+                <div class="wishlist-icon"><i class="fas fa-gift"></i></div>
+                <h4>Путешествие в медовый месяц</h4>
+                <p>Сертификат на романтическую поездку</p>
+                <a href="https://www.ozon.ru/" target="_blank" class="cta-button" style="margin-top: 1rem; display: block;">Выбрать на Ozon</a>
             </div>
-            <div class="guest-counter" id="guestCounter">
-                Подтвердило: <span id="confirmedCount">0</span> гостей
+            <div class="wishlist-item" data-aos="fade-up" data-aos-delay="200">
+                <div class="wishlist-icon"><i class="fas fa-utensils"></i></div>
+                <h4>Посуда для дома</h4>
+                <p>Сервиз или кухонный набор премиум-класса</p>
+                <a href="https://www.wildberries.ru/" target="_blank" class="cta-button" style="margin-top: 1rem; display: block;">Wildberries</a>
+            </div>
+            <div class="wishlist-item" data-aos="fade-up" data-aos-delay="300">
+                <div class="wishlist-icon"><i class="fas fa-camera"></i></div>
+                <h4>Фотоаппарат или дрон</h4>
+                <p>Для воспоминаний о нашей совместной жизни</p>
+                <a href="https://www.mvideo.ru/" target="_blank" class="cta-button" style="margin-top: 1rem; display: block;">M.Video</a>
+            </div>
+            <div class="wishlist-item" data-aos="fade-up" data-aos-delay="400">
+                <div class="wishlist-icon"><i class="fas fa-money-bill-wave"></i></div>
+                <h4>Конверт</h4>
+                <p>На счёт для будущих покупок</p>
+                <p style="font-size: 1rem; color: var(--text-light);">Реквизиты в личном сообщении</p>
             </div>
         </div>
-    </section>
+        <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: rgba(255,255,255,0.1); border-radius: 20px; border: var(--border);">
+            <i class="fas fa-exclamation-triangle" style="color: #ffd700; font-size: 2rem; margin-bottom: 1rem;"></i>
+            <p style="font-weight: 600;">Согласуйте подарок заранее, чтобы избежать дубликатов!</p>
+        </div>
+    </div>
+</section>
 
     <!-- Controls -->
     <div class="controls-panel">
