@@ -1706,34 +1706,29 @@ const questions = [
 ];
 
 let currentQuestion = 0, score = 0, timer = 30, interval;
-const playerName = localStorage.getItem('quizName') || prompt('Ваше имя для лидерборда?') || 'Гость';
+const playerName = localStorage.getItem('quizName') || prompt('Имя?') || 'Гость';
 localStorage.setItem('quizName', playerName);
-
-// Firebase уже инициализирован выше
-const db = firebase.database();
 
 document.getElementById('quiz-start').onclick = function() {
   this.style.display = 'none';
   currentQuestion = 0; score = 0; timer = 30;
   showQuestion();
   interval = setInterval(tick, 1000);
-};
+}
 
 function tick() {
-  timer--; 
+  timer--;
   document.getElementById('timer').textContent = timer;
   if (timer <= 0) endQuiz();
 }
 
 function showQuestion() {
   const q = questions[currentQuestion];
-  document.getElementById('question-display').innerHTML = `<strong>${currentQuestion + 1}/10. ${q.q}</strong>`;
-  document.getElementById('answers-display').innerHTML = 
-    q.a.map((ans, i) => 
-      `<button class="cta-button" style="width:100%;padding:1rem;font-size:1rem;margin:0.5rem 0;" 
-       onclick="answer(${i})">${ans}</button>`
-    ).join('');
-  document.getElementById('score').textContent = `${score} / 10`;
+  document.getElementById('question-display').innerHTML = `<strong>${currentQuestion + 1}/10.</strong> ${q.q}`;
+  document.getElementById('answers-display').innerHTML = q.a.map((ans, i) =>
+    `<button class="cta-button" style="width:100%;padding:1rem;font-size:1rem;margin:0.5rem 0;" onclick="answer(${i})">${ans}</button>`
+  ).join('');
+  document.getElementById('score').textContent = `${score}/10`;
 }
 
 function answer(selected) {
@@ -1755,31 +1750,24 @@ function nextQuestion() {
 
 function endQuiz() {
   document.getElementById('quiz-container').innerHTML = `
-    <h2 style="font-size:3rem;color:var(--accent);">🎉 ${score}/10!</h2>
-    <p style="font-size:1.3rem;margin:2rem 0;">Отличный результат, ${playerName}!</p>
-    <button onclick="location.reload()" class="cta-button" style="padding:1.2rem 3rem;font-size:1.1rem;">🔄 Играть снова</button>
+    <h2 style="font-size:3rem;color:var(--accent);">${score}/10!</h2>
+    <p style="font-size:1.3rem;margin:2rem 0;">Молодец, ${playerName}!</p>
+    <button onclick="location.reload()" class="cta-button" style="padding:1.2rem 3rem;font-size:1.1rem;">Играть заново</button>
   `;
-  // Сохранить в Firebase
-  db.ref('wedding-quiz').push({
-    name: playerName, 
-    score: score, 
-    date: Date.now()
-  }).catch(err => console.log('Firebase save error:', err));
+  // Firebase save
+  db.ref('wedding-quiz').push({name: playerName, score, date: Date.now()});
 }
 
-// Лидерборд обновляется автоматически
-db.ref('wedding-quiz').orderByChild('score').limitToLast(10).on('value', function(snapshot) {
+// Leaderboard
+db.ref('wedding-quiz').orderByChild('score').limitToLast(10).on('value', snapshot => {
   const scores = [];
-  snapshot.forEach(function(child) {
-    scores.push(child.val());
-  });
+  snapshot.forEach(child => scores.push(child.val()));
   scores.reverse();
-  document.getElementById('leaderboard-list').innerHTML = 
-    scores.map(s => 
-      `<li style="padding:1rem;background:rgba(255,255,255,0.2);margin:0.5rem 0;border-radius:20px;font-weight:600;text-align:left;">
-        ${s.name}: <strong style="color:var(--accent);float:right;">${s.score}</strong>
-      </li>`
-    ).join('');
+  document.getElementById('leaderboard-list').innerHTML = scores.map(s =>
+    `<li style="padding:1rem;background:rgba(255,255,255,0.2);margin:0.5rem 0;border-radius:20px;font-weight:600;text-align:left;">
+      ${s.name} <strong style="color:var(--accent);float:right;">${s.score}</strong>
+    </li>`
+  ).join('');
 });
 </script>
 </body>
