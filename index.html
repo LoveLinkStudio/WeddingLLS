@@ -26,7 +26,116 @@
             --gradient: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
             --border: 1px solid rgba(215, 185, 213, 0.3);
             
-            
+        /* Ночной режим - пастельный темный */
+            --night-bg: #2a2338;
+            --night-text: #e9d5f2;
+            --night-primary: #d7b9d5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--light);
+            color: var(--text-dark);
+        }
+
+        .night-mode {
+            background: var(--night-bg);
+            color: var(--night-text);
+        }
+
+        .night-mode .section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(215, 185, 213, 0.1);
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(250, 247, 252, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+            border-bottom: var(--border);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link:hover {
+            color: var(--dark);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .mobile-menu-btn span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-dark);
+            transition: 0.3s;
+        }    
 
         /* Hero Section - Минималистичный */
         .hero {
@@ -502,7 +611,37 @@
             transform: translateX(8px);
         }
 
-        
+      /* Кнопки управления режимом + Telegram */
+        .controls-panel {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 1rem;
+            z-index: 1001;
+        }
+
+        .mode-toggle, .telegram-icon {
+            width: 65px;
+            height: 65px;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        .mode-toggle:hover, .telegram-icon:hover {
+            transform: scale(1.15) rotate(360deg);
+            box-shadow: 0 20px 50px rgba(74, 63, 90, 0.3);
+        }  
         /* Подтверждение участия - В КОНЦЕ */
         .confirm-section {
             background: linear-gradient(135deg, var(--accent), var(--primary));
@@ -594,7 +733,34 @@
             border: var(--border);
             backdrop-filter: blur(20px);
         }
-        
+           .music-control {
+  position: fixed; bottom: 120px; left: 30px; 
+  width: 70px; height: 70px; background: var(--gradient);
+  color: white; border: none; border-radius: 50%; 
+  font-size: 1.3rem; cursor: pointer; box-shadow: var(--shadow);
+  z-index: 1003; transition: all 0.4s ease;
+  display: flex; flex-direction: column; align-items: center; 
+  justify-content: center; gap: 2px; font-weight: 500;
+  font-size: 0.7rem; line-height: 1; text-align: center;
+  backdrop-filter: blur(20px); border: var(--border);
+}
+
+.music-control:hover { 
+  transform: scale(1.1) rotate(360deg); 
+  box-shadow: 0 20px 50px rgba(74, 63, 90, 0.3);
+}
+
+.music-control.pause i::before { content: "⏸️"; font-size: 1.5rem; }
+.music-title { font-size: 0.65rem; opacity: 0.9; }
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+  .music-control { 
+    bottom: 180px; left: 20px; width: 60px; height: 60px; 
+    font-size: 1.1rem;
+  }
+  .music-title { font-size: 0.6rem; }
+}
         /* Progress Bar */
         .progress-bar {
             position: fixed;
@@ -1107,7 +1273,17 @@ header { z-index: 1001 !important; }
 <video id="bgVideo" autoplay muted loop playsinline style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; object-fit: cover; z-index: -2;">
   <source src="https://raw.githubusercontent.com/LoveLinkStudio/WeddingLLS/main/10.mp4" type="video/mp4">
 </video>
-    
+    <!-- Фоновая музыка -->
+<audio id="bgMusic" loop preload="auto" style="display:none;">
+  <source src="https://muzpro.net/files/2024/01/02/2110/01/yulianna-karaulova-vneorbitnye.mp3" type="audio/mpeg">
+  <source src="https://mp3party.net/music/742808/yulianna-karaulova-vneorbitnye.mp3" type="audio/mpeg">
+  Ваш браузер не поддерживает аудио
+</audio>
+
+<button id="musicToggle" class="music-control" title="🎵 Внеорбитные - Юлианна Караулова">
+  <i class="fas fa-volume-up"></i>
+  <span class="music-title">Внеорбитные</span>
+</button>
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
@@ -1262,7 +1438,22 @@ header { z-index: 1001 !important; }
 launchConfetti();
 
        
-
+// 7. Night Mode
+        function initNightMode() {
+            const toggle = document.getElementById('modeToggle');
+            toggle.addEventListener('click', () => {
+                document.body.classList.toggle('night-mode');
+                isNightMode = !isNightMode;
+                toggle.querySelector('i').className = isNightMode ? 'fas fa-sun' : 'fas fa-moon';
+                localStorage.setItem('nightMode', isNightMode);
+            });
+            
+            if (localStorage.getItem('nightMode') === 'true') {
+                document.body.classList.add('night-mode');
+                isNightMode = true;
+                document.querySelector('.mode-toggle i').className = 'fas fa-sun';
+            }
+        }
         // 8. Admin Panel
         function initAdminPanel() {
             const adminBtn = document.getElementById('adminBtn');
@@ -1421,7 +1612,12 @@ launchConfetti();
                 }
             });
         }
-
+// Фоновая музыка "Внеорбитные"
+function initVneorbitnyeMusic() {
+  const audio = document.getElementById('bgMusic');
+  const toggle = document.getElementById('musicToggle');
+  let isPlaying = false;
+  let userInteracted = false;
   // Кнопка вкл/выкл
   toggle.addEventListener('click', () => {
     if (isPlaying) {
@@ -1466,7 +1662,8 @@ launchConfetti();
   });
 }
 
-
+// Добавить в DOMContentLoaded
+initVneorbitnyeMusic();
         // Инициализация
         document.addEventListener('DOMContentLoaded', () => {
             initAOS();
@@ -1475,6 +1672,7 @@ launchConfetti();
             initRSVPForm();
             initAdminPanel();
             initMobileMenu();
+            initNightMode();
             initSmoothScroll();
             initMap();
             initExportExcel();
