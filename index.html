@@ -1690,6 +1690,7 @@ function initBgVideo() {
 
 
     <!-- 🔥 ГОТОВЫЙ КОД ВИКТОРИНЫ ->
+<!-- 🔥 ГОТОВЫЙ КОД ВИКТОРИНЫ (с Firebase) -->
 <script>
 const questions = [
   { q: "Где Игорь и Мария познакомились?", a: ["В Тюмени", "В Москве", "На работе", "Через друзей"], correct: 0 },
@@ -1708,16 +1709,7 @@ let currentQuestion = 0, score = 0, timer = 30, interval;
 const playerName = localStorage.getItem('quizName') || prompt('Ваше имя для лидерборда?') || 'Гость';
 localStorage.setItem('quizName', playerName);
 
-// Инициализация Firebase (добавьте свои ключи)
-firebase.initializeApp({
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  databaseURL: "https://YOUR_PROJECT-default-rtdb.firebaseio.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "YOUR_APP_ID"
-});
+// Firebase уже инициализирован выше
 const db = firebase.database();
 
 document.getElementById('quiz-start').onclick = function() {
@@ -1772,7 +1764,7 @@ function endQuiz() {
     name: playerName, 
     score: score, 
     date: Date.now()
-  });
+  }).catch(err => console.log('Firebase save error:', err));
 }
 
 // Лидерборд обновляется автоматически
