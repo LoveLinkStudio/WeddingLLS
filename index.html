@@ -1028,52 +1028,54 @@ header { z-index: 1001 !important; }
 
     <!-- RSVP - НЕ В КОНЦЕ -->
     <section id="rsvp" class="section">
-        <h2 class="section-title" data-aos="fade-up">Подтверждение участия</h2>
-        <form class="rsvp-form" id="rsvpForm" data-aos="zoom-in">
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Ваше имя *</label>
-                    <input type="text" id="guestName" required>
-                </div>
-                <div class="form-group">
-                    <label>Количество гостей</label>
-                    <select id="guestCount" required>
-                        <option value="">Выберите</option>
-                        <option value="1">1 гость</option>
-                        <option value="2">2 гостя</option>
-                        <option value="3">3 гостя</option>
-                        <option value="4+">4+ гостей</option>
-                    </select>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Присутствуете? *</label>
-                    <select id="attendance" required>
-                        <option value="">Выберите</option>
-                        <option value="yes">Да, приеду ❤️</option>
-                        <option value="no">К сожалению, нет</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Питание</label>
-                    <select id="diet">
-                        <option value="">Стандартное</option>
-                        <option value="vegetarian">Вегетарианское</option>
-                        <option value="vegan">Веганское</option>
-                        <option value="gluten-free">Без глютена</option>
-                    </select>
-                </div>
+    <h2 class="section-title" data-aos="fade-up">Подтверждение участия</h2>
+    <form class="rsvp-form" id="rsvpForm" data-aos="zoom-in">
+        <div class="form-row">
+            <div class="form-group">
+                <label>Ваше имя *</label>
+                <input type="text" id="guestName" required>
             </div>
             <div class="form-group">
-                <label>Пожелания молодоженам</label>
-                <textarea id="wishes" rows="4" placeholder="Поделитесь теплыми словами, вопросами или пожеланиями..."></textarea>
+                <label>Количество гостей</label>
+                <select id="guestCount" required>
+                    <option value="">Выберите</option>
+                    <option value="1">1 гость</option>
+                    <option value="2">2 гостя</option>
+                    <option value="3">3 гостя</option>
+                    <option value="4+">4+ гостей</option>
+                </select>
             </div>
-            <button type="submit" class="submit-btn">
-                Отправить подтверждение
-            </button>
-        </form>
-    </section>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Присутствуете? *</label>
+                <select id="attendance" required>
+                    <option value="">Выберите</option>
+                    <option value="yes">Да, приеду ❤️</option>
+                    <option value="no">К сожалению, нет</option>
+                </select>
+            </div>
+            <!-- Новые поля в отдельном form-row для двух колонок на десктопе -->
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Телефон для рассылки *</label>
+                <input type="tel" id="phone" required placeholder="+7 (XXX) XXX-XX-XX">
+            </div>
+            <div class="form-group">
+                <label>Особые предпочтения</label>
+                <textarea id="preferences" rows="4" placeholder="Аллергия (на орехи, глютен и т.д.), диета (вегетарианская, веганская), другие пожелания..."></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Пожелания молодоженам</label>
+            <textarea id="wishes" rows="4" placeholder="Поделитесь теплыми словами, вопросами или пожеланиями..."></textarea>
+        </div>
+        <button type="submit" class="submit-btn">
+            Отправить подтверждение
+        </button>
+    </form>
+</section>
     <section id="guest-gallery" class="section gallery">
   <h2 class="section-title">📸 Фото от гостей</h2>
   <div class="gallery-grid" id="guestPhotos"></div>
@@ -1369,7 +1371,8 @@ header { z-index: 1001 !important; }
                     name: document.getElementById('guestName').value,
                     count: document.getElementById('guestCount').value,
                     attendance: document.getElementById('attendance').value,
-                    diet: document.getElementById('diet').value,
+                    phone: document.getElementById('phone').value,
+                    preferences: document.getElementById('preferences').value,
                     wishes: document.getElementById('wishes').value,
                     timestamp: new Date().toISOString()
                 };
@@ -1518,7 +1521,8 @@ launchConfetti();
                     <span style="color: ${entry.attendance === 'yes' ? '#27ae60' : '#e74c3c'}">
                         ${entry.attendance === 'yes' ? '✅ Приедет' : '❌ Не приедет'}
                     </span><br>
-                    ${entry.diet ? `Питание: ${entry.diet}` : ''}<br>
+                    Телефон: ${entry.phone || '—'}<br>
+                    <em>${entry.preferences || '—'}</em>
                     <em>${entry.wishes}</em>
                 `;
                 list.appendChild(item);
@@ -1590,7 +1594,7 @@ launchConfetti();
             exportBtn.addEventListener('click', () => {
                 let csv = 'Имя,Гостей,Участие,Питание,Пожелания,Дата\n';
                 entries.forEach(entry => {
-                    csv += `"${entry.name}","${entry.count}","${entry.attendance}","${entry.diet || 'Стандартное'}","${entry.wishes.replace(/"/g, '""')}","${new Date(entry.timestamp).toLocaleString('ru-RU')}"\n`;
+                    csv += `"${entry.name}","${entry.count}","${entry.attendance}","${entry.phone}","${entry.preference}","${entry.wishes.replace(/"/g, '""')}","${new Date(entry.timestamp).toLocaleString('ru-RU')}"\n`;
                 });
                 
                 const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
