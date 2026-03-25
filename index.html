@@ -1271,9 +1271,19 @@ header { z-index: 1001 !important; }
     <div class="notification" id="notification"></div>
     <!-- 🎥 ФОНОВОЕ ВИДЕО LoveLinkStudio -->
 <video id="bgVideo" autoplay muted loop playsinline style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; object-fit: cover; z-index: -2;">
-  <source src="https://raw.githubusercontent.com/LoveLinkStudio/WeddingLLS/main/10.mp4" type="video/mp4">
+  <source src="https://raw.githubusercontent.com/LoveLinkStudio/WeddingLLS/main/10sjat.mp4" type="video/mp4">
 </video>
-    
+    <!-- Фоновая музыка -->
+<audio id="bgMusic" loop preload="auto" style="display:none;">
+  <source src="https://muzpro.net/files/2024/01/02/2110/01/yulianna-karaulova-vneorbitnye.mp3" type="audio/mpeg">
+  <source src="https://mp3party.net/music/742808/yulianna-karaulova-vneorbitnye.mp3" type="audio/mpeg">
+  Ваш браузер не поддерживает аудио
+</audio>
+
+<button id="musicToggle" class="music-control" title="🎵 Внеорбитные - Юлианна Караулова">
+  <i class="fas fa-volume-up"></i>
+  <span class="music-title">Внеорбитные</span>
+</button>
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
