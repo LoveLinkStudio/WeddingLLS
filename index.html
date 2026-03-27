@@ -1436,6 +1436,18 @@ function init() {
     nameInput.style.boxShadow = '0 0 0 3px rgba(215, 185, 213, 0.2)';
   });
 }
+     // ✅ Добавь сюда вот этот кусок, чтобы ПРОВЕРИТЬ DOM‑элементы ----------------
+  const avgGroomEl = document.getElementById('avg-groom');
+  const avgBrideEl = document.getElementById('avg-bride');
+  const countGroomEl = document.getElementById('count-groom');
+  const countBrideEl = document.getElementById('count-bride');
+
+  console.log('avgGroomEl ➜', avgGroomEl);
+  console.log('avgBrideEl ➜', avgBrideEl);
+  console.log('countGroomEl ➜', countGroomEl);
+  console.log('countBrideEl ➜', countBrideEl);
+  // ------------------------------------------------------------------------
+}
 
 function showNameModal() {
   console.log('Показываем модалку имени, команда:', currentTeam);
