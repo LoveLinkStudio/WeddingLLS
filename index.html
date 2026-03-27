@@ -1184,20 +1184,20 @@ header { z-index: 1001 !important; }
         </div>
     </div>
 </section>
-   <!-- Викторина для Игоря и Марии с Firebase -->
+   <!-- Викторина для Игоря и Марии с Firebase + МОДАЛЬНОЕ ОКНО ИМЕНИ -->
 <link rel="stylesheet" href="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js">
 
 <!-- Викторина для Игоря и Марии -->
 <section id="quiz-section" class="section" style="background: linear-gradient(135deg, var(--accent-light), var(--primary)); text-align: center; border-radius: 30px; border: var(--border); backdrop-filter: blur(10px);" data-aos="fade-up">
   <h2 class="section-title" style="color: var(--dark);">🧠 Викторина для гостей</h2>
-  <p style="font-size: 1.2rem; max-width: 700px; margin: 0 auto 3rem; color: var(--text-dark);">Кто лучше знает Игоря и Марию? Выберите команду и проверьте себя! Результаты сохраняются в реальном времени.</p>
+  <p style="font-size: 1.2rem; max-width: 700px; margin: 0 auto 3rem; color: var(--text-dark);">Кто лучше знает Игоря и Марию? Выберите команду и проверьте себя! Имя появится в общем лидерборде.</p>
   
   <div class="quiz-container" style="max-width: 800px; margin: 0 auto; background: rgba(255,255,255,0.95); border-radius: 25px; box-shadow: var(--shadow); border: var(--border); overflow: hidden;">
     
     <!-- Header викторины -->
     <div class="quiz-header" style="padding: 2rem; background: var(--gradient); color: white; text-align: center;">
       <h3 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; margin: 0;">Викторина: Игорь и Мария</h3>
-      <p style="margin: 0.5rem 0 0; opacity: 0.9;">10 вопросов о самой романтичной паре! Лидерборд обновляется онлайн.</p>
+      <p style="margin: 0.5rem 0 0; opacity: 0.9;">10 вопросов • Онлайн лидерборд • Реальное время</p>
     </div>
 
     <!-- Выбор команды -->
@@ -1235,6 +1235,7 @@ header { z-index: 1001 !important; }
     <div id="quiz-results" style="padding: 3rem; display: none; text-align: center;">
       <h3 style="font-family: 'Playfair Display', serif; font-size: 2.2rem; margin-bottom: 1rem;">Ваш результат:</h3>
       <div style="font-size: 3.5rem; font-weight: 700; color: var(--accent); margin-bottom: 1rem;" id="quiz-score">0</div>
+      <div id="quiz-player-name" style="font-size: 1.3rem; font-weight: 500; color: var(--dark); margin-bottom: 1.5rem; background: rgba(255,255,255,0.7); padding: 0.5rem 1.5rem; border-radius: 25px; display: inline-block;"></div>
       <p style="font-size: 1.2rem; margin-bottom: 2.5rem; color: var(--text-dark);">Спасибо за участие! 🎉</p>
       
       <div style="background: rgba(255,255,255,0.6); padding: 2rem; border-radius: 20px; margin-bottom: 2.5rem; border: var(--border);">
@@ -1247,11 +1248,13 @@ header { z-index: 1001 !important; }
           <div style="font-size: 0.95rem; opacity: 0.9; margin-bottom: 0.5rem;">Средний счёт</div>
           <div id="avg-groom" style="font-size: 2.5rem; font-weight: 700; color: #2e7d32;">0</div>
           <div style="font-weight: 600;">Команда Игоря</div>
+          <div id="count-groom" style="font-size: 0.85rem; opacity: 0.8;">0 игроков</div>
         </div>
         <div style="background: linear-gradient(135deg, #fce4ec, #f8bbd9); padding: 2rem; border-radius: 20px; box-shadow: var(--shadow);">
           <div style="font-size: 0.95rem; opacity: 0.9; margin-bottom: 0.5rem;">Средний счёт</div>
           <div id="avg-bride" style="font-size: 2.5rem; font-weight: 700; color: #c2185b;">0</div>
           <div style="font-weight: 600;">Команда Марии</div>
+          <div id="count-bride" style="font-size: 0.85rem; opacity: 0.8;">0 игроков</div>
         </div>
       </div>
       
@@ -1260,8 +1263,21 @@ header { z-index: 1001 !important; }
   </div>
 </section>
 
+<!-- МОДАЛЬНОЕ ОКНО ДЛЯ ИМЕНИ -->
+<div id="name-modal" class="name-modal" style="position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 10000; backdrop-filter: blur(10px);">
+  <div class="name-modal-content" style="background: white; border-radius: 25px; box-shadow: 0 25px 60px rgba(0,0,0,0.3); padding: 3rem 2.5rem; max-width: 450px; width: 90%; text-align: center; border: var(--border);">
+    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--dark); margin-bottom: 1rem;">✨ Представьтесь, пожалуйста!</h3>
+    <p style="color: var(--text-light); margin-bottom: 2rem; line-height: 1.5;">Введите ваше имя — оно появится в общем лидерборде для всех гостей!</p>
+    <input type="text" id="player-name-input" class="name-input" placeholder="Иван Иванов" maxlength="25" style="width: 100%; padding: 1.2rem 1.5rem; font-size: 1.1rem; border: 2px solid var(--border); border-radius: 15px; margin-bottom: 1.5rem; font-family: inherit; transition: all 0.3s ease;">
+    <div style="display: flex; gap: 1rem;">
+      <button id="name-skip" style="flex: 1; padding: 1rem; background: var(--accent-light); color: var(--dark); border: none; border-radius: 12px; font-size: 1rem; cursor: pointer; transition: all 0.3s;">Пропустить</button>
+      <button id="name-confirm" style="flex: 1; padding: 1rem; background: var(--gradient); color: white; border: none; border-radius: 12px; font-size: 1rem; cursor: pointer; transition: all 0.3s; font-weight: 600;">Сохранить имя</button>
+    </div>
+  </div>
+</div>
+
 <script>
-// Firebase config для викторины
+// Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyC2zHfSvobeo0cpVVtUy0iPur2aoTE-1lA",
   authDomain: "weddingllsezhunov.firebaseapp.com",
@@ -1272,7 +1288,6 @@ const firebaseConfig = {
   appId: "1:838708765760:web:2844d915fc5fa7b91ceba5"
 };
 
-// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
 
@@ -1294,6 +1309,10 @@ let currentTeam = '', currentQuestion = 0, score = 0, playerName = 'Гость',
 const welcomeEl = document.getElementById('quiz-welcome');
 const mainEl = document.getElementById('quiz-main');
 const resultsEl = document.getElementById('quiz-results');
+const nameModal = document.getElementById('name-modal');
+const nameInput = document.getElementById('player-name-input');
+const nameConfirm = document.getElementById('name-confirm');
+const nameSkip = document.getElementById('name-skip');
 const startBtn = document.getElementById('quiz-start');
 const teamNameEl = document.getElementById('quiz-team-name');
 const progressEl = document.getElementById('quiz-progress');
@@ -1301,6 +1320,7 @@ const progressFill = document.getElementById('quiz-progress-fill');
 const questionEl = document.getElementById('quiz-question');
 const optionsEl = document.getElementById('quiz-options');
 const scoreEl = document.getElementById('quiz-score');
+const playerNameEl = document.getElementById('quiz-player-name');
 const leaderboardEl = document.getElementById('quiz-leaderboard');
 const restartBtn = document.getElementById('quiz-restart');
 
@@ -1308,6 +1328,7 @@ const restartBtn = document.getElementById('quiz-restart');
 function init() {
   userId = 'guest_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
   
+  // Выбор команды
   document.querySelectorAll('.quiz-team').forEach(team => {
     team.addEventListener('click', (e) => {
       document.querySelectorAll('.quiz-team').forEach(t => {
@@ -1315,7 +1336,7 @@ function init() {
         t.style.boxShadow = 'var(--shadow)';
       });
       e.currentTarget.style.borderColor = 'var(--accent)';
-      e.currentTarget.style.boxShadow = '0 15px 35px rgba(215, 185, 213, 0.4)';
+      e.currentTarget.style.boxShadow = '0 20px 40px rgba(215, 185, 213, 0.4)';
       currentTeam = team.dataset.team;
       startBtn.disabled = false;
       startBtn.style.opacity = '1';
@@ -1324,22 +1345,55 @@ function init() {
     });
   });
 
-  startBtn.addEventListener('click', () => {
-    if (!currentTeam) return;
-    playerName = prompt('Ваше имя для лидерборда? (можно пропустить)') || 'Гость';
-    welcomeEl.style.display = 'none';
-    mainEl.style.display = 'block';
-    currentQuestion = 0;
-    score = 0;
-    showQuestion();
+  // Модальное окно имени
+  nameConfirm.addEventListener('click', () => {
+    const name = nameInput.value.trim();
+    playerName = name || 'Гость #' + Math.floor(Math.random()*999);
+    nameModal.style.display = 'none';
+    startQuiz();
   });
 
+  nameSkip.addEventListener('click', () => {
+    playerName = 'Гость #' + Math.floor(Math.random()*999);
+    nameModal.style.display = 'none';
+    startQuiz();
+  });
+
+  nameInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') nameConfirm.click();
+  });
+
+  startBtn.addEventListener('click', showNameModal);
   restartBtn.addEventListener('click', resetQuiz);
   
-  // Real-time слушатели Firebase
+  // Real-time Firebase
   listenToLeaderboard();
   listenToStats();
+  
+  // Фокус на инпуте
+  nameInput.addEventListener('focus', () => {
+    nameInput.style.borderColor = 'var(--accent)';
+    nameInput.style.boxShadow = '0 0 0 3px rgba(215, 185, 213, 0.2)';
+  });
 }
+
+function showNameModal() {
+  if (!currentTeam) return;
+  nameInput.value = '';
+  nameModal.style.display = 'flex';
+  setTimeout(() => nameInput.focus(), 300);
+}
+
+function startQuiz() {
+  welcomeEl.style.display = 'none';
+  mainEl.style.display = 'block';
+  teamNameEl.textContent = currentTeam === 'groom' ? 'Игоря' : 'Марии';
+  currentQuestion = 0;
+  score = 0;
+  showQuestion();
+}
+
+// Остальные функции без изменений (showQuestion, selectAnswer, finishQuiz, listenToLeaderboard, listenToStats, updateLeaderboard, showCelebration, createHeart, resetQuiz)
 
 function showQuestion() {
   const q = questions[currentQuestion];
@@ -1348,7 +1402,7 @@ function showQuestion() {
   
   questionEl.style.opacity = '1';
   questionEl.style.transform = 'translateY(0)';
-  questionEl.innerHTML = `<strong>Вопрос ${currentQuestion + 1}:</strong> ${q.question}`;
+  questionEl.innerHTML = `<strong>Вопрос ${currentQuestion + 1}:</strong><br>${q.question}`;
   
   optionsEl.innerHTML = '';
   q.options.forEach((opt, i) => {
@@ -1401,8 +1455,9 @@ function finishQuiz() {
   mainEl.style.display = 'none';
   resultsEl.style.display = 'block';
   scoreEl.textContent = score;
+  playerNameEl.textContent = playerName;
 
-  // Отправляем результат в Firebase
+  // Firebase save
   const result = {
     id: userId,
     team: currentTeam === 'groom' ? 'igor' : 'maria',
@@ -1422,9 +1477,7 @@ function finishQuiz() {
 function listenToLeaderboard() {
   db.ref('quiz_results').orderByChild('score').limitToLast(10).startAt(7).on('value', (snapshot) => {
     const leaders = [];
-    snapshot.forEach(child => {
-      leaders.unshift(child.val());
-    });
+    snapshot.forEach(child => leaders.unshift(child.val()));
     updateLeaderboard(leaders);
   });
 }
@@ -1441,7 +1494,9 @@ function listenToStats() {
     const avgMaria = mariaResults.length ? Math.round(mariaResults.reduce((s, r) => s + r.score, 0) / mariaResults.length) : 0;
     
     document.getElementById('avg-groom').textContent = avgIgor;
+    document.getElementById('count-groom').textContent = igorResults.length + ' игроков';
     document.getElementById('avg-bride').textContent = avgMaria;
+    document.getElementById('count-bride').textContent = mariaResults.length + ' игроков';
   });
 }
 
@@ -1452,46 +1507,52 @@ function updateLeaderboard(leaders) {
   }
   
   leaderboardEl.innerHTML = leaders.map((r, i) => `
-    <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; border-bottom: 1px solid var(--border); font-size: 0.95rem;">
-      <span>${i+1}. <strong>${r.name}</strong> (${r.team === 'igor' ? 'Игорь' : 'Мария'})</span>
-      <span style="font-weight: 700; color: var(--accent);">${r.score}/10</span>
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 1rem; border-bottom: 1px solid var(--border); font-size: 1rem; transition: background 0.2s;">
+      <div style="display: flex; align-items: center; gap: 0.8rem;">
+        <span style="font-weight: 700; font-size: 1.1rem; min-width: 25px;">${i+1}.</span>
+        <span style="font-weight: 600; max-width: 150px; overflow: hidden; text-overflow: ellipsis;">${r.name}</span>
+        <span style="font-size: 0.9rem; color: var(--text-light); padding: 0.2rem 0.6rem; background: var(--accent-light); border-radius: 12px;">${r.team === 'igor' ? 'Игорь' : 'Мария'}</span>
+      </div>
+      <span style="font-weight: 700; color: var(--accent); font-size: 1.1rem;">${r.score}/10</span>
     </div>
   `).join('');
 }
 
 function showCelebration() {
-  // Создаём фейерверк сердец
-  for (let i = 0; i < 30; i++) {
-    setTimeout(() => {
-      createHeart();
-    }, i * 100);
+  for (let i = 0; i < 40; i++) {
+    setTimeout(() => createHeart(), i * 80);
   }
 }
 
 function createHeart() {
   const heart = document.createElement('div');
-  heart.innerHTML = '💖';
+  heart.innerHTML = ['💖','💕','💗','🌸','✨'][Math.floor(Math.random()*5)];
   heart.style.cssText = `
-    position: fixed; top: 20%; left: ${Math.random() * 100}vw; 
-    font-size: 2rem; z-index: 10000; pointer-events: none;
-    animation: heartFloat 3s ease-out forwards;
+    position: fixed; top: 30%; left: ${Math.random() * 90}vw; 
+    font-size: ${1.5 + Math.random()}rem; z-index: 10001; pointer-events: none;
+    animation: heartFloat 4s ease-out forwards;
   `;
   document.body.appendChild(heart);
-  
-  setTimeout(() => heart.remove(), 3000);
+  setTimeout(() => heart.remove(), 4000);
 }
 
 const style = document.createElement('style');
 style.textContent = `
   @keyframes heartFloat {
-    0% { transform: translateY(0) scale(0); opacity: 1; }
-    100% { transform: translateY(-150vh) scale(1.5) rotate(360deg); opacity: 0; }
+    0% { transform: translateY(0) scale(0) rotate(0deg); opacity: 1; }
+    20% { transform: translateY(-20px) scale(1.2) rotate(180deg); opacity: 1; }
+    100% { transform: translateY(-200vh) scale(0.5) rotate(720deg); opacity: 0; }
+  }
+  .name-input:focus {
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 4px rgba(215, 185, 213, 0.25) !important;
+    transform: translateY(-2px);
   }
 `;
 document.head.appendChild(style);
 
 function resetQuiz() {
-  if (confirm('Начать викторину заново?')) {
+  if (confirm('🎮 Начать викторину заново?')) {
     welcomeEl.style.display = 'block';
     mainEl.style.display = 'none';
     resultsEl.style.display = 'none';
@@ -1502,12 +1563,12 @@ function resetQuiz() {
     startBtn.disabled = true;
     startBtn.style.opacity = '0.6';
     startBtn.style.cursor = 'not-allowed';
-    startBtn.textContent = 'Выберите команду';
+    startBtn.innerHTML = 'Выберите команду';
     currentTeam = '';
   }
 }
 
-// Запуск
+// Старт
 if (document.readyState === 'loading') {
   document.addEventListener('DOMContentLoaded', init);
 } else {
