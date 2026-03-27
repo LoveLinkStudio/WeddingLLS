@@ -11,7 +11,35 @@
     <script src="https://api-maps.yandex.ru/2.1/?apikey=ваш-api-ключ-yandex-maps&lang=ru_RU" type="text/javascript"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Great+ Vibes&display=swap" rel="stylesheet">
-    
+    <!-- Firebase -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-app.js";
+  import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.13.1/firebase-database.js";
+  
+  const firebaseConfig = {
+    apiKey: "AIzaSyC2zHfSvobeo0cpVVtUy0iPur2aoTE-1lA",
+    authDomain: "weddingllsezhunov.firebaseapp.com",
+    databaseURL: "https://weddingllsezhunov-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "weddingllsezhunov",
+    storageBucket: "weddingllsezhunov.firebasestorage.app",
+    messagingSenderId: "838708765760",
+    appId: "1:838708765760:web:2844d915fc5fa7b91ceba5"
+  };
+  
+  const app = initializeApp(firebaseConfig);
+  window.db = getDatabase(app);
+  window.saveResult = async (result) => {
+    const resultsRef = ref(window.db, 'quizResults');
+    await push(resultsRef, result);
+  };
+  window.loadResults = (callback) => {
+    const resultsRef = ref(window.db, 'quizResults');
+    onValue(resultsRef, (snapshot) => {
+      const data = snapshot.val();
+      callback(Object.values(data || {}));
+    });
+  };
+</script>
     <style>
         :root {
             /* Пастельная романтическая палитра */
@@ -915,6 +943,459 @@ header { z-index: 1001 !important; }
   margin-bottom: 1rem;
   color: var(--dark);
 }
+        /* Quiz Styles */
+* {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: "Segoe UI", Georgia, "Times New Roman", serif;
+      background: #fdfbf7 url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23f5e6db' fill-opacity='0.15'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E") repeat;
+      color: #554440;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      perspective: 1000px;
+    }
+    .container {
+      max-width: 720px;
+      width: 100%;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.15);
+      overflow: hidden;
+      border: 1px solid #e9dcd5;
+    }
+    header {
+      padding: 24px 30px;
+      text-align: center;
+      background: #f4e6e1;
+      border-bottom: 1px solid #e9dcd5;
+      position: relative;
+    }
+    header h1 {
+      font-size: 26px;
+      margin: 0 0 4px 0;
+      color: #9c4f5a;
+      font-weight: 500;
+    }
+    header p.subtitle {
+      font-size: 15px;
+      color: #886e65;
+      margin: 0;
+    }
+
+    .content {
+      padding: 30px;
+    }
+
+    /* ВЫБОР КОМАНДЫ */
+    .welcome {
+      text-align: center;
+    }
+    .welcome h2 {
+      font-size: 22px;
+      margin-bottom: 16px;
+      color: #9c4f5a;
+    }
+    .teams {
+      display: flex;
+      gap: 16px;
+      margin: 0 -8px;
+    }
+    .team {
+      flex: 1;
+      padding: 12px 18px;
+      border-radius: 10px;
+      border: 2px solid #e9dcd5;
+      cursor: pointer;
+      transition: transform 0.18s, box-shadow 0.18s, border-color 0.18s;
+      position: relative;
+      overflow: hidden;
+    }
+    .team:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+    }
+    .team.selected {
+      border-color: #9c4f5a;
+      box-shadow: 0 6px 20px rgba(156, 79, 90, 0.25);
+    }
+    .team::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgb(156, 79, 90, 0.08);
+      transform: translateY(100%);
+      transition: transform 0.25s;
+      pointer-events: none;
+    }
+    .team:hover::before {
+      transform: translateY(0);
+    }
+    .team.selected::before {
+      transform: translateY(0);
+      background: rgba(156, 79, 90, 0.15);
+    }
+    .team-name {
+      font-size: 17px;
+      font-weight: 500;
+    }
+    .team-desc {
+      font-size: 14px;
+      color: #886e65;
+      margin-top: 2px;
+    }
+    #start-btn {
+      margin-top: 20px;
+      padding: 12px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background: #f5e6db;
+      color: #9c4f5a;
+      cursor: not-allowed;
+      transition: background 0.2s, color 0.2s;
+    }
+    #start-btn.enabled {
+      background: #9c4f5a;
+      color: white;
+      cursor: pointer;
+    }
+    #start-btn.enabled:hover {
+      background: #8a3b47;
+    }
+
+    /* ВИКТОРИНА */
+    #quiz, #result {
+      display: none;
+    }
+    #quiz.visible, #result.visible {
+      display: block;
+    }
+    #quiz h2 {
+      font-size: 20px;
+      margin-bottom: 16px;
+      color: #9c4f5a;
+    }
+    #question {
+      font-size: 20px;
+      margin-bottom: 24px;
+      line-height: 1.45;
+      transform: translateY(20px);
+      opacity: 0;
+      transition: transform 0.4s, opacity 0.4s;
+    }
+    #question.active {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    .fade-out {
+      transform: translateY(-20px);
+      opacity: 0;
+    }
+
+    #options {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .option {
+      padding: 14px 20px;
+      font-size: 17px;
+      border: none;
+      border-radius: 10px;
+      background: #faf8f6;
+      color: #554440;
+      border: 1px solid #e1d8d3;
+      cursor: pointer;
+      transition: transform 0.15s, box-shadow 0.15s, background 0.2s;
+      position: relative;
+    }
+    .option:hover {
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+      transform: translateY(-2px);
+    }
+    .option.correct {
+      background: #dff6e6;
+      border-color: #8fc59f;
+      color: #2e6e43;
+    }
+    .option.wrong {
+      background: #fde9e9;
+      border-color: #e99c9c;
+      color: #994444;
+    }
+
+    /* ИНДИКАТОР ПРОГРЕССА */
+    .progress-bar {
+      margin: 20px 0 8px 0;
+      height: 6px;
+      background: #f5e6db;
+      border-radius: 3px;
+      overflow: hidden;
+      border: 1px solid #e9dcd5;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: #9c4f5a;
+      transition: width 0.4s;
+    }
+
+    /* ЛИДЕРБОРД + ИТОГОВЫЙ СЧЁТ КОМАНД */
+    .leaderboard {
+      margin-top: 8px;
+    }
+    .leaderboard h3 {
+      font-size: 19px;
+      margin-bottom: 12px;
+      color: #9c4f5a;
+    }
+    .leaderboard table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      border-radius: 8px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+    .leaderboard th,
+    .leaderboard td {
+      padding: 8px 6px;
+      border-bottom: 1px solid #e9dcd5;
+      text-align: left;
+    }
+    .leaderboard th {
+      background: #f5e6db;
+      color: #554440;
+      font-weight: 500;
+    }
+    .leaderboard tr:nth-child(even) {
+      background: #fdfdfc;
+    }
+
+    /* СРЕДНИЙ СЧЁТ И СУММА ПО КОМАНДАМ */
+    .team-scores {
+      margin-top: 32px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+    .team-score-card {
+      flex: 1;
+      min-width: 160px;
+      max-width: 240px;
+      text-align: center;
+      padding: 18px 14px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+    }
+    .team-score-groom {
+      background: linear-gradient(135deg, #e9f6fb, #d0e9f5);
+      color: #2c6e9e;
+    }
+    .team-score-bride {
+      background: linear-gradient(135deg, #fde9e9, #f9d0d0);
+      color: #a13c77;
+    }
+    .team-score-card .score-type {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+      opacity: 0.8;
+    }
+    .team-score-card .score-value {
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+    .team-score-card .score-label {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+    }
+
+    .team-scores-header {
+      width: 100%;
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .team-scores-header h3 {
+      font-size: 16px;
+      color: #886e65;
+    }
+
+    .restart-btn {
+      margin-top: 18px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background: #9c4f5a;
+      color: white;
+      cursor: pointer;
+      display: block;
+      margin: 24px auto 0;
+    }
+    .restart-btn:hover {
+      background: #8a3b47;
+    }
+
+    /* МОДАЛЬНОЕ ОКНО ДЛЯ ВВОДА ИМЕНИ */
+    .name-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
+    .name-modal.visible {
+      display: flex;
+    }
+    .name-modal-content {
+      background: #fdfdfd;
+      border-radius: 16px;
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25);
+      padding: 28px 20px;
+      width: 90%;
+      max-width: 420px;
+      text-align: center;
+      color: #554440;
+    }
+    .name-modal-content h3 {
+      font-size: 22px;
+      margin-bottom: 12px;
+      color: #9c4f5a;
+    }
+    .name-modal-content p {
+      font-size: 15px;
+      margin-bottom: 18px;
+      color: #886e65;
+    }
+    .name-input {
+      width: 100%;
+      padding: 10px 14px;
+      font-size: 17px;
+      border: 1px solid #e1d8d3;
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+    .name-input:focus {
+      outline: none;
+      border-color: #9c4f5a;
+      box-shadow: 0 0 0 2px rgba(156, 79, 90, 0.25);
+    }
+    .name-modal-footer {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .name-modal-footer button {
+      padding: 10px 16px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      flex: 1;
+    }
+    .name-modal-footer button[name-btn] {
+      background: #9c4f5a;
+      color: white;
+    }
+    .name-modal-footer button[name-btn]:hover {
+      background: #8a3b47;
+    }
+    .name-modal-footer button[name-cancel] {
+      background: #f5e6db;
+      color: #9c4f5a;
+    }
+    .name-modal-footer button[name-cancel]:hover {
+      background: #e9dcd5;
+    }
+
+    /* ПОЗДРАВЛЕНИЕ С ФЕЙЕВЕРКОМ */
+    .fireworks-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.65);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+    }
+    .fireworks-modal.visible {
+      display: flex;
+    }
+    .fireworks-modal-content {
+      position: relative;
+      background: linear-gradient(135deg, #fde9e9, #fdf9f9);
+      border-radius: 18px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+      width: 90%;
+      max-width: 520px;
+      padding: 28px;
+      color: #554440;
+      text-align: center;
+    }
+    .fireworks-modal-content h3 {
+      font-size: 24px;
+      margin-bottom: 14px;
+      color: #e63946;
+    }
+    .fireworks-modal-content p {
+      font-size: 17px;
+      margin-bottom: 16px;
+      line-height: 1.4;
+    }
+    .fireworks-modal-content button {
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background: #e63946;
+      color: white;
+      cursor: pointer;
+    }
+    .fireworks-modal-content button:hover {
+      background: #c12a36;
+    }
+
+    /* СЕРДЦА И ФЕЙЕРВЕРК */
+    .heart {
+      position: absolute;
+      color: #e63946;
+      font-size: 18px;
+      opacity: 0;
+      animation: float-heart 2s ease-in-out infinite;
+      pointer-events: none;
+    }
+    @keyframes float-heart {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      90% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-100px) rotate(20deg);
+        opacity: 0;
+      }
+    }
     </style>
 </head>
 <body>
@@ -933,6 +1414,7 @@ header { z-index: 1001 !important; }
                 <li><a href="#schedule" class="nav-link">Тайминг</a></li>
                 <li><a href="#location" class="nav-link">Место</a></li>
                 <li><a href="#rsvp" class="nav-link">Подтвердить</a></li>
+                <li><a href="#quiz-container">🎮 Квиз</a></li>
             </ul>
             <button class="mobile-menu-btn" id="mobileMenuBtn">
                 <span></span><span></span><span></span>
@@ -1233,6 +1715,127 @@ header { z-index: 1001 !important; }
             Отправить подтверждение
         </button>
     </form>
+</section>
+    <section class="section" style="background: #fdfbf7; padding: 40px 0;">
+  <div style="max-width: 800px; margin: 0 auto;">
+    <div class="container">
+    <header>
+      <h1>Квиз Анны и Максима</h1>
+      <p class="subtitle">
+        Кто знает молодожёнов лучше? Соревнуйтесь в команде невесты или жениха и попадите в лидерборд!
+      </p>
+    </header>
+    <div class="content">
+      <!-- ШАГ 1: ВЫБОР КОМАНДЫ -->
+      <div id="welcome" class="welcome">
+        <h2>Выберите команду:</h2>
+        <div class="teams">
+          <div class="team" data-team="groom">
+            <div class="team-name">Команда жениха</div>
+            <div class="team-desc">За Максима, максимализм и максимум фактов!</div>
+          </div>
+          <div class="team" data-team="bride">
+            <div class="team-name">Команда невесты</div>
+            <div class="team-desc">За Анну, антураж и романтику!</div>
+          </div>
+        </div>
+        <button id="start-btn">Сначала выберите команду</button>
+      </div>
+
+      <!-- ШАГ 2: ВИКТОРИНА -->
+      <div id="quiz" class="quiz">
+        <h2>
+          Квиз: команда <span id="current-team-name"></span>
+          <span style="font-size:14px;color:#886e65;"> — <span id="quiz-progress">0/10</span></span>
+        </h2>
+        <div class="progress-bar">
+          <div class="progress-bar-fill" id="progress-fill"></div>
+        </div>
+        <div id="question"></div>
+        <div id="options"></div>
+      </div>
+
+      <!-- ШАГ 3: РЕЗУЛЬТАТ + ЛИДЕРБОРД + ИТОГОВЫЕ СЧЁТЫ -->
+      <div id="result" class="result">
+        <div class="leaderboard">
+          <h3>Лидеры по командам</h3>
+          <table id="leaderboard-table">
+            <thead>
+              <tr>
+                <th>Команда</th>
+                <th>Имя гостя</th>
+                <th>Счёт</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+
+        <!-- СРЕДНИЙ СЧЁТ КОМАНД -->
+        <div class="team-scores">
+          <div class="team-scores-header">
+            <h3>Средний счёт по командам</h3>
+          </div>
+          <div class="team-scores">
+            <div class="team-score-card team-score-groom">
+              <div class="score-type">Средний</div>
+              <div class="score-value" id="avg-groom-score">0</div>
+              <div class="score-label">Команда жениха</div>
+            </div>
+            <div class="team-score-card team-score-bride">
+              <div class="score-type">Средний</div>
+              <div class="score-value" id="avg-bride-score">0</div>
+              <div class="score-label">Команда невесты</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- СУММА ОЧКОВ КОМАНД -->
+        <div class="team-scores">
+          <div class="team-scores-header">
+            <h3>Сумма очков по командам</h3>
+          </div>
+          <div class="team-scores">
+            <div class="team-score-card team-score-groom">
+              <div class="score-type">Сумма</div>
+              <div class="score-value" id="sum-groom-score">0</div>
+              <div class="score-label">Команда жениха</div>
+            </div>
+            <div class="team-score-card team-score-bride">
+              <div class="score-type">Сумма</div>
+              <div class="score-value" id="sum-bride-score">0</div>
+              <div class="score-label">Команда невесты</div>
+            </div>
+          </div>
+        </div>
+
+        <button id="restart-btn" class="restart-btn">Начать заново</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- МОДАЛЬНОЕ ОКНО ВВОДА ИМЕНИ -->
+  <div id="name-modal" class="name-modal">
+    <div class="name-modal-content">
+      <h3>Как вас зовут?</h3>
+      <p>Введите имя, чтобы оно появилось в лидерборде.</p>
+      <input type="text" id="input-name" class="name-input" placeholder="Ваше имя" maxlength="30" />
+      <div class="name-modal-footer">
+        <button id="name-cancel" name-cancel>Пропустить</button>
+        <button id="name-confirm" name-btn>Подтвердить</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ПОЗДРАВЛЕНИЕ С ФЕЙЕРВЕРКОМ -->
+  <div id="fireworks-modal" class="fireworks-modal">
+    <div class="fireworks-modal-content">
+      <h3>🎁 Вау, вы нас так хорошо знаете!</h3>
+      <p>Спасибо, что вы есть у нас на свадьбе.<br>Вы — особенный гость нашей большой любви… 💖</p>
+      <button id="close-fireworks">Понять, что вы — лучшие! 💕</button>
+    </div>
+  </div>
+  </div>
 </section>
     <!-- Controls -->
     <div class="controls-panel">
@@ -1706,6 +2309,358 @@ document.addEventListener('DOMContentLoaded', function() {
   initAOS(); initProgressBar(); initCountdown(); // ... остальные init
   initBgVideo(); // ДОБАВИЛИ!
 });
+        const questions = [
+    {
+      question: "Где Анна и Максим познакомились?",
+      options: ["На работе", "В университете", "В кафе у друзей", "В спортзале"],
+      correctAnswer: 0,
+    },
+    {
+      question: "Кто первым сказал фразу «давай вместе»?",
+      options: ["Анна", "Максим", "Оба одновременно", "Не помнят точно"],
+      correctAnswer: 3,
+    },
+    {
+      question: "Где было их первое свидание?",
+      options: ["В кино", "В парке", "В ресторане", "В кинотеатре на крыше"],
+      correctAnswer: 1,
+    },
+    {
+      question: "Чья любимая еда — пицца?",
+      options: ["Анны", "Максима", "Обоих", "Никогда не едят пиццу"],
+      correctAnswer: 2,
+    },
+    {
+      question: "Что они чаще всего делают вместе по выходным?",
+      options: ["Гуляют в парке", "Смотрят фильмы", "Готовят дома", "Ходят в гости к друзьям"],
+      correctAnswer: 0,
+    },
+    {
+      question: "Кто больше любит путешествовать?",
+      options: ["Анна", "Максим", "Оба", "Предпочитают не ездить"],
+      correctAnswer: 2,
+    },
+    {
+      question: "Чей любимый цвет — бежевый?",
+      options: ["Анны", "Максима", "Обоих", "У них нет любимого цвета"],
+      correctAnswer: 0,
+    },
+    {
+      question: "Кто чаще берёт инициативу в планировании свадьбы?",
+      options: ["Анна", "Максим", "Они договорились половину‑половину", "Планируют совместно без деления"],
+      correctAnswer: 3,
+    },
+    {
+      question: "Чье любимое время года — лето?",
+      options: ["Анны", "Максима", "Обоих", "Кому‑то зима"],
+      correctAnswer: 2,
+    },
+    {
+      question: "Кто в паре больше шутит на свадьбу?",
+      options: ["Анна", "Максим", "Они оба юморные", "Скромные и тихие"],
+      correctAnswer: 2,
+    },
+  ];
+
+  // ✅ ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ
+  let allResults = [];
+
+  /* ЭЛЕМЕНТЫ */
+  const teamsEl = document.querySelectorAll(".team");
+  const startBtn = document.getElementById("start-btn");
+  const welcomeEl = document.getElementById("welcome");
+  const quizEl = document.getElementById("quiz");
+  const resultEl = document.getElementById("result");
+  const questionEl = document.getElementById("question");
+  const optionsEl = document.getElementById("options");
+  const leaderboardBody = document.querySelector("#leaderboard-table tbody");
+  const restartBtn = document.getElementById("restart-btn");
+  const teamNameSpan = document.getElementById("current-team-name");
+  const progressText = document.getElementById("quiz-progress");
+  const progressFill = document.getElementById("progress-fill");
+
+  let currentTeam = "";
+  let currentQuestionIndex = 0;
+  let score = 0;
+  let playerName = "";
+
+  // 🔥 FIREBASE ФУНКЦИИ (если доступны)
+  async function saveQuizResult(result) {
+    if (window.saveQuizResult) {
+      try {
+        await window.saveQuizResult(result);
+        console.log('✅ Firebase: результат сохранён');
+      } catch(e) {
+        console.error('Firebase ошибка:', e);
+        saveToLocal(result);
+      }
+    } else {
+      saveToLocal(result);
+    }
+  }
+
+  function saveToLocal(result) {
+    let results = JSON.parse(localStorage.getItem('wedding_quiz_all_results') || '[]');
+    results.push(result);
+    localStorage.setItem('wedding_quiz_all_results', JSON.stringify(results));
+  }
+
+  function getAllResults() {
+    return window.allResultsGlobal || JSON.parse(localStorage.getItem('wedding_quiz_all_results') || '[]');
+  }
+
+  // ✅ ИНИЦИАЛИЗАЦИЯ (Firebase + localStorage)
+  document.addEventListener('DOMContentLoaded', function() {
+    // Если Firebase доступен - ждём загрузки
+    if (window.loadQuizResults) {
+      window.loadQuizResults(results => {
+        window.allResultsGlobal = results;
+        allResults = results;
+        updateTeamScores();
+        showLeaderboard();
+      });
+    } else {
+      allResults = getAllResults();
+      updateTeamScores();
+      showLeaderboard();
+    }
+    console.log('🎮 Квиз готов. Firebase:', !!window.db);
+  });
+
+  /* ==================== КОМАНДЫ ==================== */
+  teamsEl.forEach(el => {
+    el.addEventListener("click", () => {
+      teamsEl.forEach(t => t.classList.remove("selected"));
+      el.classList.add("selected");
+      currentTeam = el.dataset.team;
+      const teamTitle = currentTeam === "groom" ? "жениха" : "невесты";
+      startBtn.disabled = false;
+      startBtn.textContent = `Начать за команду ${teamTitle}`;
+      startBtn.classList.add("enabled");
+    });
+  });
+
+  startBtn.addEventListener("click", () => {
+    if (!currentTeam || startBtn.disabled) return;
+    welcomeEl.style.display = "none";
+    showNameModal();
+  });
+
+  /* ==================== МОДАЛЬНОЕ ОКНО ИМЕНИ ==================== */
+  const nameModal = document.getElementById("name-modal");
+  const inputName = document.getElementById("input-name");
+  const nameConfirm = document.getElementById("name-confirm");
+  const nameCancel = document.getElementById("name-cancel");
+
+  function showNameModal() {
+    nameModal.classList.add("visible");
+    inputName.focus();
+  }
+
+  function closeNameModal() {
+    nameModal.classList.remove("visible");
+    inputName.value = "";
+  }
+
+  nameConfirm.addEventListener("click", () => {
+    const val = inputName.value.trim();
+    playerName = val || "Гость №" + Date.now();
+    closeNameModal();
+    startQuiz();
+  });
+
+  nameCancel.addEventListener("click", () => {
+    playerName = "Гость №" + Date.now();
+    closeNameModal();
+    startQuiz();
+  });
+
+  /* ==================== ВИКТОРИНА ==================== */
+  function startQuiz() {
+    quizEl.classList.add("visible");
+    teamNameSpan.textContent = currentTeam === "groom" ? "жениха" : "невесты";
+    currentQuestionIndex = 0;
+    score = 0;
+    showQuestion();
+  }
+
+  function showQuestion() {
+    const q = questions[currentQuestionIndex];
+    const total = questions.length;
+
+    progressText.textContent = `${currentQuestionIndex + 1}/${total}`;
+    progressFill.style.width = `${((currentQuestionIndex + 1) / total) * 100}%`;
+
+    questionEl.textContent = q.question;
+    questionEl.classList.add("active");
+
+    optionsEl.innerHTML = "";
+    q.options.forEach((option, index) => {
+      const btn = document.createElement("div");
+      btn.className = "option";
+      btn.textContent = option;
+      btn.onclick = () => selectAnswer(index, btn);
+      optionsEl.appendChild(btn);
+    });
+  }
+
+  function selectAnswer(selectedIndex, buttonEl) {
+    const q = questions[currentQuestionIndex];
+    const optionsArr = optionsEl.querySelectorAll(".option");
+
+    optionsArr.forEach(b => (b.style.pointerEvents = "none"));
+
+    optionsArr.forEach((btn, idx) => {
+      if (idx === q.correctAnswer) {
+        btn.classList.add("correct");
+      } else if (idx === selectedIndex && idx !== q.correctAnswer) {
+        btn.classList.add("wrong");
+      }
+    });
+
+    if (selectedIndex === q.correctAnswer) {
+      score++;
+    }
+
+    setTimeout(() => {
+      currentQuestionIndex++;
+      if (currentQuestionIndex < questions.length) {
+        showQuestion();
+      } else {
+        finishQuiz();
+      }
+    }, 1000);
+  }
+
+  /* ==================== ✅ ЛОГИКА РЕЗУЛЬТАТОВ ==================== */
+  async function finishQuiz() {
+    quizEl.classList.remove("visible");
+
+    const result = {
+      team: currentTeam === "groom" ? "Команда жениха" : "Команда невесты",
+      name: playerName,
+      score: score,
+      timestamp: Date.now()
+    };
+
+    // 🔥 FIREBASE + LOCALSTORAGE
+    await saveQuizResult(result);
+    allResults.push(result);
+
+    if (result.score > 5) updateLeaderboard(result);
+
+    showLeaderboard();
+    updateTeamScores();
+    
+    resultEl.classList.add("visible");
+
+    console.log('🎯 Результат:', result);
+    if (score >= 6) showFireworksModal();
+  }
+
+  // LocalStorage для ЛИДЕРБОРДА (>5 баллов)
+  function getLeaderboard() {
+    return JSON.parse(localStorage.getItem("wedding_quiz_leaderboard") || '[]');
+  }
+
+  function saveLeaderboard(entries) {
+    localStorage.setItem("wedding_quiz_leaderboard", JSON.stringify(entries));
+  }
+
+  function updateLeaderboard(result) {
+    if (result.score <= 5) return;
+    let list = getLeaderboard();
+    list.push(result);
+    list.sort((a, b) => b.score - a.score);
+    list = list.slice(0, 20);
+    saveLeaderboard(list);
+  }
+
+  // ✅ ГЛАВНАЯ ФУНКЦИЯ СЧЁТА КОМАНД
+  function updateTeamScores() {
+    const results = getAllResults();
+    let groomTotal = 0, groomCount = 0;
+    let brideTotal = 0, brideCount = 0;
+
+    results.forEach(item => {
+      if (item.team === "Команда жениха") {
+        groomTotal += item.score;
+        groomCount++;
+      } else if (item.team === "Команда невесты") {
+        brideTotal += item.score;
+        brideCount++;
+      }
+    });
+
+    const avgGroom = groomCount ? Math.round(groomTotal / groomCount) : 0;
+    const avgBride = brideCount ? Math.round(brideTotal / brideCount) : 0;
+
+    document.getElementById("avg-groom-score").textContent = avgGroom;
+    document.getElementById("avg-bride-score").textContent = avgBride;
+    document.getElementById("sum-groom-score").textContent = groomTotal;
+    document.getElementById("sum-bride-score").textContent = brideTotal;
+
+    console.log(`📊 Жених: ${groomCount} игроков | ${groomTotal} очков | Ср: ${avgGroom}`);
+    console.log(`📊 Невеста: ${brideCount} игроков | ${brideTotal} очков | Ср: ${avgBride}`);
+  }
+
+  function showLeaderboard() {
+    const list = getLeaderboard();
+    leaderboardBody.innerHTML = "";
+
+    const filteredList = list.filter(item => item.score > 5);
+
+    if (filteredList.length === 0) {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `<td colspan="3">Пока никто не набрал больше 6 баллов.</td>`;
+      leaderboardBody.appendChild(tr);
+    } else {
+      filteredList.slice(0, 10).forEach(item => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+          <td>${item.team}</td>
+          <td>${item.name}</td>
+          <td>${item.score}/${questions.length}</td>
+        `;
+        leaderboardBody.appendChild(tr);
+      });
+    }
+  }
+
+  /* ==================== ФЕЙЕРВЕРК ==================== */
+  const fireworksModal = document.getElementById("fireworks-modal");
+  const closeFireworksBtn = document.getElementById("close-fireworks");
+
+  function showFireworksModal() {
+    fireworksModal.classList.add("visible");
+    for (let i = 0; i < 40; i++) {
+      const heart = document.createElement("div");
+      heart.className = "heart";
+      heart.textContent = "❤️";
+      heart.style.left = Math.random() * 100 + "vw";
+      heart.style.animationDelay = Math.random() * 2 + "s";
+      fireworksModal.appendChild(heart);
+    }
+  }
+
+  closeFireworksBtn.addEventListener("click", () => {
+    fireworksModal.classList.remove("visible");
+    document.querySelectorAll(".heart").forEach(h => h.remove());
+  });
+
+  /* ==================== РЕСТАРТ ==================== */
+  restartBtn.addEventListener("click", () => {
+    if (confirm('Перезагрузить страницу? (Firebase не очищается)')) {
+      window.location.reload();
+    }
+  });
+
+  /* ==================== Клавиши ==================== */
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && nameModal.classList.contains("visible")) {
+      closeNameModal();
+    }
+  });
     </script>
 </body>
 </html>
