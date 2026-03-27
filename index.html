@@ -1184,6 +1184,257 @@ header { z-index: 1001 !important; }
         </div>
     </div>
 </section>
+    <!-- Викторина для Игоря и Марии -->
+<section id="quiz-section" class="section" style="background: linear-gradient(135deg, var(--accent-light), var(--primary)); text-align: center; border-radius: 30px; border: var(--border); backdrop-filter: blur(10px); data-aos="fade-up">
+  <h2 class="section-title" style="color: var(--dark);">🧠 Викторина для гостей</h2>
+  <p style="font-size: 1.2rem; max-width: 700px; margin: 0 auto 3rem; color: var(--text-dark);">Кто лучше знает Игоря и Марию? Выберите команду и проверьте себя! Результаты сохраняются автоматически.</p>
+  
+  <div class="quiz-container" style="max-width: 800px; margin: 0 auto; background: rgba(255,255,255,0.95); border-radius: 25px; box-shadow: var(--shadow); border: var(--border); overflow: hidden;">
+    
+    <!-- Header викторины -->
+    <div class="quiz-header" style="padding: 2rem; background: var(--gradient); color: white; text-align: center;">
+      <h3 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; margin: 0;">Викторина: Игорь и Мария</h3>
+      <p style="margin: 0.5rem 0 0; opacity: 0.9;">10 вопросов о самой романтичной паре!</p>
+    </div>
+
+    <!-- Выбор команды -->
+    <div id="quiz-welcome" style="padding: 3rem; text-align: center;">
+      <h4 style="font-size: 1.5rem; margin-bottom: 2rem; color: var(--dark);">Выберите свою команду:</h4>
+      <div style="display: flex; gap: 2rem; justify-content: center; margin-bottom: 2rem;">
+        <div class="quiz-team groom-team" data-team="groom" style="flex: 1; max-width: 250px; padding: 2rem; border: 2px solid var(--border); border-radius: 20px; cursor: pointer; transition: all 0.3s ease; position: relative; overflow: hidden; background: rgba(255,255,255,0.7);">
+          <div style="font-size: 2rem; margin-bottom: 1rem;">🤵</div>
+          <div class="team-name" style="font-size: 1.4rem; font-weight: 600; margin-bottom: 0.5rem;">Команда Игоря</div>
+          <div style="color: var(--text-light);">За жениха и его секреты!</div>
+        </div>
+        <div class="quiz-team bride-team" data-team="bride" style="flex: 1; max-width: 250px; padding: 2rem; border: 2px solid var(--border); border-radius: 20px; cursor: pointer; transition: all 0.3s ease; position: relative; overflow: hidden; background: rgba(255,255,255,0.7);">
+          <div style="font-size: 2rem; margin-bottom: 1rem;">👰</div>
+          <div class="team-name" style="font-size: 1.4rem; font-weight: 600; margin-bottom: 0.5rem;">Команда Марии</div>
+          <div style="color: var(--text-light);">За невесту и романтику!</div>
+        </div>
+      </div>
+      <button id="quiz-start" class="cta-button" style="padding: 1rem 2.5rem; font-size: 1.1rem; cursor: not-allowed; opacity: 0.6;" disabled>Выберите команду</button>
+    </div>
+
+    <!-- Сама викторина -->
+    <div id="quiz-main" style="padding: 3rem; display: none;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; font-weight: 600;">
+        <span>Команда: <span id="quiz-team-name" style="color: var(--accent); font-weight: 700;"></span></span>
+        <span id="quiz-progress" style="font-size: 1.1rem;">0/10</span>
+      </div>
+      <div class="progress-bar" style="height: 8px; background: var(--accent-light); border-radius: 4px; overflow: hidden; margin-bottom: 2rem; border: var(--border);">
+        <div id="quiz-progress-fill" style="height: 100%; width: 0%; background: var(--gradient); transition: width 0.5s ease;"></div>
+      </div>
+      <div id="quiz-question" style="font-size: 1.3rem; font-weight: 500; margin-bottom: 2rem; min-height: 80px; display: flex; align-items: center; justify-content: center; opacity: 0; transform: translateY(20px); transition: all 0.5s ease;"></div>
+      <div id="quiz-options" style="display: flex; flex-direction: column; gap: 1rem;"></div>
+    </div>
+
+    <!-- Результаты -->
+    <div id="quiz-results" style="padding: 3rem; display: none; text-align: center;">
+      <h3 style="font-family: 'Playfair Display', serif; font-size: 2rem; margin-bottom: 1rem;">Ваш результат: <span id="quiz-score" style="color: var(--accent); font-size: 2.5rem;"></span>/10</h3>
+      <p style="font-size: 1.1rem; margin-bottom: 2rem; color: var(--text-light);">Спасибо за участие!</p>
+      
+      <div style="background: rgba(255,255,255,0.5); padding: 1.5rem; border-radius: 15px; margin-bottom: 2rem;">
+        <h4 style="margin-bottom: 1rem;">🏆 Топ игроков (от 7 баллов)</h4>
+        <div id="quiz-leaderboard" style="max-height: 200px; overflow-y: auto; text-align: left;"></div>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+        <div style="background: linear-gradient(135deg, #e3f2fd, #bbdefb); padding: 1.5rem; border-radius: 15px;">
+          <div style="font-size: 0.9rem; opacity: 0.8;">Средний счёт</div>
+          <div id="avg-groom" style="font-size: 2rem; font-weight: 700;">0</div>
+          <div>Команда Игоря</div>
+        </div>
+        <div style="background: linear-gradient(135deg, #fce4ec, #f8bbd9); padding: 1.5rem; border-radius: 15px;">
+          <div style="font-size: 0.9rem; opacity: 0.8;">Средний счёт</div>
+          <div id="avg-bride" style="font-size: 2rem; font-weight: 700;">0</div>
+          <div>Команда Марии</div>
+        </div>
+      </div>
+      
+      <button id="quiz-restart" class="cta-button" style="padding: 1rem 2rem;">Играть снова</button>
+    </div>
+  </div>
+</section>
+
+<script>
+// Викторина для Игоря и Марии - вставьте после скриптов сайта
+(function() {
+  const questions = [
+    { question: "Где Игорь и Мария познакомились?", options: ["На работе", "Через друзей", "В университете", "В интернете"], correct: 1 },
+    { question: "Кто сделал первое предложение?", options: ["Игорь", "Мария", "Оба одновременно", "Родители"], correct: 0 },
+    { question: "Любимое место пары для свиданий?", options: ["Парк", "Ресторан", "Кино", "Дома с вином"], correct: 3 },
+    { question: "Чья любимая еда - суши?", options: ["Игоря", "Марии", "Обоих", "Никого"], correct: 2 },
+    { question: "Какой фильм они смотрят на повтор?", options: ["Комедия", "Романтика", "Боевик", "Не смотрят фильмы"], correct: 1 },
+    { question: "Кто лучше готовит?", options: ["Игорь", "Мария", "Вместе", "Заказывают"], correct: 2 },
+    { question: "Любимое путешествие пары?", options: ["Море", "Горы", "Город", "Дома"], correct: 0 },
+    { question: "Чей любимый цвет - розовый?", options: ["Игоря", "Марии", "Обоих", "Синий"], correct: 1 },
+    { question: "Кто танцует лучше?", options: ["Игорь", "Мария", "Оба", "Никто"], correct: 2 },
+    { question: "Сколько лет они вместе?", options: ["1 год", "2 года", "3 года", "Больше 3"], correct: 3 }
+  ];
+
+  let currentTeam = '', currentQuestion = 0, score = 0, playerName = 'Гость';
+
+  // Элементы
+  const welcomeEl = document.getElementById('quiz-welcome');
+  const mainEl = document.getElementById('quiz-main');
+  const resultsEl = document.getElementById('quiz-results');
+  const startBtn = document.getElementById('quiz-start');
+  const teamNameEl = document.getElementById('quiz-team-name');
+  const progressEl = document.getElementById('quiz-progress');
+  const progressFill = document.getElementById('quiz-progress-fill');
+  const questionEl = document.getElementById('quiz-question');
+  const optionsEl = document.getElementById('quiz-options');
+  const scoreEl = document.getElementById('quiz-score');
+  const leaderboardEl = document.getElementById('quiz-leaderboard');
+  const restartBtn = document.getElementById('quiz-restart');
+
+  // LocalStorage ключи
+  const RESULTS_KEY = 'igor_maria_quiz_all';
+  const LEADERBOARD_KEY = 'igor_maria_quiz_leaders';
+
+  // Инициализация
+  function init() {
+    document.querySelectorAll('.quiz-team').forEach(team => {
+      team.addEventListener('click', () => {
+        document.querySelectorAll('.quiz-team').forEach(t => t.style.borderColor = 'var(--border)');
+        team.style.borderColor = 'var(--accent)';
+        currentTeam = team.dataset.team;
+        startBtn.disabled = false;
+        startBtn.style.opacity = '1';
+        startBtn.textContent = `Начать за команду ${currentTeam === 'groom' ? 'Игоря' : 'Марии'}`;
+        startBtn.style.cursor = 'pointer';
+      });
+    });
+
+    startBtn.addEventListener('click', startQuiz);
+    restartBtn.addEventListener('click', resetQuiz);
+    updateResults();
+  }
+
+  function startQuiz() {
+    if (!currentTeam) return;
+    welcomeEl.style.display = 'none';
+    mainEl.style.display = 'block';
+    currentQuestion = 0;
+    score = 0;
+    showQuestion();
+  }
+
+  function showQuestion() {
+    const q = questions[currentQuestion];
+    progressEl.textContent = `${currentQuestion + 1}/10`;
+    progressFill.style.width = `${((currentQuestion + 1) / 10) * 100}%`;
+    
+    questionEl.textContent = q.question;
+    questionEl.style.opacity = '1';
+    questionEl.style.transform = 'translateY(0)';
+    
+    optionsEl.innerHTML = '';
+    q.options.forEach((opt, i) => {
+      const btn = document.createElement('button');
+      btn.className = 'cta-button';
+      btn.style.padding = '1rem 1.5rem';
+      btn.style.fontSize = '1rem';
+      btn.style.marginBottom = '0.5rem';
+      btn.style.background = 'rgba(255,255,255,0.8)';
+      btn.style.color = 'var(--text-dark)';
+      btn.innerHTML = opt;
+      btn.onclick = () => selectAnswer(i, btn);
+      optionsEl.appendChild(btn);
+    });
+  }
+
+  function selectAnswer(selected, btn) {
+    const q = questions[currentQuestion];
+    const buttons = optionsEl.querySelectorAll('button');
+    buttons.forEach(b => b.disabled = true);
+
+    buttons.forEach((b, i) => {
+      if (i === q.correct) {
+        b.style.background = '#d4edda';
+        b.style.borderColor = '#28a745';
+      } else if (i === selected) {
+        b.style.background = '#f8d7da';
+        b.style.borderColor = '#dc3545';
+      }
+    });
+
+    if (selected === q.correct) score++;
+
+    setTimeout(() => {
+      currentQuestion++;
+      if (currentQuestion < 10) {
+        showQuestion();
+      } else {
+        finishQuiz();
+      }
+    }, 1500);
+  }
+
+  function finishQuiz() {
+    mainEl.style.display = 'none';
+    resultsEl.style.display = 'block';
+    scoreEl.textContent = score;
+    
+    // Сохраняем результат
+    const result = { team: currentTeam, name: playerName, score, time: Date.now() };
+    let allResults = JSON.parse(localStorage.getItem(RESULTS_KEY) || '[]');
+    allResults.push(result);
+    localStorage.setItem(RESULTS_KEY, JSON.stringify(allResults));
+
+    // Лидерборд (7+ баллов)
+    if (score >= 7) {
+      let leaders = JSON.parse(localStorage.getItem(LEADERBOARD_KEY) || '[]');
+      leaders.push(result);
+      leaders.sort((a,b) => b.score - a.score);
+      leaders = leaders.slice(0,10);
+      localStorage.setItem(LEADERBOARD_KEY, JSON.stringify(leaders));
+    }
+
+    updateResults();
+  }
+
+  function updateResults() {
+    const allResults = JSON.parse(localStorage.getItem(RESULTS_KEY) || '[]');
+    const groomResults = allResults.filter(r => r.team === 'groom');
+    const brideResults = allResults.filter(r => r.team === 'bride');
+    
+    const avgGroom = groomResults.length ? Math.round(groomResults.reduce((s,r) => s + r.score, 0) / groomResults.length) : 0;
+    const avgBride = brideResults.length ? Math.round(brideResults.reduce((s,r) => s + r.score, 0) / brideResults.length) : 0;
+    
+    document.getElementById('avg-groom').textContent = avgGroom;
+    document.getElementById('avg-bride').textContent = avgBride;
+
+    // Лидерборд
+    const leaders = JSON.parse(localStorage.getItem(LEADERBOARD_KEY) || '[]');
+    leaderboardEl.innerHTML = leaders.length ? 
+      leaders.map((r,i) => `<div style="padding: 0.5rem; border-bottom: 1px solid var(--border);">${i+1}. ${r.name} (${r.team === 'groom' ? 'Игорь' : 'Мария'}) - ${r.score}/10</div>`).join('') :
+      '<div style="padding: 1rem; color: var(--text-light);">Пока нет чемпионов...</div>';
+  }
+
+  function resetQuiz() {
+    if (confirm('Сбросить результаты на этом устройстве?')) {
+      localStorage.removeItem(RESULTS_KEY);
+      localStorage.removeItem(LEADERBOARD_KEY);
+      welcomeEl.style.display = 'block';
+      mainEl.style.display = 'none';
+      resultsEl.style.display = 'none';
+      document.querySelectorAll('.quiz-team').forEach(t => t.style.borderColor = 'var(--border)');
+      startBtn.disabled = true;
+      startBtn.style.opacity = '0.6';
+      startBtn.textContent = 'Выберите команду';
+      updateResults();
+    }
+  }
+
+  // Запуск при загрузке
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+</script>
     <!-- RSVP - НЕ В КОНЦЕ -->
     <section id="rsvp" class="section">
     <h2 class="section-title" data-aos="fade-up">Подтверждение участия</h2>
