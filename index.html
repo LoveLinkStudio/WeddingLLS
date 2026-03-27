@@ -1582,17 +1582,27 @@ function listenToStats() {
   db.ref('quiz_results').on('value', (snapshot) => {
     const results = [];
     snapshot.forEach(child => results.push(child.val()));
-    
+
     const igorResults = results.filter(r => r.team === 'igor');
     const mariaResults = results.filter(r => r.team === 'maria');
-    
-    const avgIgor = igorResults.length ? Math.round(igorResults.reduce((s, r) => s + r.score, 0) / igorResults.length) : 0;
-    const avgMaria = mariaResults.length ? Math.round(mariaResults.reduce((s, r) => s + r.score, 0) / mariaResults.length) : 0;
-    
-    document.getElementById('avg-groom').textContent = avgIgor;
-    document.getElementById('count-groom').textContent = igorResults.length + ' игроков';
-    document.getElementById('avg-bride').textContent = avgMaria;
-    document.getElementById('count-bride').textContent = mariaResults.length + ' игроков';
+
+    const avgIgor = igorResults.length
+      ? Math.round(igorResults.reduce((s, r) => s + r.score, 0) / igorResults.length)
+      : 0;
+    const avgMaria = mariaResults.length
+      ? Math.round(mariaResults.reduce((s, r) => s + r.score, 0) / mariaResults.length)
+      : 0;
+
+    const avgGroomEl = document.getElementById('avg-groom');
+    const countGroomEl = document.getElementById('count-groom');
+    const avgBrideEl = document.getElementById('avg-bride');
+    const countBrideEl = document.getElementById('count-bride');
+
+    if (avgGroomEl) avgGroomEl.textContent = avgIgor;
+    if (countGroomEl) countGroomEl.textContent = igorResults.length + ' игроков';
+
+    if (avgBrideEl) avgBrideEl.textContent = avgMaria;
+    if (countBrideEl) countBrideEl.textContent = mariaResults.length + ' игроков';
   });
 }
 
@@ -1910,7 +1920,7 @@ if (document.readyState === 'loading') {
 
         // 5. Guest Counter
         function updateGuestCounter() {
-            document.getElementById('confirmedCount').textContent = confirmedCount;
+            //document.getElementById('confirmedCount').textContent = confirmedCount;
         }
 
         // 6. Floating Hearts
