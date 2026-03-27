@@ -1427,7 +1427,7 @@ function init() {
   restartBtn.addEventListener('click', resetQuiz);
   
   // Real-time Firebase — лидерборд и статистика всегда обновляются
-  Leaderboard();
+  listenToLeaderboard();
   listenToStats();
   
   // Фокус на инпуте
