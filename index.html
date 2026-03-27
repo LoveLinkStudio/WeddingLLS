@@ -1184,7 +1184,7 @@ header { z-index: 1001 !important; }
         </div>
     </div>
 </section>
-   <!-- Викторина для Игоря и Марии с Firebase + МОДАЛЬНОЕ ОКНО ИМЕНИ -->
+<!-- Викторина для Игоря и Марии с Firebase + МОДАЛЬНОЕ ОКНО ИМЕНИ -->
 <link rel="stylesheet" href="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js">
 
 <!-- Викторина для Игоря и Марии -->
@@ -1204,18 +1204,18 @@ header { z-index: 1001 !important; }
     <div id="quiz-welcome" style="padding: 3rem; text-align: center;">
       <h4 style="font-size: 1.5rem; margin-bottom: 2rem; color: var(--dark);">Выберите свою команду:</h4>
       <div style="display: flex; gap: 2rem; justify-content: center; margin-bottom: 2rem; flex-wrap: wrap;">
-        <div class="quiz-team groom-team" data-team="groom" style="flex: 1; min-width: 250px; max-width: 280px; padding: 2rem; border: 2px solid var(--border); border-radius: 20px; cursor: pointer; transition: all 0.3s ease; position: relative; overflow: hidden; background: rgba(255,255,255,0.7);">
-          <div style="font-size: 2.5rem; margin-bottom: 1rem;">🤵‍♂️</div>
-          <div class="team-name" style="font-size: 1.4rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--dark);">Команда Игоря</div>
-          <div style="color: var(--text-light);">За жениха и точность!</div>
+        <div class="quiz-team groom-team" data-team="groom" style="flex: 1; min-width: 250px; max-width: 280px; padding: 2.5rem 2rem; border: 3px solid #e0e0e0; border-radius: 20px; cursor: pointer; transition: all 0.3s ease; position: relative; overflow: hidden; background: #ffffff; box-shadow: 0 10px 30px rgba(0,0,0,0.1); user-select: none; z-index: 10;">
+          <div style="font-size: 3rem; margin-bottom: 1.2rem; transition: all 0.3s ease;">🤵‍♂️</div>
+          <div class="team-name" style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.8rem; color: #333;">Команда Игоря</div>
+          <div style="color: #666; font-size: 1.1rem; font-weight: 500;">За жениха и точность!</div>
         </div>
-        <div class="quiz-team bride-team" data-team="bride" style="flex: 1; min-width: 250px; max-width: 280px; padding: 2rem; border: 2px solid var(--border); border-radius: 20px; cursor: pointer; transition: all 0.3s ease; position: relative; overflow: hidden; background: rgba(255,255,255,0.7);">
-          <div style="font-size: 2.5rem; margin-bottom: 1rem;">👰‍♀️</div>
-          <div class="team-name" style="font-size: 1.4rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--dark);">Команда Марии</div>
-          <div style="color: var(--text-light);">За невесту и романтику!</div>
+        <div class="quiz-team bride-team" data-team="bride" style="flex: 1; min-width: 250px; max-width: 280px; padding: 2.5rem 2rem; border: 3px solid #e0e0e0; border-radius: 20px; cursor: pointer; transition: all 0.3s ease; position: relative; overflow: hidden; background: #ffffff; box-shadow: 0 10px 30px rgba(0,0,0,0.1); user-select: none; z-index: 10;">
+          <div style="font-size: 3rem; margin-bottom: 1.2rem; transition: all 0.3s ease;">👰‍♀️</div>
+          <div class="team-name" style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.8rem; color: #333;">Команда Марии</div>
+          <div style="color: #666; font-size: 1.1rem; font-weight: 500;">За невесту и романтику!</div>
         </div>
       </div>
-      <button id="quiz-start" class="cta-button" style="padding: 1.2rem 3rem; font-size: 1.1rem; cursor: not-allowed; opacity: 0.6;" disabled>Выберите команду</button>
+      <button id="quiz-start" class="cta-button" style="padding: 1.2rem 3rem; font-size: 1.1rem; cursor: not-allowed; opacity: 0.6; background: #ccc; border: none; border-radius: 15px; font-weight: 600;" disabled>Выберите команду</button>
     </div>
 
     <!-- Сама викторина -->
@@ -1328,20 +1328,52 @@ const restartBtn = document.getElementById('quiz-restart');
 function init() {
   userId = 'guest_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
   
-  // Выбор команды
-  document.querySelectorAll('.quiz-team').forEach(team => {
-    team.addEventListener('click', (e) => {
-      document.querySelectorAll('.quiz-team').forEach(t => {
-        t.style.borderColor = 'var(--border)';
-        t.style.boxShadow = 'var(--shadow)';
+  // ✅ ИСПРАВЛЕННАЯ ЛОГИКА ВЫБОРА КОМАНДЫ
+  const teamElements = document.querySelectorAll('.quiz-team');
+  
+  teamElements.forEach((team, index) => {
+    team.addEventListener('click', function(e) {
+      console.log('Команда кликнута:', this.dataset.team); // DEBUG
+      
+      // Сбрасываем все команды
+      teamElements.forEach(t => {
+        t.style.borderColor = '#e0e0e0';
+        t.style.boxShadow = '0 10px 30px rgba(0,0,0,0.1)';
+        t.style.transform = 'scale(1)';
+        t.querySelector('div').style.transform = 'scale(1)';
       });
-      e.currentTarget.style.borderColor = 'var(--accent)';
-      e.currentTarget.style.boxShadow = '0 20px 40px rgba(215, 185, 213, 0.4)';
-      currentTeam = team.dataset.team;
+      
+      // Активируем выбранную
+      this.style.borderColor = 'var(--accent)';
+      this.style.boxShadow = '0 20px 40px rgba(215, 185, 213, 0.4)';
+      this.style.transform = 'scale(1.02)';
+      this.querySelector('div').style.transform = 'scale(1.1)';
+      
+      currentTeam = this.dataset.team;
+      
+      // Активируем кнопку старта
       startBtn.disabled = false;
       startBtn.style.opacity = '1';
       startBtn.style.cursor = 'pointer';
+      startBtn.style.background = 'var(--gradient)';
       startBtn.innerHTML = `🚀 Начать за команду ${currentTeam === 'groom' ? 'Игоря' : 'Марии'}`;
+      
+      console.log('Текущая команда:', currentTeam); // DEBUG
+    });
+    
+    // Ховер эффект
+    team.addEventListener('mouseenter', function() {
+      if (!currentTeam || this.dataset.team !== currentTeam) {
+        this.style.transform = 'scale(1.02)';
+        this.style.boxShadow = '0 15px 35px rgba(0,0,0,0.15)';
+      }
+    });
+    
+    team.addEventListener('mouseleave', function() {
+      if (!currentTeam || this.dataset.team !== currentTeam) {
+        this.style.transform = 'scale(1)';
+        this.style.boxShadow = '0 10px 30px rgba(0,0,0,0.1)';
+      }
     });
   });
 
@@ -1375,16 +1407,23 @@ function init() {
     nameInput.style.borderColor = 'var(--accent)';
     nameInput.style.boxShadow = '0 0 0 3px rgba(215, 185, 213, 0.2)';
   });
+  
+  console.log('✅ Викторина инициализирована'); // DEBUG
 }
 
 function showNameModal() {
-  if (!currentTeam) return;
+  console.log('Показываем модалку имени, команда:', currentTeam); // DEBUG
+  if (!currentTeam) {
+    alert('Сначала выберите команду!');
+    return;
+  }
   nameInput.value = '';
   nameModal.style.display = 'flex';
   setTimeout(() => nameInput.focus(), 300);
 }
 
 function startQuiz() {
+  console.log('Старт викторины для:', playerName, currentTeam); // DEBUG
   welcomeEl.style.display = 'none';
   mainEl.style.display = 'block';
   teamNameEl.textContent = currentTeam === 'groom' ? 'Игоря' : 'Марии';
@@ -1392,8 +1431,6 @@ function startQuiz() {
   score = 0;
   showQuestion();
 }
-
-// Остальные функции без изменений (showQuestion, selectAnswer, finishQuiz, listenToLeaderboard, listenToStats, updateLeaderboard, showCelebration, createHeart, resetQuiz)
 
 function showQuestion() {
   const q = questions[currentQuestion];
@@ -1408,13 +1445,12 @@ function showQuestion() {
   q.options.forEach((opt, i) => {
     const btn = document.createElement('button');
     btn.className = 'cta-button';
-    btn.style.padding = '1.2rem 1.8rem';
-    btn.style.fontSize = '1.05rem';
-    btn.style.marginBottom = '0.8rem';
-    btn.style.background = 'rgba(255,255,255,0.9)';
-    btn.style.color = 'var(--text-dark)';
-    btn.style.border = '2px solid var(--border)';
-    btn.style.transition = 'all 0.3s ease';
+    btn.style.cssText = `
+      padding: 1.2rem 1.8rem; font-size: 1.05rem; margin-bottom: 0.8rem;
+      background: rgba(255,255,255,0.9); color: var(--text-dark); border: 2px solid var(--border);
+      border-radius: 15px; cursor: pointer; transition: all 0.3s ease; width: 100%;
+      font-weight: 500; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    `;
     btn.innerHTML = opt;
     btn.onclick = () => selectAnswer(i, btn);
     optionsEl.appendChild(btn);
@@ -1424,7 +1460,7 @@ function showQuestion() {
 function selectAnswer(selected, btn) {
   const q = questions[currentQuestion];
   const buttons = optionsEl.querySelectorAll('button');
-  buttons.forEach(b => b.disabled = true);
+  buttons.forEach(b => b.disabled = true; b.style.cursor = 'not-allowed');
 
   buttons.forEach((b, i) => {
     if (i === q.correct) {
@@ -1467,6 +1503,7 @@ function finishQuiz() {
     date: new Date().toISOString()
   };
 
+  console.log('Сохраняем результат в Firebase:', result); // DEBUG
   db.ref('quiz_results').push(result);
   
   if (score >= 7) {
@@ -1507,13 +1544,13 @@ function updateLeaderboard(leaders) {
   }
   
   leaderboardEl.innerHTML = leaders.map((r, i) => `
-    <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 1rem; border-bottom: 1px solid var(--border); font-size: 1rem; transition: background 0.2s;">
-      <div style="display: flex; align-items: center; gap: 0.8rem;">
-        <span style="font-weight: 700; font-size: 1.1rem; min-width: 25px;">${i+1}.</span>
-        <span style="font-weight: 600; max-width: 150px; overflow: hidden; text-overflow: ellipsis;">${r.name}</span>
-        <span style="font-size: 0.9rem; color: var(--text-light); padding: 0.2rem 0.6rem; background: var(--accent-light); border-radius: 12px;">${r.team === 'igor' ? 'Игорь' : 'Мария'}</span>
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 1rem; border-bottom: 1px solid #eee; font-size: 1rem; transition: background 0.2s; border-radius: 8px; margin-bottom: 0.5rem;">
+      <div style="display: flex; align-items: center; gap: 0.8rem; flex: 1;">
+        <span style="font-weight: 700; font-size: 1.2rem; min-width: 25px; background: var(--accent); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">${i+1}</span>
+        <span style="font-weight: 600; max-width: 150px; overflow: hidden; text-overflow: ellipsis; color: #333;">${r.name}</span>
+        <span style="font-size: 0.85rem; color: var(--text-light); padding: 0.3rem 0.8rem; background: ${r.team === 'igor' ? '#e3f2fd' : '#fce4ec'}; border-radius: 15px; font-weight: 500;">${r.team === 'igor' ? 'Игорь' : 'Мария'}</span>
       </div>
-      <span style="font-weight: 700; color: var(--accent); font-size: 1.1rem;">${r.score}/10</span>
+      <span style="font-weight: 700; color: var(--accent); font-size: 1.2rem; min-width: 60px; text-align: right;">${r.score}/10</span>
     </div>
   `).join('');
 }
@@ -1547,6 +1584,10 @@ style.textContent = `
     border-color: var(--accent) !important;
     box-shadow: 0 0 0 4px rgba(215, 185, 213, 0.25) !important;
     transform: translateY(-2px);
+    outline: none;
+  }
+  .quiz-team:active {
+    transform: scale(0.98) !important;
   }
 `;
 document.head.appendChild(style);
@@ -1557,14 +1598,18 @@ function resetQuiz() {
     mainEl.style.display = 'none';
     resultsEl.style.display = 'none';
     document.querySelectorAll('.quiz-team').forEach(t => {
-      t.style.borderColor = 'var(--border)';
-      t.style.boxShadow = 'var(--shadow)';
+      t.style.borderColor = '#e0e0e0';
+      t.style.boxShadow = '0 10px 30px rgba(0,0,0,0.1)';
+      t.style.transform = 'scale(1)';
     });
     startBtn.disabled = true;
     startBtn.style.opacity = '0.6';
     startBtn.style.cursor = 'not-allowed';
+    startBtn.style.background = '#ccc';
     startBtn.innerHTML = 'Выберите команду';
     currentTeam = '';
+    currentQuestion = 0;
+    score = 0;
   }
 }
 
