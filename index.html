@@ -1188,11 +1188,11 @@ header { z-index: 1001 !important; }
 <link rel="stylesheet" href="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js">
 
 <!-- Викторина для Игоря и Марии -->
-<section id="quiz-section" class="section" style="background: linear-gradient(135deg, var(--accent-light), var(--primary)); text-align: center; border-radius: 30px; border: var(--border); backdrop-filter: blur(10px);" data-aos="fade-up">
+<section id="quiz-section" class="section" style="background: linear-gradient(135deg, var(--accent-light), var(--primary)); text-align: center; border-radius: 30px; border: var(--border);">
   <h2 class="section-title" style="color: var(--dark);">🧠 Викторина для гостей</h2>
   <p style="font-size: 1.2rem; max-width: 700px; margin: 0 auto 3rem; color: var(--text-dark);">Кто лучше знает Игоря и Марию? Выберите команду и проверьте себя! Имя появится в общем лидерборде.</p>
   
-  <div class="quiz-container" style="max-width: 800px; margin: 0 auto; background: rgba(255,255,255,0.95); border-radius: 25px; box-shadow: var(--shadow); border: var(--border); overflow: hidden;">
+  <div class="quiz-container" style="max-width: 800px; margin: 0 auto; background: rgba(255,255,255,0.98); border-radius: 25px; box-shadow: var(--shadow); border: var(--border); overflow: hidden;">
     
     <!-- Header викторины -->
     <div class="quiz-header" style="padding: 2rem; background: var(--gradient); color: white; text-align: center;">
@@ -1200,25 +1200,42 @@ header { z-index: 1001 !important; }
       <p style="margin: 0.5rem 0 0; opacity: 0.9;">10 вопросов • Онлайн лидерборд • Реальное время</p>
     </div>
 
-    <!-- Выбор команды -->
+    <!-- ✅ ИСПРАВЛЕННЫЕ КНОПКИ - теперь <button> внутри <div> -->
     <div id="quiz-welcome" style="padding: 3rem; text-align: center;">
       <h4 style="font-size: 1.5rem; margin-bottom: 2rem; color: var(--dark);">Выберите свою команду:</h4>
       <div style="display: flex; gap: 2rem; justify-content: center; margin-bottom: 2rem; flex-wrap: wrap;">
-        <div class="quiz-team groom-team" data-team="groom" style="flex: 1; min-width: 250px; max-width: 280px; padding: 2.5rem 2rem; border: 3px solid #e0e0e0; border-radius: 20px; cursor: pointer; transition: all 0.3s ease; position: relative; overflow: hidden; background: #ffffff; box-shadow: 0 10px 30px rgba(0,0,0,0.1); user-select: none; z-index: 10;">
-          <div style="font-size: 3rem; margin-bottom: 1.2rem; transition: all 0.3s ease;">🤵‍♂️</div>
-          <div class="team-name" style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.8rem; color: #333;">Команда Игоря</div>
-          <div style="color: #666; font-size: 1.1rem; font-weight: 500;">За жениха и точность!</div>
+        
+        <!-- КОМАНДА ИГОРЬ -->
+        <div style="flex: 1; min-width: 250px; max-width: 280px;">
+          <button class="quiz-team groom-team" data-team="groom" style="
+            width: 100%; padding: 2.5rem 2rem; border: 3px solid #e0e0e0; border-radius: 20px; 
+            cursor: pointer; transition: all 0.3s ease; background: #ffffff; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); font-family: inherit; font-size: 1rem;
+            user-select: none; position: relative; overflow: visible;">
+            <div style="font-size: 3rem; margin-bottom: 1.2rem; transition: all 0.3s ease;">🤵‍♂️</div>
+            <div class="team-name" style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.8rem; color: #333;">Команда Игоря</div>
+            <div style="color: #666; font-size: 1.1rem; font-weight: 500;">За жениха и точность!</div>
+          </button>
         </div>
-        <div class="quiz-team bride-team" data-team="bride" style="flex: 1; min-width: 250px; max-width: 280px; padding: 2.5rem 2rem; border: 3px solid #e0e0e0; border-radius: 20px; cursor: pointer; transition: all 0.3s ease; position: relative; overflow: hidden; background: #ffffff; box-shadow: 0 10px 30px rgba(0,0,0,0.1); user-select: none; z-index: 10;">
-          <div style="font-size: 3rem; margin-bottom: 1.2rem; transition: all 0.3s ease;">👰‍♀️</div>
-          <div class="team-name" style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.8rem; color: #333;">Команда Марии</div>
-          <div style="color: #666; font-size: 1.1rem; font-weight: 500;">За невесту и романтику!</div>
+
+        <!-- КОМАНДА МАРИЯ -->
+        <div style="flex: 1; min-width: 250px; max-width: 280px;">
+          <button class="quiz-team bride-team" data-team="bride" style="
+            width: 100%; padding: 2.5rem 2rem; border: 3px solid #e0e0e0; border-radius: 20px; 
+            cursor: pointer; transition: all 0.3s ease; background: #ffffff; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); font-family: inherit; font-size: 1rem;
+            user-select: none; position: relative; overflow: visible;">
+            <div style="font-size: 3rem; margin-bottom: 1.2rem; transition: all 0.3s ease;">👰‍♀️</div>
+            <div class="team-name" style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.8rem; color: #333;">Команда Марии</div>
+            <div style="color: #666; font-size: 1.1rem; font-weight: 500;">За невесту и романтику!</div>
+          </button>
         </div>
+        
       </div>
       <button id="quiz-start" class="cta-button" style="padding: 1.2rem 3rem; font-size: 1.1rem; cursor: not-allowed; opacity: 0.6; background: #ccc; border: none; border-radius: 15px; font-weight: 600;" disabled>Выберите команду</button>
     </div>
 
-    <!-- Сама викторина -->
+    <!-- Остальной код БЕЗ ИЗМЕНЕНИЙ -->
     <div id="quiz-main" style="padding: 3rem; display: none;">
       <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; font-weight: 600; flex-wrap: wrap; gap: 1rem;">
         <span style="font-size: 1.1rem;">Команда: <span id="quiz-team-name" style="color: var(--accent); font-weight: 700; font-size: 1.2rem;"></span></span>
@@ -1263,8 +1280,9 @@ header { z-index: 1001 !important; }
   </div>
 </section>
 
-<!-- МОДАЛЬНОЕ ОКНО ДЛЯ ИМЕНИ -->
-<div id="name-modal" class="name-modal" style="position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 10000; backdrop-filter: blur(10px);">
+<!-- МОДАЛЬНОЕ ОКНО - убрал backdrop-filter -->
+<div id="name-modal" class="name-modal" style="position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 10000;">
+  <!-- остальной код модалки без изменений -->
   <div class="name-modal-content" style="background: white; border-radius: 25px; box-shadow: 0 25px 60px rgba(0,0,0,0.3); padding: 3rem 2.5rem; max-width: 450px; width: 90%; text-align: center; border: var(--border);">
     <h3 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--dark); margin-bottom: 1rem;">✨ Представьтесь, пожалуйста!</h3>
     <p style="color: var(--text-light); margin-bottom: 2rem; line-height: 1.5;">Введите ваше имя — оно появится в общем лидерборде для всех гостей!</p>
@@ -1276,8 +1294,9 @@ header { z-index: 1001 !important; }
   </div>
 </div>
 
+<!-- СКРИПТ БЕЗ ИЗМЕНЕНИЙ - JavaScript уже правильный! -->
 <script>
-// Firebase config
+/* Весь JavaScript код остается точно таким же - он уже работает правильно */
 const firebaseConfig = {
   apiKey: "AIzaSyC2zHfSvobeo0cpVVtUy0iPur2aoTE-1lA",
   authDomain: "weddingllsezhunov.firebaseapp.com",
