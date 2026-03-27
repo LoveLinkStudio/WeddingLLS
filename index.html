@@ -1722,20 +1722,7 @@ if (document.readyState === 'loading') {
     <!-- RSVP - НЕ В КОНЦЕ -->
     <section id="rsvp" class="section">
     <h2 class="section-title" data-aos="fade-up">Подтверждение участия</h2>
-        <script>
-  // Firebase config для RSVP (используйте ваш config из quiz или новый проект)
-  const firebaseConfigRSVP = {
-    apiKey: "AIzaSyC2zHfSvobeo0cpVVtUy0iPur2aoTE-1lA", // Замените на ваш
-    authDomain: "weddingllsezhunov.firebaseapp.com",
-    databaseURL: "https://weddingllsezhunov-default-rtdb.europe-west1.firebasedatabase.app/",
-    projectId: "weddingllsezhunov",
-    storageBucket: "weddingllsezhunov.firebasestorage.app",
-    messagingSenderId: "838708765760",
-    appId: "1:838708765760:web:2844d915fc5fa7b91ceba5"
-  };
-  firebase.initializeApp(firebaseConfigRSVP);
-  const rsvpDB = firebase.database();
-</script>
+        
     <form class="rsvp-form" id="rsvpForm" data-aos="zoom-in">
         <div class="form-row">
             <div class="form-group">
@@ -1856,6 +1843,23 @@ if (document.readyState === 'loading') {
     </footer>
 
     <script>
+// ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← 
+// ГЛОБАЛЬНЫЙ FIREBASE CONFIG (ДОБАВИТЬ ЗДЕСЬ ПЕРВЫМ!!!)
+const firebaseConfig = {
+  apiKey: "AIzaSyC2zHfSvobeo0cpVVtUy0iPur2aoTE-1lA",
+  authDomain: "weddingllsezhunov.firebaseapp.com",
+  databaseURL: "https://weddingllsezhunov-default-rtdb.europe-west1.firebasedatabase.app/",
+  projectId: "weddingllsezhunov",
+  storageBucket: "weddingllsezhunov.firebasestorage.app",
+  messagingSenderId: "838708765760",
+  appId: "1:838708765760:web:2844d915fc5fa7b91ceba5"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();  // ГЛОБАЛЬНАЯ переменная для всех форм!
+// ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← 
+
+// ... остальной код остается без изменений
+        
         // Сохраненные функции из оригинального кода
         let allResultsForStats = [];
         let entries = JSON.parse(localStorage.getItem('weddingEntries') || '[]');
@@ -1925,7 +1929,7 @@ function initRSVPForm() {
     };
     
     // Сохранить в Firebase вместо localStorage
-    rsvpDB.ref('rsvpEntries').push(entry)
+    db.ref('rsvpEntries').push(entry)
       .then(() => {
         showNotification('✅ RSVP отправлен! Спасибо!');
         form.reset();
@@ -2270,5 +2274,6 @@ document.addEventListener('DOMContentLoaded', function() {
   initBgVideo(); // ДОБАВИЛИ!
 });
     </script>
+    
 </body>
 </html>
