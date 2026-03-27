@@ -1722,6 +1722,20 @@ if (document.readyState === 'loading') {
     <!-- RSVP - НЕ В КОНЦЕ -->
     <section id="rsvp" class="section">
     <h2 class="section-title" data-aos="fade-up">Подтверждение участия</h2>
+        <script>
+  // Firebase config для RSVP (используйте ваш config из quiz или новый проект)
+  const firebaseConfigRSVP = {
+    apiKey: "AIzaSyC2zHfSvobeo0cpVVtUy0iPur2aoTE-1lA", // Замените на ваш
+    authDomain: "weddingllsezhunov.firebaseapp.com",
+    databaseURL: "https://weddingllsezhunov-default-rtdb.europe-west1.firebasedatabase.app/",
+    projectId: "weddingllsezhunov",
+    storageBucket: "weddingllsezhunov.firebasestorage.app",
+    messagingSenderId: "838708765760",
+    appId: "1:838708765760:web:2844d915fc5fa7b91ceba5"
+  };
+  firebase.initializeApp(firebaseConfigRSVP);
+  const rsvpDB = firebase.database();
+</script>
     <form class="rsvp-form" id="rsvpForm" data-aos="zoom-in">
         <div class="form-row">
             <div class="form-group">
@@ -1800,7 +1814,9 @@ if (document.readyState === 'loading') {
                 📥 Экспорт в Excel
             </button>
             
-            <div class="entries-list" id="entriesList"></div>
+            <div class="entries-list" id="entriesList">
+  <div id="rsvpEntriesList"></div> <!-- Новый список для RSVP из Firebase -->
+</div>
             
             <button id="clearAllBtn" class="submit-btn" style="background: linear-gradient(135deg, #ff4757, #ff3742); margin-top: 1.5rem;">
                 🗑️ Очистить все данные
@@ -1892,35 +1908,33 @@ if (document.readyState === 'loading') {
         }
 
         // 4. RSVP Form
-        function initRSVPForm() {
-            const form = document.getElementById('rsvpForm');
-            form.addEventListener('submit', e => {
-                e.preventDefault();
-                
-                const entry = {
-                    id: Date.now(),
-                    name: document.getElementById('guestName').value,
-                    count: document.getElementById('guestCount').value,
-                    attendance: document.getElementById('attendance').value,
-                    phone: document.getElementById('phone').value,
-                    preferences: document.getElementById('preferences').value,
-                    wishes: document.getElementById('wishes').value,
-                    timestamp: new Date().toISOString()
-                };
-                
-                entries.push(entry);
-                localStorage.setItem('weddingEntries', JSON.stringify(entries));
-                
-                if (entry.attendance === 'yes') {
-                    confirmedCount++;
-                    updateGuestCounter();
-                }
-                
-                showNotification('✅ Спасибо за подтверждение! 💕');
-                form.reset();
-                createFloatingHeart();
-            });
-        }
+        <!-- 4. Заменить функцию initRSVPForm полностью (найти в script в конце файла) -->
+function initRSVPForm() {
+  const form = document.getElementById('rsvpForm');
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const entry = {
+      id: Date.now(),
+      name: document.getElementById('guestName').value,
+      count: document.getElementById('guestCount').value,
+      attendance: document.getElementById('attendance').value,
+      phone: document.getElementById('phone').value,
+      preferences: document.getElementById('preferences').value,
+      wishes: document.getElementById('wishes').value,
+      timestamp: new Date().toISOString()
+    };
+    
+    // Сохранить в Firebase вместо localStorage
+    rsvpDB.ref('rsvpEntries').push(entry)
+      .then(() => {
+        showNotification('✅ RSVP отправлен! Спасибо!');
+        form.reset();
+        createFloatingHeart();
+        loadAdminEntries(); // Обновить админ панель
+      })
+      .catch(err => showNotification('❌ Ошибка: ' + err.message, 'error'));
+  });
+}
 
         // 5. Guest Counter
         function updateGuestCounter() {
@@ -1997,38 +2011,50 @@ launchConfetti();
                 document.querySelector('.mode-toggle i').className = 'fas fa-sun';
             }
         }
-        // 8. Admin Panel
-        function initAdminPanel() {
-            const adminBtn = document.getElementById('adminBtn');
-            const adminPanel = document.getElementById('adminPanel');
-            const closeAdmin = document.getElementById('closeAdmin');
-            const loginBtn = document.getElementById('adminLoginBtn');
-            const passInput = document.getElementById('adminPassInput');
+        // 8. Обновленная функция initAdminPanel() - заменить полностью
+function initAdminPanel() {
+    const adminBtn = document.getElementById('adminBtn');
+    const adminPanel = document.getElementById('adminPanel');
+    const closeAdmin = document.getElementById('closeAdmin');
+    const loginBtn = document.getElementById('adminLoginBtn');
+    const passInput = document.getElementById('adminPassInput');
 
-            adminBtn.addEventListener('click', () => {
-                adminPanel.classList.toggle('open');
-            });
-
-            closeAdmin.addEventListener('click', () => {
-                adminPanel.classList.remove('open');
-            });
-
-            loginBtn.addEventListener('click', () => {
-                if (passInput.value === adminPassword) {
-                    document.getElementById('adminPassword').style.display = 'none';
-                    document.getElementById('adminContent').style.display = 'block';
-                    loadAdminEntries();
-                } else {
-                    showNotification('❌ Неверный пароль!', 'error');
-                }
-                passInput.value = '';
-            });
-
-            passInput.addEventListener('keypress', e => {
-                if (e.key === 'Enter') loginBtn.click();
-            });
+    adminBtn.addEventListener('click', () => {
+        adminPanel.classList.toggle('open');
+        if (adminPanel.classList.contains('open')) {
+            loadAdminEntries(); // Загрузка при открытии панели
         }
+    });
 
+    closeAdmin.addEventListener('click', () => {
+        adminPanel.classList.remove('open');
+    });
+
+    loginBtn.addEventListener('click', () => {
+        if (passInput.value === adminPassword) {
+            document.getElementById('adminPassword').style.display = 'none';
+            document.getElementById('adminContent').style.display = 'block';
+            loadAdminEntries(); // Загрузка после входа
+        } else {
+            showNotification('❌ Неверный пароль!', 'error');
+        }
+        passInput.value = '';
+    });
+
+    passInput.addEventListener('keypress', e => {
+        if (e.key === 'Enter') loginBtn.click();
+    });
+
+    // Real-time обновление RSVP каждые 5 сек после входа
+    let updateInterval;
+    const adminContent = document.getElementById('adminContent');
+    const observer = new MutationObserver(() => {
+        if (adminContent.style.display === 'block' && !updateInterval) {
+            updateInterval = setInterval(loadAdminEntries, 5000); // Обновление каждые 5 сек
+        }
+    });
+    observer.observe(adminContent, { attributes: true, attributeFilter: ['style'] });
+}
         // 9. Load Admin Entries
         function loadAdminEntries() {
             const list = document.getElementById('entriesList');
