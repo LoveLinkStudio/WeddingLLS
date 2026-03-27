@@ -1754,122 +1754,123 @@ header { z-index: 1001 !important; }
   <div class="quiz-container">
     <div class="quiz-body">
       <div class="container">
-    <header>
-      <h1>Квиз Анны и Максима</h1>
-      <p class="subtitle">
-        Кто знает молодожёнов лучше? Соревнуйтесь в команде невесты или жениха и попадите в лидерборд!
-      </p>
-    </header>
-    <div class="content">
-      <!-- ШАГ 1: ВЫБОР КОМАНДЫ -->
-      <div id="welcome" class="welcome">
-        <h2>Выберите команду:</h2>
-        <div class="teams">
-          <div class="team" data-team="groom">
-            <div class="team-name">Команда жениха</div>
-            <div class="team-desc">За Максима, максимализм и максимум фактов!</div>
-          </div>
-          <div class="team" data-team="bride">
-            <div class="team-name">Команда невесты</div>
-            <div class="team-desc">За Анну, антураж и романтику!</div>
-          </div>
-        </div>
-        <button id="start-btn">Сначала выберите команду</button>
-      </div>
-
-      <!-- ШАГ 2: ВИКТОРИНА -->
-      <div id="quiz" class="quiz">
-        <h2>
-          Квиз: команда <span id="current-team-name"></span>
-          <span style="font-size:14px;color:#886e65;"> — <span id="quiz-progress">0/10</span></span>
-        </h2>
-        <div class="progress-bar">
-          <div class="progress-bar-fill" id="progress-fill"></div>
-        </div>
-        <div id="question"></div>
-        <div id="options"></div>
-      </div>
-
-      <!-- ШАГ 3: РЕЗУЛЬТАТ + ЛИДЕРБОРД + ИТОГОВЫЕ СЧЁТЫ -->
-      <div id="result" class="result">
-        <div class="leaderboard">
-          <h3>Лидеры по командам</h3>
-          <table id="leaderboard-table">
-            <thead>
-              <tr>
-                <th>Команда</th>
-                <th>Имя гостя</th>
-                <th>Счёт</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          </table>
-        </div>
-
-        <!-- СРЕДНИЙ СЧЁТ КОМАНД -->
-        <div class="team-scores">
-          <div class="team-scores-header">
-            <h3>Средний счёт по командам</h3>
-          </div>
-          <div class="team-scores">
-            <div class="team-score-card team-score-groom">
-              <div class="score-type">Средний</div>
-              <div class="score-value" id="avg-groom-score">0</div>
-              <div class="score-label">Команда жениха</div>
+        <header>
+          <h1>Квиз Анны и Максима</h1>
+          <p class="subtitle">
+            Кто знает молодожёнов лучше? Соревнуйтесь в команде невесты или жениха и попадите в лидерборд!
+          </p>
+        </header>
+        <div class="content">
+          <!-- ШАГ 1: ВЫБОР КОМАНДЫ -->
+          <div id="welcome" class="welcome">
+            <h2>Выберите команду:</h2>
+            <div class="teams">
+              <div class="team" data-team="groom">
+                <div class="team-name">Команда жениха</div>
+                <div class="team-desc">За Максима, максимализм и максимум фактов!</div>
+              </div>
+              <div class="team" data-team="bride">
+                <div class="team-name">Команда невесты</div>
+                <div class="team-desc">За Анну, антураж и романтику!</div>
+              </div>
             </div>
-            <div class="team-score-card team-score-bride">
-              <div class="score-type">Средний</div>
-              <div class="score-value" id="avg-bride-score">0</div>
-              <div class="score-label">Команда невесты</div>
+            <button id="start-btn">Сначала выберите команду</button>
+          </div>
+
+          <!-- ШАГ 2: ВИКТОРИНА -->
+          <div id="quiz" class="quiz">
+            <h2>
+              Квиз: команда <span id="current-team-name"></span>
+              <span style="font-size:14px;color:#886e65;"> — <span id="quiz-progress">0/10</span></span>
+            </h2>
+            <div class="progress-bar">
+              <div class="progress-bar-fill" id="progress-fill"></div>
             </div>
+            <div id="question"></div>
+            <div id="options"></div>
+          </div>
+
+          <!-- ШАГ 3: РЕЗУЛЬТАТ + ЛИДЕРБОРД + ИТОГОВЫЕ СЧЁТЫ -->
+          <div id="result" class="result">
+            <div class="leaderboard">
+              <h3>Лидеры по командам</h3>
+              <table id="leaderboard-table">
+                <thead>
+                  <tr>
+                    <th>Команда</th>
+                    <th>Имя гостя</th>
+                    <th>Счёт</th>
+                  </tr>
+                </thead>
+                <tbody></tbody>
+              </table>
+            </div>
+
+            <!-- СРЕДНИЙ СЧЁТ КОМАНД -->
+            <div class="team-scores">
+              <div class="team-scores-header">
+                <h3>Средний счёт по командам</h3>
+              </div>
+              <div class="team-scores">
+                <div class="team-score-card team-score-groom">
+                  <div class="score-type">Средний</div>
+                  <div class="score-value" id="avg-groom-score">0</div>
+                  <div class="score-label">Команда жениха</div>
+                </div>
+                <div class="team-score-card team-score-bride">
+                  <div class="score-type">Средний</div>
+                  <div class="score-value" id="avg-bride-score">0</div>
+                  <div class="score-label">Команда невесты</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- СУММА ОЧКОВ КОМАНД -->
+            <div class="team-scores">
+              <div class="team-scores-header">
+                <h3>Сумма очков по командам</h3>
+              </div>
+              <div class="team-scores">
+                <div class="team-score-card team-score-groom">
+                  <div class="score-type">Сумма</div>
+                  <div class="score-value" id="sum-groom-score
+                  <div class="score-label">Команда жениха</div>
+                </div>
+                <div class="team-score-card team-score-bride">
+                  <div class="score-type">Сумма</div>
+                  <div class="score-value" id="sum-bride-score">0</div>
+                  <div class="score-label">Команда невесты</div>
+                </div>
+              </div>
+            </div>
+
+            <button id="restart-btn" class="restart-btn">Начать заново</button>
           </div>
         </div>
-
-        <!-- СУММА ОЧКОВ КОМАНД -->
-        <div class="team-scores">
-          <div class="team-scores-header">
-            <h3>Сумма очков по командам</h3>
-          </div>
-          <div class="team-scores">
-            <div class="team-score-card team-score-groom">
-              <div class="score-type">Сумма</div>
-              <div class="score-value" id="sum-groom-score">0</div>
-              <div class="score-label">Команда жениха</div>
-            </div>
-            <div class="team-score-card team-score-bride">
-              <div class="score-type">Сумма</div>
-              <div class="score-value" id="sum-bride-score">0</div>
-              <div class="score-label">Команда невесты</div>
-            </div>
-          </div>
-        </div>
-
-        <button id="restart-btn" class="restart-btn">Начать заново</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- МОДАЛЬНОЕ ОКНО ВВОДА ИМЕНИ -->
-  <div id="name-modal" class="name-modal">
-    <div class="name-modal-content">
-      <h3>Как вас зовут?</h3>
-      <p>Введите имя, чтобы оно появилось в лидерборде.</p>
-      <input type="text" id="input-name" class="name-input" placeholder="Ваше имя" maxlength="30">
-      <div class="name-modal-footer">
-        <button id="name-cancel" class="name-cancel">Отмена</button>
-<button id="name-confirm" class="name-btn">Подтвердить</button>
       </div>
     </div>
-  </div>
 
-  <!-- ПОЗДРАВЛЕНИЕ С ФЕЙЕРВЕРКОМ -->
-  <div id="fireworks-modal" class="fireworks-modal">
-    <div class="fireworks-modal-content">
-      <h3>🎁 Вау, вы нас так хорошо знаете!</h3>
-      <p>Спасибо, что вы есть у нас на свадьбе.<br>Вы — особенный гость нашей большой любви… 💖</p>
-      <button id="close-fireworks">Понять, что вы — лучшие! 💕</button>
+    <!-- МОДАЛЬНОЕ ОКНО ВВОДА ИМЕНИ -->
+    <div id="name-modal" class="name-modal">
+      <div class="name-modal-content">
+        <h3>Как вас зовут?</h3>
+        <p>Введите имя, чтобы оно появилось в лидерборде.</p>
+        <input type="text" id="input-name" class="name-input" placeholder="Ваше имя" maxlength="30">
+        <div class="name-modal-footer">
+          <button id="name-cancel" class="name-cancel">Отмена</button>
+          <button id="name-confirm" class="name-btn">Подтвердить</button>
+        </div>
+      </div>
     </div>
-  </div>
+
+    <!-- ПОЗДРАВЛЕНИЕ С ФЕЙЕРВЕРКОМ -->
+    <div id="fireworks-modal" class="fireworks-modal">
+      <div class="fireworks-modal-content">
+        <h3>🎁 Вау, вы нас так хорошо знаете!</h3>
+        <p>Спасибо, что вы есть у нас на свадьбе.<br>Вы — особенный гость нашей большой любви… 💖</p>
+        <button id="close-fireworks">Понять, что вы — лучшие! 💕</button>
+      </div>
+    </div>
   </div>
 </section>
     <!-- Controls -->
