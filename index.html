@@ -1225,7 +1225,7 @@ header { z-index: 1001 !important; }
             box-shadow: 0 10px 30px rgba(0,0,0,0.1); font-family: inherit; font-size: 1rem;
             user-select: none; position: relative; overflow: visible;">
             <div style="font-size: 3rem; margin-bottom: 1.2rem; transition: all 0.3s ease;">🤵‍♂️</div>
-            <div class="team-name" style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.8rem; color: #333;">Команда Игоря</div>
+            <div class="team-name" style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.8rem; color: #333;">Команда Жениха</div>
             <div style="color: #666; font-size: 1.1rem; font-weight: 500;">За жениха и точность!</div>
           </button>
         </div>
@@ -1238,7 +1238,7 @@ header { z-index: 1001 !important; }
             box-shadow: 0 10px 30px rgba(0,0,0,0.1); font-family: inherit; font-size: 1rem;
             user-select: none; position: relative; overflow: visible;">
             <div style="font-size: 3rem; margin-bottom: 1.2rem; transition: all 0.3s ease;">👰‍♀️</div>
-            <div class="team-name" style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.8rem; color: #333;">Команда Марии</div>
+            <div class="team-name" style="font-size: 1.5rem; font-weight: 700; margin-bottom: 0.8rem; color: #333;">Команда Невесты</div>
             <div style="color: #666; font-size: 1.1rem; font-weight: 500;">За невесту и романтику!</div>
           </button>
         </div>
@@ -1278,14 +1278,14 @@ header { z-index: 1001 !important; }
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
       <div style="background: linear-gradient(135deg, #e8f5e8, #c8e6c9); padding: 2rem; border-radius: 20px; box-shadow: var(--shadow);">
         <div style="font-size: 0.95rem; opacity: 0.9; margin-bottom: 0.5rem;">Средний счёт</div>
-        <div id="avg-groom" style="font-size: 2.5rem; font-weight: 700; color: #2e7d32;">0</div>
-        <div style="font-weight: 600;">Команда Игоря</div>
+        <div id="avg-groom" style="font-size: 2.5rem; font-weight: 700; color: #2196f3;">0</div>
+        <div style="font-weight: 600;">Команда Жениха</div>
         <div id="count-groom" style="font-size: 0.85rem; opacity: 0.8;">0 игроков</div>
       </div>
       <div style="background: linear-gradient(135deg, #fce4ec, #f8bbd9); padding: 2rem; border-radius: 20px; box-shadow: var(--shadow);">
         <div style="font-size: 0.95rem; opacity: 0.9; margin-bottom: 0.5rem;">Средний счёт</div>
         <div id="avg-bride" style="font-size: 2.5rem; font-weight: 700; color: #c2185b;">0</div>
-        <div style="font-weight: 600;">Команда Марии</div>
+        <div style="font-weight: 600;">Команда Невесты</div>
         <div id="count-bride" style="font-size: 0.85rem; opacity: 0.8;">0 игроков</div>
       </div>
     </div>
@@ -1386,7 +1386,7 @@ function init() {
       startBtn.style.opacity = '1';
       startBtn.style.cursor = 'pointer';
       startBtn.style.background = 'var(--gradient)';
-      startBtn.innerHTML = `🚀 Начать за команду ${currentTeam === 'groom' ? 'Игоря' : 'Марии'}`;
+      startBtn.innerHTML = `🚀 Начать за команду ${currentTeam === 'groom' ? 'Жениха' : 'Невесты'}`;
     });
 
     // Ховер эффект
@@ -1472,7 +1472,7 @@ function startQuiz() {
   console.log('Старт викторины для:', playerName, currentTeam);
   welcomeEl.style.display = 'none';
   mainEl.style.display = 'block';
-  teamNameEl.textContent = currentTeam === 'groom' ? 'Игоря' : 'Марии';
+  teamNameEl.textContent = currentTeam === 'groom' ? 'Жениха' : 'Невесты';
   currentQuestion = 0;
   score = 0;
   showQuestion();
@@ -1620,7 +1620,7 @@ function updateLeaderboard(leaders) {
       <div style="display: flex; align-items: center; gap: 0.8rem; flex: 1;">
         <span style="font-weight: 700; font-size: 1.2rem; min-width: 25px; background: var(--accent); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">${i+1}</span>
         <span style="font-weight: 600; max-width: 150px; overflow: hidden; text-overflow: ellipsis; color: #333;">${r.name}</span>
-        <span style="font-size: 0.85rem; color: var(--text-light); padding: 0.3rem 0.8rem; background: ${r.team === 'igor' ? '#e3f2fd' : '#fce4ec'}; border-radius: 15px; font-weight: 500;">${r.team === 'igor' ? 'Игорь' : 'Мария'}</span>
+        <span style="font-size: 0.85rem; color: var(--text-light); padding: 0.3rem 0.8rem; background: ${r.team === 'igor' ? '#e3f2fd' : '#fce4ec'}; border-radius: 15px; font-weight: 500;">${r.team === 'igor' ? 'Жених' : 'Невеста'}</span>
       </div>
       <span style="font-weight: 700; color: var(--accent); font-size: 1.2rem; min-width: 60px; text-align: right;">${r.score}/10</span>
     </div>
