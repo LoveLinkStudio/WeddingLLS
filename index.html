@@ -1674,7 +1674,23 @@ function resetQuiz() {
 
 // Старт
 if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', init);
+  document.addEventListener('DOMContentLoaded', () => {
+    // ждём, пока DOM‑элементы появятся
+    function waitForDOM() {
+      const avgGroomEl = document.getElementById('avg-groom');
+      const avgBrideEl = document.getElementById('avg-bride');
+
+      if (!avgGroomEl || !avgBrideEl) {
+        console.log('avg-groom / avg-bride not found yet, retry');
+        setTimeout(waitForDOM, 50);
+        return;
+      }
+
+      console.log('✅ DOM ready, init');
+      init();
+    }
+    waitForDOM();
+  });
 } else {
   init();
 }
