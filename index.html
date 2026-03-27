@@ -1442,15 +1442,20 @@ function waitForElements() {
     const avgBrideEl = document.getElementById('avg-bride');
 
     if (!avgGroomEl || !avgBrideEl) {
-      setTimeout(waitForElements, 50); // попробовать снова через 50 мс
-      return;
-    }
-
-    console.log('Элементы найдены, запускаю listenToStats');
-    listenToStats();
+    console.warn('avg-groom / avg-bride not found yet, scheduling retry');
+    setTimeout(init, 50); // запустить init снова через 50 мс
+    return;
   }
 
-  waitForElements();
+  // Дальше выполняем всё, как обычно
+  const teamElements = document.querySelectorAll('.quiz-team');
+  // ... твой код initialize ...
+
+  console.log('✅ Section loaded, DOM is ready');
+
+  // Теперь уже можно запускать Firebase‑подписки
+  listenToLeaderboard();
+  listenToStats();
 }
 function showNameModal() {
   console.log('Показываем модалку имени, команда:', currentTeam);
