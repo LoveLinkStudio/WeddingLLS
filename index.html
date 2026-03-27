@@ -1572,6 +1572,7 @@ function listenToLeaderboard() {
           leaders.unshift(r);
         }
       });
+        allResultsForStats = results;
 
       console.log('LEADERS (все 7+):', leaders); // ← увидишь 3 и больше
       updateLeaderboard(leaders);
@@ -1579,38 +1580,30 @@ function listenToLeaderboard() {
 }
 
 function listenToStats() {
-  db.ref('quiz_results').on('value', (snapshot) => {
-    const results = [];
-    snapshot.forEach(child => results.push(child.val()));
-    console.log('📊 ALL RESULTS:', results);  // ← Выводим ВСЕ данные
-    console.log('Team values:', results.map(r => r.team)); // ← Выводим все team
-    // Фильтруем по командам
-    const igorResults = results.filter(r => r.team === 'igor');
-    const mariaResults = results.filter(r => r.team === 'maria');
-    
-    console.log('igorResults:', igorResults.length);
-    console.log('mariaResults:', mariaResults.length, mariaResults);
-    // Средний балл
-    const avgIgor = igorResults.length
-      ? Math.round(igorResults.reduce((s, r) => s + r.score, 0) / igorResults.length)
-      : 0;
-    const avgMaria = mariaResults.length
-      ? Math.round(mariaResults.reduce((s, r) => s + r.score, 0) / mariaResults.length)
-      : 0;
-    
-    // DOM-элементы (с проверкой null)
-    const avgGroomEl = document.getElementById('avg-groom');
-    const countGroomEl = document.getElementById('count-groom');
-    const avgBrideEl = document.getElementById('avg-bride');
-    const countBrideEl = document.getElementById('count-bride');
+  // Подписываемся на `quiz_results` и обновляем средний балл
+  db.ref('quiz_results')
+    .on('value', () => {
+      const igorResults = allResultsForStats.filter(r => r.team === 'igor');
+      const mariaResults = allResultsForStats.filter(r => r.team === 'maria');
 
-    if (avgGroomEl) avgGroomEl.textContent = avgIgor;
-    if (countGroomEl) countGroomEl.textContent = igorResults.length + ' игроков';
-    if (avgBrideEl) avgBrideEl.textContent = avgMaria;
-    if (countBrideEl) countBrideEl.textContent = mariaResults.length + ' игроков';
-  });
+      const avgIgor = igorResults.length
+        ? Math.round(igorResults.reduce((s, r) => s + r.score, 0) / igorResults.length)
+        : 0;
+      const avgMaria = mariaResults.length
+        ? Math.round(mariaResults.reduce((s, r) => s + r.score, 0) / mariaResults.length)
+        : 0;
+
+      const avgGroomEl = document.getElementById('avg-groom');
+      const avgBrideEl = document.getElementById('avg-bride');
+      const countGroomEl = document.getElementById('count-groom');
+      const countBrideEl = document.getElementById('count-bride');
+
+      if (avgGroomEl) avgGroomEl.textContent = avgIgor;
+      if (avgBrideEl) avgBrideEl.textContent = avgMaria;
+      if (countGroomEl) countGroomEl.textContent = igorResults.length + ' игроков';
+      if (countBrideEl) countBrideEl.textContent = mariaResults.length + ' игроков';
+    });
 }
-
 function updateLeaderboard(leaders) {
   if (!leaders.length) {
     leaderboardEl.innerHTML = '<div style="padding: 1.5rem; color: var(--text-light); font-style: italic;">⏳ Ждём первых чемпионов...</div>';
@@ -1843,6 +1836,7 @@ if (document.readyState === 'loading') {
 
     <script>
         // Сохраненные функции из оригинального кода
+        let allResultsForStats = [];
         let entries = JSON.parse(localStorage.getItem('weddingEntries') || '[]');
         let confirmedCount = 0;
         let isNightMode = false;
