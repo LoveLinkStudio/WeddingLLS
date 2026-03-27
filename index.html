@@ -1437,7 +1437,21 @@ function init() {
   });
 }
     
+function waitForElements() {
+    const avgGroomEl = document.getElementById('avg-groom');
+    const avgBrideEl = document.getElementById('avg-bride');
 
+    if (!avgGroomEl || !avgBrideEl) {
+      setTimeout(waitForElements, 50); // попробовать снова через 50 мс
+      return;
+    }
+
+    console.log('Элементы найдены, запускаю listenToStats');
+    listenToStats();
+  }
+
+  waitForElements();
+}
 function showNameModal() {
   console.log('Показываем модалку имени, команда:', currentTeam);
   if (!currentTeam) {
