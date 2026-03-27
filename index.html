@@ -1543,11 +1543,20 @@ function finishQuiz() {
 }
 
 function listenToLeaderboard() {
-  db.ref('quiz_results').orderByChild('score').limitToLast(10).startAt(7).on('value', (snapshot) => {
-    const leaders = [];
-    snapshot.forEach(child => leaders.unshift(child.val()));
-    updateLeaderboard(leaders);
-  });
+  db.ref('quiz_results')
+    .orderByChild('score')
+    .on('value', (snapshot) => {
+      const leaders = [];
+      snapshot.forEach(child => {
+        const r = child.val();
+        if (r.score >= 7) {
+          leaders.unshift(r);
+        }
+      });
+
+      console.log('LEADERS (все 7+):', leaders); // ← увидишь 3 и больше
+      updateLeaderboard(leaders);
+    });
 }
 
 function listenToStats() {
