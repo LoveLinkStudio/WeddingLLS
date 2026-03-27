@@ -165,7 +165,42 @@
             background: var(--text-dark);
             transition: 0.3s;
         }    
+/* Изоляция основного сайта */
+body:not(.quiz-body) {
+  display: block !important; /* Отмена flex для всего сайта */
+}
 
+/* Викторина в своей секции */
+.quiz-section {
+  background: #fdfbf7;
+  padding: 80px 0; /* Как другие .section */
+  min-height: 100vh;
+}
+
+.quiz-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.quiz-body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  perspective: 1000px;
+}
+
+.container {
+  max-width: 720px;
+  width: 100%;
+  background: #fff;
+  border-radius: 20px;
+  box-shadow: 0 16px 40px rgba(0,0,0,0.15);
+  overflow: hidden;
+  border: 1px solid #e9dcd5;
+}
         /* Hero Section - Минималистичный */
         .hero {
   height: 100vh;
@@ -1414,7 +1449,7 @@ header { z-index: 1001 !important; }
                 <li><a href="#schedule" class="nav-link">Тайминг</a></li>
                 <li><a href="#location" class="nav-link">Место</a></li>
                 <li><a href="#rsvp" class="nav-link">Подтвердить</a></li>
-                <li><a href="#quiz-container">🎮 Квиз</a></li>
+                <li><a href="#quiz" class="nav-link">🎮 Квиз</a></li>
             </ul>
             <button class="mobile-menu-btn" id="mobileMenuBtn">
                 <span></span><span></span><span></span>
@@ -1714,9 +1749,11 @@ header { z-index: 1001 !important; }
         </button>
     </form>
 </section>
-    <section class="section" style="background: #fdfbf7; padding: 40px 0;">
-  <div style="max-width: 800px; margin: 0 auto;">
-    <div class="container">
+    <section id="quiz" class="section quiz-section">
+  <h2 class="section-title" data-aos="fade-up">Викторина для гостей</h2>
+  <div class="quiz-container">
+    <div class="quiz-body">
+      <div class="container">
     <header>
       <h1>Квиз Анны и Максима</h1>
       <p class="subtitle">
