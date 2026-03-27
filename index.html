@@ -1427,7 +1427,7 @@ function init() {
   restartBtn.addEventListener('click', resetQuiz);
   
   // Real-time Firebase — лидерборд и статистика всегда обновляются
-  listenToLeaderboard();
+  Leaderboard();
   listenToStats();
   
   // Фокус на инпуте
@@ -1566,21 +1566,24 @@ function listenToLeaderboard() {
     .orderByChild('score')
     .on('value', (snapshot) => {
       const leaders = [];
+      const results = [];  // ← объявляем внутри
+
       snapshot.forEach(child => {
         const r = child.val();
+        results.push(r);
         if (r.score >= 7) {
           leaders.unshift(r);
         }
       });
-        allResultsForStats = results;
 
-      console.log('LEADERS (все 7+):', leaders); // ← увидишь 3 и больше
+      allResultsForStats = results;  // ← присваиваем
+
+      console.log('LEADERS (все 7+):', leaders);
       updateLeaderboard(leaders);
     });
 }
 
 function listenToStats() {
-  // Подписываемся на `quiz_results` и обновляем средний балл
   db.ref('quiz_results')
     .on('value', () => {
       const igorResults = allResultsForStats.filter(r => r.team === 'igor');
@@ -1602,6 +1605,8 @@ function listenToStats() {
       if (avgBrideEl) avgBrideEl.textContent = avgMaria;
       if (countGroomEl) countGroomEl.textContent = igorResults.length + ' игроков';
       if (countBrideEl) countBrideEl.textContent = mariaResults.length + ' игроков';
+
+      console.log('📊 stats igor:', avgIgor, 'maria:', avgMaria);
     });
 }
 function updateLeaderboard(leaders) {
