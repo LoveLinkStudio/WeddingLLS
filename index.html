@@ -11,7 +11,22 @@
     <script src="https://api-maps.yandex.ru/2.1/?apikey=ваш-api-ключ-yandex-maps&lang=ru_RU" type="text/javascript"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
-    
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+    <script>
+  const rsvpFirebaseConfig = {
+    apiKey: "AIzaSyC2zHfSvobeo0cpVVtUy0iPur2aoTE-1lA",
+    authDomain: "weddingllsezhunov.firebaseapp.com",
+    databaseURL: "https://weddingllsezhunov-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "weddingllsezhunov",
+    storageBucket: "weddingllsezhunov.firebasestorage.app",
+    messagingSenderId: "838708765760",
+    appId: "1:838708765760:web:2844d915fc5fa7b91ceba5"
+  };
+  
+  firebase.initializeApp(rsvpFirebaseConfig);
+  const rsvpDb = firebase.database();
+</script>
     <style>
         :root {
             /* Пастельная романтическая палитра */
@@ -1722,7 +1737,6 @@ if (document.readyState === 'loading') {
     <!-- RSVP - НЕ В КОНЦЕ -->
     <section id="rsvp" class="section">
     <h2 class="section-title" data-aos="fade-up">Подтверждение участия</h2>
-        
     <form class="rsvp-form" id="rsvpForm" data-aos="zoom-in">
         <div class="form-row">
             <div class="form-group">
@@ -1801,9 +1815,7 @@ if (document.readyState === 'loading') {
                 📥 Экспорт в Excel
             </button>
             
-            <div class="entries-list" id="entriesList">
-  <div id="rsvpEntriesList"></div> <!-- Новый список для RSVP из Firebase -->
-</div>
+            <div class="entries-list" id="entriesList"></div>
             
             <button id="clearAllBtn" class="submit-btn" style="background: linear-gradient(135deg, #ff4757, #ff3742); margin-top: 1.5rem;">
                 🗑️ Очистить все данные
@@ -1843,23 +1855,6 @@ if (document.readyState === 'loading') {
     </footer>
 
     <script>
-// ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← 
-// ГЛОБАЛЬНЫЙ FIREBASE CONFIG (ДОБАВИТЬ ЗДЕСЬ ПЕРВЫМ!!!)
-const firebaseConfig = {
-  apiKey: "AIzaSyC2zHfSvobeo0cpVVtUy0iPur2aoTE-1lA",
-  authDomain: "weddingllsezhunov.firebaseapp.com",
-  databaseURL: "https://weddingllsezhunov-default-rtdb.europe-west1.firebasedatabase.app/",
-  projectId: "weddingllsezhunov",
-  storageBucket: "weddingllsezhunov.firebasestorage.app",
-  messagingSenderId: "838708765760",
-  appId: "1:838708765760:web:2844d915fc5fa7b91ceba5"
-};
-firebase.initializeApp(firebaseConfig);
-const db = firebase.database();  // ГЛОБАЛЬНАЯ переменная для всех форм!
-// ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← ← 
-
-// ... остальной код остается без изменений
-        
         // Сохраненные функции из оригинального кода
         let allResultsForStats = [];
         let entries = JSON.parse(localStorage.getItem('weddingEntries') || '[]');
@@ -1911,8 +1906,7 @@ const db = firebase.database();  // ГЛОБАЛЬНАЯ переменная д
             setInterval(updateCountdown, 1000);
         }
 
-        // 4. RSVP Form
-        <!-- 4. Заменить функцию initRSVPForm полностью (найти в script в конце файла) -->
+        // 4. RSVP Form с Firebase
 function initRSVPForm() {
   const form = document.getElementById('rsvpForm');
   form.addEventListener('submit', e => {
@@ -1925,25 +1919,42 @@ function initRSVPForm() {
       phone: document.getElementById('phone').value,
       preferences: document.getElementById('preferences').value,
       wishes: document.getElementById('wishes').value,
-      timestamp: new Date().toISOString()
+      timestamp: firebase.database.ServerValue.TIMESTAMP,
+      confirmed: document.getElementById('attendance').value === 'yes' ? 1 : 0
     };
-    
-    // Сохранить в Firebase вместо localStorage
-    db.ref('rsvpEntries').push(entry)
+
+    // Сохраняем в Firebase вместо localStorage
+    rsvpDb.ref('rsvpEntries').push(entry)
       .then(() => {
         showNotification('✅ RSVP отправлен! Спасибо!');
         form.reset();
         createFloatingHeart();
-        loadAdminEntries(); // Обновить админ панель
+        launchConfetti();
+        updateGuestCounter(); // Обновляем счетчик из Firebase
       })
-      .catch(err => showNotification('❌ Ошибка: ' + err.message, 'error'));
+      .catch(error => {
+        showNotification('❌ Ошибка отправки!', 'error');
+        console.error('Firebase error:', error);
+      });
   });
 }
 
-        // 5. Guest Counter
-        function updateGuestCounter() {
-  const el = document.getElementById('confirmedCount');
-  if (el) el.textContent = confirmedCount;
+       // 5. Guest Counter из Firebase
+function updateGuestCounter() {
+  const guestCounterEl = document.querySelector('.guest-counter'); // Если есть элемент с счетчиком
+  rsvpDb.ref('rsvpEntries').once('value')
+    .then(snapshot => {
+      let confirmedCount = 0;
+      snapshot.forEach(child => {
+        if (child.val().attendance === 'yes' || child.val().confirmed === 1) {
+          confirmedCount++;
+        }
+      });
+      if (guestCounterEl) {
+        guestCounterEl.innerHTML = `Подтверждено гостей: <strong>${confirmedCount}</strong>`;
+      }
+      window.confirmedCount = confirmedCount; // Для админки
+    });
 }
 
         // 6. Floating Hearts
@@ -2015,89 +2026,82 @@ launchConfetti();
                 document.querySelector('.mode-toggle i').className = 'fas fa-sun';
             }
         }
-        // 8. Обновленная функция initAdminPanel() - заменить полностью
-function initAdminPanel() {
-    const adminBtn = document.getElementById('adminBtn');
-    const adminPanel = document.getElementById('adminPanel');
-    const closeAdmin = document.getElementById('closeAdmin');
-    const loginBtn = document.getElementById('adminLoginBtn');
-    const passInput = document.getElementById('adminPassInput');
+        // 8. Admin Panel
+        function initAdminPanel() {
+            const adminBtn = document.getElementById('adminBtn');
+            const adminPanel = document.getElementById('adminPanel');
+            const closeAdmin = document.getElementById('closeAdmin');
+            const loginBtn = document.getElementById('adminLoginBtn');
+            const passInput = document.getElementById('adminPassInput');
 
-    adminBtn.addEventListener('click', () => {
-        adminPanel.classList.toggle('open');
-        if (adminPanel.classList.contains('open')) {
-            loadAdminEntries(); // Загрузка при открытии панели
-        }
-    });
-
-    closeAdmin.addEventListener('click', () => {
-        adminPanel.classList.remove('open');
-    });
-
-    loginBtn.addEventListener('click', () => {
-        if (passInput.value === adminPassword) {
-            document.getElementById('adminPassword').style.display = 'none';
-            document.getElementById('adminContent').style.display = 'block';
-            loadAdminEntries(); // Загрузка после входа
-        } else {
-            showNotification('❌ Неверный пароль!', 'error');
-        }
-        passInput.value = '';
-    });
-
-    passInput.addEventListener('keypress', e => {
-        if (e.key === 'Enter') loginBtn.click();
-    });
-
-    // Real-time обновление RSVP каждые 5 сек после входа
-    let updateInterval;
-    const adminContent = document.getElementById('adminContent');
-    const observer = new MutationObserver(() => {
-        if (adminContent.style.display === 'block' && !updateInterval) {
-            updateInterval = setInterval(loadAdminEntries, 5000); // Обновление каждые 5 сек
-        }
-    });
-    observer.observe(adminContent, { attributes: true, attributeFilter: ['style'] });
-}
-        // 9. Load Admin Entries
-        function loadAdminEntries() {
-            const list = document.getElementById('entriesList');
-            const total = document.getElementById('totalEntries');
-            const confirmed = document.getElementById('adminConfirmed');
-            const declined = document.getElementById('adminDeclined');
-           document.getElementById('generateQR').addEventListener('click', () => {
-  entries.forEach(entry => {
-    const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${window.location.href}?guest=${entry.id}`;
-    window.open(qrUrl);
-  });
-}); 
-            list.innerHTML = '';
-            let conf = 0, dec = 0;
-            
-            entries.forEach(entry => {
-                const item = document.createElement('div');
-                item.className = 'entry-item';
-                item.innerHTML = `
-                    <strong>${entry.name}</strong> (${entry.count})<br>
-                    <small>${new Date(entry.timestamp).toLocaleString('ru-RU')}</small><br>
-                    <span style="color: ${entry.attendance === 'yes' ? '#27ae60' : '#e74c3c'}">
-                        ${entry.attendance === 'yes' ? '✅ Приедет' : '❌ Не приедет'}
-                    </span><br>
-                    Телефон: ${entry.phone || '—'}<br>
-                    <em>${entry.preferences || '—'}</em>
-                    <em>${entry.wishes}</em>
-                `;
-                list.appendChild(item);
-                
-                if (entry.attendance === 'yes') conf++;
-                else if (entry.attendance === 'no') dec++;
+            adminBtn.addEventListener('click', () => {
+                adminPanel.classList.toggle('open');
             });
-            
-            total.textContent = entries.length;
-            confirmed.textContent = conf;
-            declined.textContent = dec;
+
+            closeAdmin.addEventListener('click', () => {
+                adminPanel.classList.remove('open');
+            });
+
+            loginBtn.addEventListener('click', () => {
+                if (passInput.value === adminPassword) {
+                    document.getElementById('adminPassword').style.display = 'none';
+                    document.getElementById('adminContent').style.display = 'block';
+                    loadAdminEntries();
+                } else {
+                    showNotification('❌ Неверный пароль!', 'error');
+                }
+                passInput.value = '';
+            });
+
+            passInput.addEventListener('keypress', e => {
+                if (e.key === 'Enter') loginBtn.click();
+            });
         }
 
+        // 9. Load Admin Entries из Firebase
+function loadAdminEntries() {
+  const list = document.getElementById('entriesList');
+  const totalEl = document.getElementById('totalEntries');
+  const confirmedEl = document.getElementById('adminConfirmed');
+  const declinedEl = document.getElementById('adminDeclined');
+  
+  rsvpDb.ref('rsvpEntries').once('value')
+    .then(snapshot => {
+      const entries = [];
+      let conf = 0, dec = 0;
+      
+      snapshot.forEach(child => {
+        const entry = child.val();
+        entries.push(entry);
+        if (entry.attendance === 'yes' || entry.confirmed === 1) conf++;
+        else if (entry.attendance === 'no') dec++;
+      });
+
+      list.innerHTML = '';
+      entries.forEach(entry => {
+        const item = document.createElement('div');
+        item.className = 'entry-item';
+        item.innerHTML = `
+          <strong>${entry.name}</strong> (${entry.count} чел.)<br>
+          <small>${entry.phone}</small><br>
+          <span style="color: ${entry.attendance === 'yes' ? '#27ae60' : '#e74c3c'}">
+            ${entry.attendance === 'yes' ? '✅ Приедет' : '❌ Не приедет'}
+          </span><br>
+          <em>${entry.preferences}</em><br>
+          <em>"${entry.wishes}"</em>
+        `;
+        list.appendChild(item);
+      });
+
+      totalEl.textContent = entries.length;
+      confirmedEl.textContent = conf;
+      declinedEl.textContent = dec;
+    })
+    .catch(error => {
+      console.error('Firebase load error:', error);
+      list.innerHTML = '<div style="color: red;">Ошибка загрузки данных</div>';
+    });
+}
         // 10. Notification
         function showNotification(message, type = 'success') {
             const notification = document.getElementById('notification');
@@ -2243,6 +2247,7 @@ function initVneorbitnyeMusic() {
             initProgressBar();
             initCountdown();
             initRSVPForm();
+            updateGuestCounter();
             initAdminPanel();
             initMobileMenu();
             initNightMode();
@@ -2250,7 +2255,7 @@ function initVneorbitnyeMusic() {
             initMap();
             initExportExcel();
             initClearEntries();
-            updateGuestCounter();
+            
             
             // Auto hearts
             setInterval(createFloatingHeart, 10000);
@@ -2274,6 +2279,5 @@ document.addEventListener('DOMContentLoaded', function() {
   initBgVideo(); // ДОБАВИЛИ!
 });
     </script>
-    
 </body>
 </html>
