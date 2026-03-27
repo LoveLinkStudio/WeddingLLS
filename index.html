@@ -1185,7 +1185,10 @@ header { z-index: 1001 !important; }
     </div>
 </section>
 <!-- Викторина для Игоря и Марии с Firebase + МОДАЛЬНОЕ ОКНО ИМЕНИ -->
-<link rel="stylesheet" href="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js">
+
+<!-- Подключение Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 
 <!-- Викторина для Игоря и Марии -->
 <section id="quiz-section" class="section" style="background: linear-gradient(135deg, var(--accent-light), var(--primary)); text-align: center; border-radius: 30px; border: var(--border);">
@@ -1200,7 +1203,7 @@ header { z-index: 1001 !important; }
       <p style="margin: 0.5rem 0 0; opacity: 0.9;">10 вопросов • Онлайн лидерборд • Реальное время</p>
     </div>
 
-    <!-- ✅ ИСПРАВЛЕННЫЕ КНОПКИ - теперь <button> внутри <div> -->
+    <!-- ✅ ИСПРАВЛЕННЫЕ КНОПКИ -->
     <div id="quiz-welcome" style="padding: 3rem; text-align: center;">
       <h4 style="font-size: 1.5rem; margin-bottom: 2rem; color: var(--dark);">Выберите свою команду:</h4>
       <div style="display: flex; gap: 2rem; justify-content: center; margin-bottom: 2rem; flex-wrap: wrap;">
@@ -1235,7 +1238,7 @@ header { z-index: 1001 !important; }
       <button id="quiz-start" class="cta-button" style="padding: 1.2rem 3rem; font-size: 1.1rem; cursor: not-allowed; opacity: 0.6; background: #ccc; border: none; border-radius: 15px; font-weight: 600;" disabled>Выберите команду</button>
     </div>
 
-    <!-- Остальной код БЕЗ ИЗМЕНЕНИЙ -->
+    <!-- Основной экран викторины -->
     <div id="quiz-main" style="padding: 3rem; display: none;">
       <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; font-weight: 600; flex-wrap: wrap; gap: 1rem;">
         <span style="font-size: 1.1rem;">Команда: <span id="quiz-team-name" style="color: var(--accent); font-weight: 700; font-size: 1.2rem;"></span></span>
@@ -1282,7 +1285,6 @@ header { z-index: 1001 !important; }
 
 <!-- МОДАЛЬНОЕ ОКНО - убрал backdrop-filter -->
 <div id="name-modal" class="name-modal" style="position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 10000;">
-  <!-- остальной код модалки без изменений -->
   <div class="name-modal-content" style="background: white; border-radius: 25px; box-shadow: 0 25px 60px rgba(0,0,0,0.3); padding: 3rem 2.5rem; max-width: 450px; width: 90%; text-align: center; border: var(--border);">
     <h3 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--dark); margin-bottom: 1rem;">✨ Представьтесь, пожалуйста!</h3>
     <p style="color: var(--text-light); margin-bottom: 2rem; line-height: 1.5;">Введите ваше имя — оно появится в общем лидерборде для всех гостей!</p>
@@ -1294,9 +1296,8 @@ header { z-index: 1001 !important; }
   </div>
 </div>
 
-<!-- СКРИПТ БЕЗ ИЗМЕНЕНИЙ - JavaScript уже правильный! -->
+<!-- Скрипт викторины -->
 <script>
-/* Весь JavaScript код остается точно таким же - он уже работает правильно */
 const firebaseConfig = {
   apiKey: "AIzaSyC2zHfSvobeo0cpVVtUy0iPur2aoTE-1lA",
   authDomain: "weddingllsezhunov.firebaseapp.com",
@@ -1346,14 +1347,13 @@ const restartBtn = document.getElementById('quiz-restart');
 // Инициализация
 function init() {
   userId = 'guest_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-  
-  // ✅ ИСПРАВЛЕННАЯ ЛОГИКА ВЫБОРА КОМАНДЫ
+
   const teamElements = document.querySelectorAll('.quiz-team');
-  
-  teamElements.forEach((team, index) => {
-    team.addEventListener('click', function(e) {
-      console.log('Команда кликнута:', this.dataset.team); // DEBUG
-      
+
+  teamElements.forEach((team) => {
+    team.addEventListener('click', function () {
+      console.log('Команда кликнута:', this.dataset.team);
+
       // Сбрасываем все команды
       teamElements.forEach(t => {
         t.style.borderColor = '#e0e0e0';
@@ -1361,7 +1361,7 @@ function init() {
         t.style.transform = 'scale(1)';
         t.querySelector('div').style.transform = 'scale(1)';
       });
-      
+
       // Активируем выбранную
       this.style.borderColor = 'var(--accent)';
       this.style.boxShadow = '0 20px 40px rgba(215, 185, 213, 0.4)';
@@ -1369,17 +1369,15 @@ function init() {
       this.querySelector('div').style.transform = 'scale(1.1)';
       
       currentTeam = this.dataset.team;
-      
+
       // Активируем кнопку старта
       startBtn.disabled = false;
       startBtn.style.opacity = '1';
       startBtn.style.cursor = 'pointer';
       startBtn.style.background = 'var(--gradient)';
       startBtn.innerHTML = `🚀 Начать за команду ${currentTeam === 'groom' ? 'Игоря' : 'Марии'}`;
-      
-      console.log('Текущая команда:', currentTeam); // DEBUG
     });
-    
+
     // Ховер эффект
     team.addEventListener('mouseenter', function() {
       if (!currentTeam || this.dataset.team !== currentTeam) {
@@ -1426,12 +1424,10 @@ function init() {
     nameInput.style.borderColor = 'var(--accent)';
     nameInput.style.boxShadow = '0 0 0 3px rgba(215, 185, 213, 0.2)';
   });
-  
-  console.log('✅ Викторина инициализирована'); // DEBUG
 }
 
 function showNameModal() {
-  console.log('Показываем модалку имени, команда:', currentTeam); // DEBUG
+  console.log('Показываем модалку имени, команда:', currentTeam);
   if (!currentTeam) {
     alert('Сначала выберите команду!');
     return;
@@ -1442,7 +1438,7 @@ function showNameModal() {
 }
 
 function startQuiz() {
-  console.log('Старт викторины для:', playerName, currentTeam); // DEBUG
+  console.log('Старт викторины для:', playerName, currentTeam);
   welcomeEl.style.display = 'none';
   mainEl.style.display = 'block';
   teamNameEl.textContent = currentTeam === 'groom' ? 'Игоря' : 'Марии';
@@ -1478,8 +1474,12 @@ function showQuestion() {
 
 function selectAnswer(selected, btn) {
   const q = questions[currentQuestion];
+
   const buttons = optionsEl.querySelectorAll('button');
-  buttons.forEach(b => b.disabled = true; b.style.cursor = 'not-allowed');
+  buttons.forEach(b => {
+    b.disabled = true;
+    b.style.cursor = 'not-allowed';
+  });
 
   buttons.forEach((b, i) => {
     if (i === q.correct) {
@@ -1522,7 +1522,7 @@ function finishQuiz() {
     date: new Date().toISOString()
   };
 
-  console.log('Сохраняем результат в Firebase:', result); // DEBUG
+  console.log('Сохраняем результат в Firebase:', result);
   db.ref('quiz_results').push(result);
   
   if (score >= 7) {
@@ -1638,6 +1638,7 @@ if (document.readyState === 'loading') {
 } else {
   init();
 }
+
 </script>
     <!-- RSVP - НЕ В КОНЦЕ -->
     <section id="rsvp" class="section">
