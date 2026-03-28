@@ -2682,11 +2682,10 @@ document.addEventListener('DOMContentLoaded', function() {
 function adaptVideo() {
   const video = document.getElementById('bgVideo');
   if (window.innerHeight > window.innerWidth) {
-    // Вертикальная ориентация
-    video.style.objectPosition = 'center center';  // ← ВЛЕВО(ваш выбор)right center означает что берет захват видео правую часть горизонтального видео centr centr центральную часть
+    // Вертикальная ориентация телефона
+    video.style.objectPosition = '70% center';  // ← ЧУТЬ ПРАВЕЕ ЦЕНТРА
   } else {
-    // Горизонтальная
-    video.style.objectPosition = 'center center';
+    video.style.objectPosition = '50% center';  // Центр для горизонтальной
   }
 }
 
