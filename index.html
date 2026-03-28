@@ -1906,11 +1906,14 @@ if (document.readyState === 'loading') {
             setInterval(updateCountdown, 1000);
         }
 
-        // 4. RSVP Form с Firebase
-function initRSVPForm() {
+        function initRSVPForm() {
   const form = document.getElementById('rsvpForm');
   form.addEventListener('submit', e => {
     e.preventDefault();
+    const submitBtn = form.querySelector('.submit-btn');
+    submitBtn.textContent = 'Отправляем...';
+    submitBtn.disabled = true;
+
     const entry = {
       id: Date.now(),
       name: document.getElementById('guestName').value,
@@ -1923,18 +1926,27 @@ function initRSVPForm() {
       confirmed: document.getElementById('attendance').value === 'yes' ? 1 : 0
     };
 
-    // Сохраняем в Firebase вместо localStorage
     rsvpDb.ref('rsvpEntries').push(entry)
       .then(() => {
         showNotification('✅ RSVP отправлен! Спасибо!');
         form.reset();
-        createFloatingHeart();
-        launchConfetti();
-        updateGuestCounter(); // Обновляем счетчик из Firebase
+        
+        // Безопасные эффекты
+        if (typeof createFloatingHeart === 'function') createFloatingHeart();
+        if (typeof launchConfetti === 'function') launchConfetti();
+        updateGuestCounter();
+        
+        submitBtn.textContent = 'Отправлено!';
+        setTimeout(() => {
+          submitBtn.textContent = 'Отправить RSVP';
+          submitBtn.disabled = false;
+        }, 2000);
       })
       .catch(error => {
-        showNotification('❌ Ошибка отправки!', 'error');
         console.error('Firebase error:', error);
+        showNotification('❌ Ошибка отправки!', 'error');
+        submitBtn.textContent = 'Отправить RSVP';
+        submitBtn.disabled = false;
       });
   });
 }
