@@ -1097,26 +1097,33 @@ header { z-index: 1001 !important; }
   #quiz-progress-fill {
     height: 8px !important;
   }
-  #quiz-leaderboard {
-    max-height: 150px !important;
-    font-size: 0.85rem !important;
-    padding: 0.75rem !important;
-  }
-  #quiz-leaderboard div {
-    padding: 0.6rem 0.5rem !important;
-    font-size: 0.8rem !important;
-    gap: 0.4rem !important;
-  }
-  #quiz-leaderboard span {
-    font-size: 0.75rem !important;
-    max-width: 100px !important;
-  }
-  #quiz-leaderboard > div:last-child {
-    font-size: 1rem !important;
-    min-width: 40px !important;
-  }
-  h4[style*="Топ-7"] {
-    font-size: 1.1rem !important;
+ #quiz-leaderboard {
+        max-height: 280px !important;  /* Увеличено с 150px — видно 5+ записей */
+        font-size: 0.82rem !important;
+        padding: 1rem !important;
+        overflow-y: auto !important;
+    }
+    #quiz-leaderboard div {
+        padding: 0.7rem 0.6rem !important;  /* Компактнее строки */
+        font-size: 0.78rem !important;
+        gap: 0.5rem !important;
+        min-height: 40px !important;  /* Фиксированная высота строки */
+    }
+    #quiz-leaderboard span {
+        font-size: 0.72rem !important;
+        max-width: 110px !important;
+        padding: 0.2rem 0.4rem !important;  /* Меньше отступов в тегах */
+    }
+    #quiz-leaderboard > div:last-child {
+        font-size: 1rem !important;
+        min-width: 45px !important;
+    }
+    
+    /* Блок с заголовком лидерборда тоже компактнее */
+    h4[style*="Топ-7"] {
+        font-size: 1rem !important;
+        margin-bottom: 1rem !important;
+    }
   }
   div[style*="grid-template-columns: repeat"] {
     grid-template-columns: 1fr !important;
