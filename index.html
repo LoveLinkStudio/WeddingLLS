@@ -1052,63 +1052,70 @@ header { z-index: 1001 !important; }
         font-size: 1.2rem !important;
     }
 }
-/* 🔥 LEADERBOARD — FULL WIDTH (от края до края) */
+/* 🔥 LEADERBOARD — МАКСИМАЛЬНАЯ ШИРИНА (0px отступов) */
 @media (max-width: 768px) {
     #quiz-leaderboard {
         max-height: 100vh !important;
-        max-width: 100% !important;
+        width: 100vw !important; /* Полная ширина viewport */
+        margin: 0 -1rem !important; /* Компенсация родительских отступов */
         font-size: 0.8rem !important;
-        padding: 0.8rem 0.4rem !important; /* Меньше боковых отступов */
+        padding: 0.8rem 0 !important; /* Только вертикальные */
     }
     #quiz-leaderboard > div {
-        padding: 0.6rem 0.3rem !important; /* Ещё ближе к краям */
-        margin: 0 -0.4rem 0.4rem -0.4rem !important; /* Отрицательный margin */
+        padding: 0.6rem 0.1rem !important; /* МИНИМАЛЬНЫЙ горизонтальный */
+        margin: 0 -1rem 0.4rem -1rem !important; /* Полное расширение */
         font-size: 0.8rem !important;
-        border-radius: 0 !important; /* Убираем скругления */
-        border-left: 3px solid var(--accent) !important;
+        border-radius: 0 !important;
+        border-left: 4px solid var(--accent) !important;
         border-bottom: 1px solid #eee !important;
+        width: calc(100% + 2rem) !important; /* + отступы родителя */
     }
     /* Номера мест */
     #quiz-leaderboard span:first-child {
         font-size: 1rem !important;
-        width: 24px !important;
-        height: 24px !important;
+        width: 26px !important;
+        height: 26px !important;
         flex-shrink: 0 !important;
+        margin-right: 0.3rem !important;
     }
-    /* Имена */
+    /* Имена — ещё шире */
     #quiz-leaderboard span:nth-child(2) {
-        max-width: 140px !important; /* Шире */
+        max-width: 160px !important;
         font-size: 0.8rem !important;
         font-weight: 600 !important;
-        flex: 1 !important; /* Занимает всё место */
+        flex: 1 !important;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
     /* Команда */
     #quiz-leaderboard span:nth-child(3) {
         font-size: 0.7rem !important;
-        padding: 0.2rem 0.4rem !important;
+        padding: 0.2rem 0.3rem !important;
         white-space: nowrap !important;
+        flex-shrink: 0 !important;
     }
     /* Очки */
     #quiz-leaderboard span:last-child {
         font-size: 0.95rem !important;
-        min-width: 45px !important;
+        min-width: 50px !important;
         font-weight: 700 !important;
         text-align: right !important;
+        padding-left: 0.5rem !important;
     }
 }
 
 @media (max-width: 360px) {
     #quiz-leaderboard {
-        font-size: 0.75rem !important;
-        padding: 0.5rem 0.2rem !important; /* Максимально близко к краям */
+        margin: 0 -0.8rem !important;
+        padding: 0.6rem 0 !important;
     }
     #quiz-leaderboard > div {
-        padding: 0.4rem 0.2rem !important;
-        margin: 0 -0.2rem 0.3rem -0.2rem !important;
-        font-size: 0.75rem !important;
+        padding: 0.4rem 0.05rem !important; /* ПРАКТИЧЕСКИ 0 */
+        margin: 0 -0.8rem 0.3rem -0.8rem !important;
+        width: calc(100% + 1.6rem) !important;
     }
     #quiz-leaderboard span:nth-child(2) {
-        max-width: 110px !important;
+        max-width: 130px !important;
     }
 }
 
