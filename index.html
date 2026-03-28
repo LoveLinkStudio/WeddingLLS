@@ -998,6 +998,60 @@ header { z-index: 1001 !important; }
         font-size: 1.5rem !important;
     }
 }
+        /* 🔥 ADMIN PANEL — МОБИЛЬНАЯ ОПТИМИЗАЦИЯ (сверхкомпакт) */
+@media (max-width: 768px) {
+    .admin-panel {
+        width: 100% !important;
+        right: -100% !important;
+    }
+    .admin-panel.open {
+        right: 0 !important;
+    }
+    .admin-header {
+        padding-bottom: 1rem !important;
+        margin-bottom: 1.5rem !important;
+    }
+    .entries-list {
+        max-height: 50vh !important;
+        padding-right: 0.5rem;
+    }
+    .entry-item {
+        padding: 1rem 0.8rem !important;
+        margin-bottom: 1rem !important;
+        font-size: 0.9rem !important;
+    }
+    .entry-item strong {
+        font-size: 1rem !important;
+    }
+    .submit-btn, .download-btn { /* Все админ-кнопки */
+        padding: 0.8rem 1.2rem !important;
+        font-size: 0.9rem !important;
+    }
+    #adminPassInput {
+        padding: 0.8rem !important;
+        font-size: 16px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-panel {
+        padding: 1rem 0.5rem !important;
+    }
+    .entry-item {
+        padding: 0.8rem 0.5rem !important;
+        font-size: 0.85rem !important;
+    }
+    .submit-btn, .download-btn {
+        padding: 0.7rem 1rem !important;
+        font-size: 0.85rem !important;
+    }
+    .entries-list {
+        max-height: 40vh !important;
+    }
+    .admin-header h3 {
+        font-size: 1.2rem !important;
+    }
+}
     </style>
 </head>
 <body>
