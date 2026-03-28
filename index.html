@@ -2677,5 +2677,22 @@ document.addEventListener('DOMContentLoaded', function() {
   initBgVideo(); // ДОБАВИЛИ!
 });
     </script>
+    <script>
+// Адаптация видео под ориентацию экрана
+function adaptVideo() {
+  const video = document.getElementById('bgVideo');
+  if (window.innerHeight > window.innerWidth) {
+    // Вертикальная ориентация
+    video.style.objectPosition = 'left center';  // ← ВЛЕВО(ваш выбор)right center означает что берет захват видео правую часть горизонтального видео centr centr центральную часть
+  } else {
+    // Горизонтальная
+    video.style.objectPosition = 'center center';
+  }
+}
+
+window.addEventListener('resize', adaptVideo);
+window.addEventListener('orientationchange', adaptVideo);
+adaptVideo(); // Запуск при загрузке
+</script>
 </body>
 </html>
