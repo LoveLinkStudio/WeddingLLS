@@ -1714,7 +1714,7 @@ const questions = [
 let currentTeam = '', currentQuestion = 0, score = 0, playerName = 'Гость', userId = '';
 function checkQuizPlayed() {
   if (localStorage.getItem('weddingQuizPlayed') === 'true') {
-    showNotification('❌ Вы уже прошли викторину с этого устройства!', 'error');
+    showNotification('❌ Вы уже проходил викторину!', 'error');
     // Показать лидерборд и статистику, скрыть всё остальное
     document.getElementById('quiz-welcome').style.display = 'none';
     document.getElementById('quiz-main').style.display = 'none';
