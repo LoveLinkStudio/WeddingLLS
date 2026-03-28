@@ -903,6 +903,101 @@ header { z-index: 1001 !important; }
   margin-bottom: 1rem;
   color: var(--dark);
 }
+        /* 🔥 МОБИЛЬНАЯ ОПТИМИЗАЦИЯ — Countdown, RSVP, Quiz */
+@media (max-width: 768px) {
+    /* Countdown — уменьшаем числа и блоки */
+    .countdown-item {
+        padding: 1.2rem 0.8rem !important;
+    }
+    .countdown-number {
+        font-size: 2rem !important;
+    }
+    .countdown-grid {
+        gap: 1rem;
+        max-width: 100%;
+    }
+    .countdown-label {
+        font-size: 0.75rem;
+    }
+    
+    /* RSVP — компактная форма */
+    .rsvp-form {
+        padding: 2rem 1.5rem !important;
+        margin: 1rem 0 !important;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+        padding: 0.9rem 1rem !important;
+        font-size: 16px !important; /* Предотвращает зум */
+    }
+    .form-row {
+        grid-template-columns: 1fr !important;
+        gap: 1rem;
+    }
+    .submit-btn {
+        padding: 1rem 2rem !important;
+        font-size: 1rem !important;
+    }
+    
+    /* Quiz — компактные команды и вопросы */
+    .quiz-team {
+        padding: 1.5rem 1rem !important;
+        min-width: auto !important;
+    }
+    .quiz-team div:first-child {
+        font-size: 2rem !important;
+    }
+    .quiz-team .team-name {
+        font-size: 1.1rem !important;
+    }
+    #quiz-question {
+        font-size: 1.1rem !important;
+        padding: 0 1rem;
+    }
+    .cta-button[style*="padding: 1.2rem"] {
+        padding: 1rem 1.2rem !important;
+        font-size: 0.95rem !important;
+    }
+    .quiz-container {
+        margin: 1rem !important;
+        padding: 1.5rem !important;
+    }
+    
+    /* Общие отступы секций */
+    .section {
+        padding: 60px 1rem !important;
+        margin: 1rem 0 !important;
+    }
+    .section-title {
+        font-size: 2rem !important;
+    }
+}
+
+@media (max-width: 480px) {
+    /* Сверхкомпактный режим */
+    .countdown-number {
+        font-size: 1.6rem !important;
+    }
+    .rsvp-form {
+        padding: 1.5rem 1rem !important;
+    }
+    .quiz-team {
+        padding: 1.2rem 0.8rem !important;
+    }
+    #quiz-question {
+        font-size: 1rem !important;
+    }
+    .section {
+        padding: 40px 0.5rem !important;
+    }
+}
+        @media (max-width: 768px) {
+    .hero-title {
+        font-size: 3rem !important;
+    }
+    .hero-date {
+        font-size: 1.5rem !important;
+    }
+}
     </style>
 </head>
 <body>
