@@ -1221,7 +1221,7 @@ header { z-index: 1001 !important; }
     }
 }
 .footer a[href*="max.ru"]:hover {
-  transform: scale(1.1) rotate(5deg) !important;
+  transform: scale(1.15) !important;
   box-shadow: 0 20px 50px rgba(139, 92, 246, 0.5) !important;
 }
 
@@ -1427,27 +1427,37 @@ header { z-index: 1001 !important; }
 
     <!-- Location -->
     <section id="location" class="section">
-  <h2 class="section-title" data-aos="fade-up">Где?</h2>
-  <div class="location-name" data-aos="fade-up" data-aos-delay="200" 
-       style="font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.5rem); text-align: center; margin: 1rem 0 3rem; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 700;">
-    Тюмень
-  </div>
-  
-  <div class="container">
-    <div class="map-container" id="map" style="height: 450px; border-radius: 25px; overflow: hidden; box-shadow: var(--shadow); margin-top: 3rem; border: var(--border); background: #f0f4f8;"></div>
-  </div>
-  
-  <!-- Кнопки такси -->
-  <div class="map-buttons" style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem;">
-    <a href="https://taxi.yandex.ru/ru_ru/?utm_source=yamaps&utm_medium=apig&from=2Cg&to=57.2588322,65.10849&level=ref&2334695tariff=referrerapp&metricatrackingid=3D24175546855957748226ymtrackingid=3D8467453618275674929" 
-       class="cta-button" style="background: linear-gradient(135deg, #FFF9C4, #FFE082); color: #EAA800; border: 1px solid #FFE082; margin-right: 0.5rem;" target="_blank">
-      <i class="fab fa-yandex"></i> Яндекс Go
+    <h2 class="section-title" data-aos="fade-up">Место проведения</h2>
+     <div class="location-name" data-aos="fade-up" data-aos-delay="200" style="
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        text-align: center;
+        margin: 1rem 0 3rem;
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 700;
+    ">
+        Камнево — загородный клуб
+    </div>
+    <div class="container">
+        <div class="map-container" id="map"></div>
+        <!-- Новые кнопки такси -->
+        <div class="map-buttons" style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem;">
+    <a href="https://taxi.yandex.ru/ru_ru?utm_source=yamaps&utm_medium=api&gfrom=%2C&gto=57.258832%2C65.10849&level&ref=2334695&tariff&referrer=appmetrica_tracking_id%3D241755468559577482%26ym_tracking_id%3D8467453618275674929" 
+       class="cta-button" 
+       style="background: linear-gradient(135deg, #FFF9C4, #FFE082); color: #EAA800; border: 1px solid #FFE082; margin-right: 0.5rem;" 
+       target="_blank">
+        <i class="fab fa-yandex"></i> Яндекс Go
     </a>
-    <a href="https://2gis.ru/tyumen/firm/70000001041618161" class="cta-button" 
-       style="background: linear-gradient(135deg, #E8F5E8, #C8E6C9); color: #689F38; border: 1px solid #C8E6C9;" target="_blank">
-      <i class="fas fa-map-marked-alt"></i> 2GIS
+    <a href="https://2gis.ru/tyumen/firm/70000001041618161" 
+       class="cta-button" 
+       style="background: linear-gradient(135deg, #E8F5E8, #C8E6C9); color: #689F38; border: 1px solid #C8E6C9;" 
+       target="_blank">
+        <i class="fas fa-map-marked-alt"></i> 2ГИС
     </a>
-  </div>
+</div>
         <div style="text-align: center; margin-top: 3rem;">
             <p data-aos="fade-up" data-aos-delay="100">
                 <strong>Улица Виктора Соколова, 7</strong><br>
@@ -2414,52 +2424,23 @@ function loadAdminEntries() {
             });
         }
 
-        // Карта - исправленная версия
-function initMap() {
-  if (typeof ymaps === 'undefined') {
-    console.error('Yandex Maps API не загружен');
-    document.getElementById('map').innerHTML = '<p style="padding: 2rem; text-align: center; color: var(--text-light);">Карта временно недоступна<br><small>Проверьте подключение к интернету</small></p>';
-    return;
-  }
-  
-  ymaps.ready(function () {
-    try {
-      const map = new ymaps.Map('map', {
-        center: [57.258832, 65.108490],
-        zoom: 16,
-        controls: ['zoomControl', 'fullscreenControl']
-      });
-      
-      const placemark = new ymaps.Placemark([57.258832, 65.108490], {
-        hintContent: 'СВАДЬБА! 7 июля',
-        balloonContent: '<strong>Тюмень, ул. Герцена 7</strong><br>Ресторан "Морозко"<br>07.07.2027, 14:00'
-      }, {
-        preset: 'islands#icon',
-        iconColor: '#ff69b4'
-      });
-      
-      map.geoObjects.add(placemark);
-      console.log('Карта успешно инициализирована');
-    } catch (error) {
-      console.error('Ошибка инициализации карты:', error);
-      document.getElementById('map').innerHTML = '<p style="padding: 2rem; text-align: center; color: var(--text-light);">Ошибка загрузки карты</p>';
-    }
-  });
-}
-
-// Запуск после полной загрузки DOM
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initMap);
-} else {
-  initMap();
-}
-
-// Responsive карта
-window.addEventListener('resize', function() {
-  if (window.map) {
-    window.map.container.fitToViewport();
-  }
-});
+        // 12. Map
+        function initMap() {
+    ymaps.ready(function() {
+        map = new ymaps.Map('map', {
+            center: [57.258832, 65.108490],  // Новые координаты!
+            zoom: 16,
+            controls: ['zoomControl', 'fullscreenControl']
+        });
+        const placemark = new ymaps.Placemark([57.258832, 65.108490], {
+            hintContent: 'Ул. Виктора Соколова, 7',
+            balloonContent: '<strong>Свадьба Игоря & Марии</strong><br>с. Кулига, Тюменская обл.<br>07.07.2027',
+        }, {
+            preset: 'islands#icon',
+            iconColor: '#ff69b4'
+        });
+        map.geoObjects.add(placemark);
+    });
 }
 
         // 13. Smooth Scroll
@@ -2570,7 +2551,7 @@ tr:nth-child(even) { background-color: #f9f9f9; }
             updateGuestCounter();
             initAdminPanel();
             initMobileMenu();
-            initNightMode();
+            //initNightMode();
             initSmoothScroll();
             initMap();
             initExportExcel();
