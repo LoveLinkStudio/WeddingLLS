@@ -2136,28 +2136,67 @@ function loadAdminEntries() {
             });
         }
 
-        // 14. Export Excel (улучшенный)
-        function initExportExcel() {
-            const exportBtn = document.getElementById('exportExcelBtn');
-            exportBtn.addEventListener('click', () => {
-                let csv = 'Имя,Гостей,Участие,Питание,Пожелания,Дата\n';
-                entries.forEach(entry => {
-                    csv += `"${entry.name}","${entry.count}","${entry.attendance}","${entry.phone}","${entry.preference}","${entry.wishes.replace(/"/g, '""')}","${new Date(entry.timestamp).toLocaleString('ru-RU')}"\n`;
-                });
+        // 14. Export Excel (исправленный — как в опроснике)
+function initExportExcel() {
+    const exportBtn = document.getElementById('exportExcelBtn');
+    exportBtn.addEventListener('click', () => {
+        rsvpDb.ref('rsvpEntries').once('value').then(snapshot => {
+            let htmlContent = `
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>RSVP результаты свадьбы</title>
+<style>
+table { border-collapse: collapse; width: 100%; font-family: Arial; }
+th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+th { background-color: #ff9a9e; color: white; font-weight: bold; }
+tr:nth-child(even) { background-color: #f9f9f9; }
+</style>
+</head>
+<body>
+<table>
+<tr>
+<th>Имя</th><th>Гостей</th><th>Участие</th><th>Телефон</th><th>Питание</th><th>Пожелания</th><th>Дата</th>
+</tr>`;
+
+            snapshot.forEach(child => {
+                const entry = child.val();
+                const clean = (text) => String(text || '').replace(/[<>&"]/g, '').slice(0, 100);
                 
-                const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
-                const link = document.createElement('a');
-                const url = URL.createObjectURL(blob);
-                link.setAttribute('href', url);
-                link.setAttribute('download', `wedding-rsvp-${new Date().toISOString().split('T')[0]}.csv`);
-                link.style.visibility = 'hidden';
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);
-                
-                showNotification('📥 Данные экспортированы в Excel!');
+                htmlContent += `
+<tr>
+<td>${clean(entry.name)}</td>
+<td>${clean(entry.count)}</td>
+<td>${clean(entry.attendance)}</td>
+<td>${clean(entry.phone)}</td>
+<td>${clean(entry.preferences || entry.preference)}</td>
+<td>${clean(entry.wishes)}</td>
+<td>${entry.timestamp ? new Date(entry.timestamp).toLocaleString('ru-RU') : ''}</td>
+</tr>`;
             });
-        }
+
+            htmlContent += '</table></body></html>';
+
+            const BOM = '\\uFEFF';
+            const blob = new Blob([BOM + htmlContent], { 
+                type: 'application/vnd.ms-excel;charset=utf-8;' 
+            });
+            
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `rsvp-results-${new Date().toISOString().split('T')[0]}.xls`;
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            showNotification('📥 Данные экспортированы в Excel!');
+        }).catch(error => {
+            console.error('Ошибка экспорта:', error);
+            showNotification('❌ Ошибка экспорта!');
+        });
+    });
+}
 
         // 15. Clear Entries
         function initClearEntries() {
