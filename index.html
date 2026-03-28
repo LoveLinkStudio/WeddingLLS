@@ -2414,23 +2414,52 @@ function loadAdminEntries() {
             });
         }
 
-        // 12. Map
-        function initMap() {
-    ymaps.ready(function() {
-        map = new ymaps.Map('map', {
-            center: [57.258832, 65.108490],  // Новые координаты!
-            zoom: 16,
-            controls: ['zoomControl', 'fullscreenControl']
-        });
-        const placemark = new ymaps.Placemark([57.258832, 65.108490], {
-            hintContent: 'Ул. Виктора Соколова, 7',
-            balloonContent: '<strong>Свадьба Игоря & Марии</strong><br>с. Кулига, Тюменская обл.<br>07.07.2027',
-        }, {
-            preset: 'islands#icon',
-            iconColor: '#ff69b4'
-        });
-        map.geoObjects.add(placemark);
-    });
+        // Карта - исправленная версия
+function initMap() {
+  if (typeof ymaps === 'undefined') {
+    console.error('Yandex Maps API не загружен');
+    document.getElementById('map').innerHTML = '<p style="padding: 2rem; text-align: center; color: var(--text-light);">Карта временно недоступна<br><small>Проверьте подключение к интернету</small></p>';
+    return;
+  }
+  
+  ymaps.ready(function () {
+    try {
+      const map = new ymaps.Map('map', {
+        center: [57.258832, 65.108490],
+        zoom: 16,
+        controls: ['zoomControl', 'fullscreenControl']
+      });
+      
+      const placemark = new ymaps.Placemark([57.258832, 65.108490], {
+        hintContent: 'СВАДЬБА! 7 июля',
+        balloonContent: '<strong>Тюмень, ул. Герцена 7</strong><br>Ресторан "Морозко"<br>07.07.2027, 14:00'
+      }, {
+        preset: 'islands#icon',
+        iconColor: '#ff69b4'
+      });
+      
+      map.geoObjects.add(placemark);
+      console.log('Карта успешно инициализирована');
+    } catch (error) {
+      console.error('Ошибка инициализации карты:', error);
+      document.getElementById('map').innerHTML = '<p style="padding: 2rem; text-align: center; color: var(--text-light);">Ошибка загрузки карты</p>';
+    }
+  });
+}
+
+// Запуск после полной загрузки DOM
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initMap);
+} else {
+  initMap();
+}
+
+// Responsive карта
+window.addEventListener('resize', function() {
+  if (window.map) {
+    window.map.container.fitToViewport();
+  }
+});
 }
 
         // 13. Smooth Scroll
