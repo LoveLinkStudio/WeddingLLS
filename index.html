@@ -1427,37 +1427,27 @@ header { z-index: 1001 !important; }
 
     <!-- Location -->
     <section id="location" class="section">
-    <h2 class="section-title" data-aos="fade-up">Место проведения</h2>
-     <div class="location-name" data-aos="fade-up" data-aos-delay="200" style="
-        font-family: 'Playfair Display', serif;
-        font-size: clamp(2rem, 5vw, 3.5rem);
-        text-align: center;
-        margin: 1rem 0 3rem;
-        background: var(--gradient);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
-        font-weight: 700;
-    ">
-        Камнево — загородный клуб
-    </div>
-    <div class="container">
-        <div class="map-container" id="map"></div>
-        <!-- Новые кнопки такси -->
-        <div class="map-buttons" style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem;">
-    <a href="https://taxi.yandex.ru/ru_ru?utm_source=yamaps&utm_medium=api&gfrom=%2C&gto=57.258832%2C65.10849&level&ref=2334695&tariff&referrer=appmetrica_tracking_id%3D241755468559577482%26ym_tracking_id%3D8467453618275674929" 
-       class="cta-button" 
-       style="background: linear-gradient(135deg, #FFF9C4, #FFE082); color: #EAA800; border: 1px solid #FFE082; margin-right: 0.5rem;" 
-       target="_blank">
-        <i class="fab fa-yandex"></i> Яндекс Go
+  <h2 class="section-title" data-aos="fade-up">Где?</h2>
+  <div class="location-name" data-aos="fade-up" data-aos-delay="200" 
+       style="font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.5rem); text-align: center; margin: 1rem 0 3rem; background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 700;">
+    Тюмень
+  </div>
+  
+  <div class="container">
+    <div class="map-container" id="map" style="height: 450px; border-radius: 25px; overflow: hidden; box-shadow: var(--shadow); margin-top: 3rem; border: var(--border); background: #f0f4f8;"></div>
+  </div>
+  
+  <!-- Кнопки такси -->
+  <div class="map-buttons" style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem;">
+    <a href="https://taxi.yandex.ru/ru_ru/?utm_source=yamaps&utm_medium=apig&from=2Cg&to=57.2588322,65.10849&level=ref&2334695tariff=referrerapp&metricatrackingid=3D24175546855957748226ymtrackingid=3D8467453618275674929" 
+       class="cta-button" style="background: linear-gradient(135deg, #FFF9C4, #FFE082); color: #EAA800; border: 1px solid #FFE082; margin-right: 0.5rem;" target="_blank">
+      <i class="fab fa-yandex"></i> Яндекс Go
     </a>
-    <a href="https://2gis.ru/tyumen/firm/70000001041618161" 
-       class="cta-button" 
-       style="background: linear-gradient(135deg, #E8F5E8, #C8E6C9); color: #689F38; border: 1px solid #C8E6C9;" 
-       target="_blank">
-        <i class="fas fa-map-marked-alt"></i> 2ГИС
+    <a href="https://2gis.ru/tyumen/firm/70000001041618161" class="cta-button" 
+       style="background: linear-gradient(135deg, #E8F5E8, #C8E6C9); color: #689F38; border: 1px solid #C8E6C9;" target="_blank">
+      <i class="fas fa-map-marked-alt"></i> 2GIS
     </a>
-</div>
+  </div>
         <div style="text-align: center; margin-top: 3rem;">
             <p data-aos="fade-up" data-aos-delay="100">
                 <strong>Улица Виктора Соколова, 7</strong><br>
