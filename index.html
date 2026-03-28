@@ -1052,65 +1052,63 @@ header { z-index: 1001 !important; }
         font-size: 1.2rem !important;
     }
 }
-/* 🔥 LEADERBOARD — МИНИМАЛЬНЫЙ МОБИЛЬНЫЙ (360px+) */
+/* 🔥 LEADERBOARD — FULL WIDTH (от края до края) */
 @media (max-width: 768px) {
     #quiz-leaderboard {
         max-height: 100vh !important;
         max-width: 100% !important;
         font-size: 0.8rem !important;
-        padding: 0.8rem !important;
+        padding: 0.8rem 0.4rem !important; /* Меньше боковых отступов */
     }
     #quiz-leaderboard > div {
-        padding: 0.6rem 0.5rem !important;
-        margin-bottom: 0.4rem !important;
+        padding: 0.6rem 0.3rem !important; /* Ещё ближе к краям */
+        margin: 0 -0.4rem 0.4rem -0.4rem !important; /* Отрицательный margin */
         font-size: 0.8rem !important;
-        border-radius: 8px !important;
+        border-radius: 0 !important; /* Убираем скругления */
+        border-left: 3px solid var(--accent) !important;
+        border-bottom: 1px solid #eee !important;
     }
     /* Номера мест */
     #quiz-leaderboard span:first-child {
         font-size: 1rem !important;
         width: 24px !important;
         height: 24px !important;
+        flex-shrink: 0 !important;
     }
     /* Имена */
     #quiz-leaderboard span:nth-child(2) {
-        max-width: 120px !important;
+        max-width: 140px !important; /* Шире */
         font-size: 0.8rem !important;
         font-weight: 600 !important;
+        flex: 1 !important; /* Занимает всё место */
     }
     /* Команда */
     #quiz-leaderboard span:nth-child(3) {
         font-size: 0.7rem !important;
-        padding: 0.2rem 0.5rem !important;
+        padding: 0.2rem 0.4rem !important;
+        white-space: nowrap !important;
     }
     /* Очки */
     #quiz-leaderboard span:last-child {
         font-size: 0.95rem !important;
         min-width: 45px !important;
+        font-weight: 700 !important;
+        text-align: right !important;
     }
 }
 
 @media (max-width: 360px) {
     #quiz-leaderboard {
         font-size: 0.75rem !important;
-        padding: 0.5rem !important;
+        padding: 0.5rem 0.2rem !important; /* Максимально близко к краям */
     }
     #quiz-leaderboard > div {
-        padding: 0.4rem 0.4rem !important;
+        padding: 0.4rem 0.2rem !important;
+        margin: 0 -0.2rem 0.3rem -0.2rem !important;
         font-size: 0.75rem !important;
-    }
-    #quiz-leaderboard span:first-child {
-        width: 20px !important;
-        height: 20px !important;
-        font-size: 0.9rem !important;
     }
     #quiz-leaderboard span:nth-child(2) {
-        max-width: 100px !important;
-        font-size: 0.75rem !important;
-    }
-    #quiz-leaderboard span:nth-child(3) {
-        font-size: 0.65rem !important;
-        padding: 0.15rem 0.3rem !important;
+        max-width: 110px !important;
     }
 }
 
