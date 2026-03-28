@@ -952,17 +952,22 @@ header { z-index: 1001 !important; }
 
 /* ВОПРОСЫ — красиво и компактно */
 #quiz-question {
-    font-size: 1.35rem !important;  /* Основной размер */
-    font-weight: 500 !important;
-    line-height: 1.6 !important;
-    padding: 1.5rem 1.5rem !important;
-    margin-bottom: 2.5rem !important;
-    min-height: 120px !important;
-    background: rgba(255,255,255,0.6) !important;
-    border-radius: 20px !important;
-    border: 2px solid var(--border) !important;
-    box-shadow: var(--shadow) !important;
-    text-align: center !important;
+  font-size: 1.4rem !important;     /* Чуть крупнее */
+  font-weight: 500 !important;
+  line-height: 1.7 !important;      /* Больше воздуха */
+  padding: 2rem 2rem !important;    /* Больше отступов */
+  margin-bottom: 3rem !important;
+  min-height: 140px !important;     /* Выше блок */
+  width: 100% !important;           /* ← НА ВСЮ ШИРИНУ */
+  max-width: 100% !important;
+  background: rgba(255,255,255,0.7) !important;
+  border-radius: 25px !important;
+  border: 2px solid var(--border) !important;
+  box-shadow: var(--shadow) !important;
+  text-align: center !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
 }
 
 /* КНОПКИ ОТВЕТОВ */
@@ -1000,10 +1005,15 @@ header { z-index: 1001 !important; }
 }
 @media (max-width: 768px) {
   #quiz-question {
-    font-size: 1.15rem !important;
-    padding: 1.2rem 1rem !important;
-    min-height: 100px !important;
+    font-size: 1.2rem !important;
+    padding: 1.8rem 1.2rem !important;
+    min-height: 120px !important;
+    margin-bottom: 2.5rem !important;
   }
+}
+@media (max-width: 480px) {
+  #quiz-question { font-size: 1.1rem !important; padding: 1.5rem 1rem !important; }
+}
   #quiz-options button.cta-button {
     padding: 1.1rem 1.5rem !important;
     font-size: 1rem !important;
@@ -1870,12 +1880,7 @@ function showQuestion() {
   
   questionEl.style.opacity = '1';
   questionEl.style.transform = 'translateY(0)';
-  questionEl.innerHTML = `
-  <div style="font-size:1.3rem;font-weight:700;margin-bottom:1rem;color:var(--accent);">
-    Вопрос <strong>${currentQuestion + 1}/10</strong>
-  </div>
-  <div style="font-size:1.2rem;line-height:1.6;">${q.question}</div>
-`;
+  questionEl.innerHTML = `${q.question}`;
   
   optionsEl.innerHTML = '';
   q.options.forEach((opt, i) => {
