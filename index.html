@@ -1607,7 +1607,7 @@ header { z-index: 1001 !important; }
       </div>
     </div>
     
-    <button id="quiz-restart" class="cta-button" style="padding: 1.2rem 2.5rem; font-size: 1.1rem;">🎮 Играть снова</button>
+    
   </div>
 </section>
 
@@ -1653,7 +1653,18 @@ const questions = [
 ];
 
 let currentTeam = '', currentQuestion = 0, score = 0, playerName = 'Гость', userId = '';
-
+function checkQuizPlayed() {
+  if (localStorage.getItem('weddingQuizPlayed') === 'true') {
+    showNotification('❌ Вы уже прошли викторину с этого устройства!', 'error');
+    // Показать лидерборд и статистику, скрыть всё остальное
+    document.getElementById('quiz-welcome').style.display = 'none';
+    document.getElementById('quiz-main').style.display = 'none';
+    document.getElementById('quiz-results').style.display = 'block';
+    // Загрузить лидерборд (listenToLeaderboard уже работает)
+    return true;
+  }
+  return false;
+}
 const welcomeEl = document.getElementById('quiz-welcome');
 const mainEl = document.getElementById('quiz-main');
 const resultsEl = document.getElementById('quiz-results');
@@ -1675,6 +1686,7 @@ const restartBtn = document.getElementById('quiz-restart');
     // Инициализация
 function init() {
   userId = 'guest_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    localStorage.setItem('weddingQuizUserId', userId);  // Сохранить ID устройства
 
   const teamElements = document.querySelectorAll('.quiz-team');
 
@@ -1740,8 +1752,15 @@ function init() {
     if (e.key === 'Enter') nameConfirm.click();
   });
 
-  startBtn.addEventListener('click', showNameModal);
-  restartBtn.addEventListener('click', resetQuiz);
+startBtn.addEventListener('click', function() {
+  if (!currentTeam) {
+    alert('Выберите команду!');
+    return;
+  }
+  if (checkQuizPlayed()) return;  // ← НОВОЕ: блокировка повторного прохождения
+  
+  showNameModal();
+});
   
   // Real-time Firebase — лидерборд и статистика всегда обновляются
   listenToLeaderboard();
@@ -1855,6 +1874,7 @@ function selectAnswer(selected, btn) {
 }
 
 function finishQuiz() {
+    localStorage.setItem('weddingQuizPlayed', 'true');  // Навсегда блокируем
   mainEl.style.display = 'none';
   resultsEl.style.display = 'block';
   scoreEl.textContent = score;
@@ -2110,6 +2130,17 @@ if (document.readyState === 'loading') {
             </button>
             
             <div class="entries-list" id="entriesList"></div>
+            <!-- ✅ КНОПКА СБРОСА ВИКТОРИНЫ (только для админа) -->
+<div style="margin-top: 2rem; padding: 1.5rem; background: rgba(255, 255, 255, 0.1); border-radius: 15px; border-left: 4px solid var(--accent);">
+  <h4 style="margin-bottom: 1rem; color: var(--dark);">🔧 Админ: Управление викториной</h4>
+  <button onclick="localStorage.removeItem('weddingQuizPlayed'); localStorage.removeItem('weddingQuizUserId'); location.reload();" 
+          style="background: linear-gradient(135deg, #ff4444, #cc0000); color: white; padding: 0.8rem 1.5rem; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s; box-shadow: 0 5px 15px rgba(255,68,68,0.3);">
+    🔄 Сброс викторины (для этого устройства)
+  </button>
+  <p style="font-size: 0.85rem; color: var(--text-light); margin-top: 0.5rem; opacity: 0.8;">
+    Очищает localStorage и перезагружает страницу
+  </p>
+</div>
             
             <button id="clearAllBtn" class="submit-btn" style="background: linear-gradient(135deg, #ff4757, #ff3742); margin-top: 1.5rem;">
                 🗑️ Очистить все данные
