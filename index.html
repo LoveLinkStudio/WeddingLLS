@@ -938,29 +938,56 @@ header { z-index: 1001 !important; }
         font-size: 1rem !important;
     }
     
-    /* Quiz — компактные команды и вопросы */
-    .quiz-team {
-        padding: 1.5rem 1rem !important;
-        min-width: auto !important;
-    }
-    .quiz-team div:first-child {
-        font-size: 2rem !important;
-    }
-    .quiz-team .team-name {
-        font-size: 1.1rem !important;
-    }
-    #quiz-question {
-        font-size: 1.1rem !important;
-        padding: 0 1rem;
-    }
-    .cta-button[style*="padding: 1.2rem"] {
-        padding: 1rem 1.2rem !important;
-        font-size: 0.95rem !important;
-    }
-    .quiz-container {
-        margin: 1rem !important;
-        padding: 1.5rem !important;
-    }
+    /* ✅ Quiz — улучшенные стили для всех экранов */
+.quiz-team {
+    padding: 1.5rem 1rem !important;
+    min-width: auto !important;
+}
+.quiz-team div:first-child {
+    font-size: 2rem !important;
+}
+.quiz-team .team-name {
+    font-size: 1.1rem !important;
+}
+
+/* ВОПРОСЫ — красиво и компактно */
+#quiz-question {
+    font-size: 1.35rem !important;  /* Основной размер */
+    font-weight: 500 !important;
+    line-height: 1.6 !important;
+    padding: 1.5rem 1.5rem !important;
+    margin-bottom: 2.5rem !important;
+    min-height: 120px !important;
+    background: rgba(255,255,255,0.6) !important;
+    border-radius: 20px !important;
+    border: 2px solid var(--border) !important;
+    box-shadow: var(--shadow) !important;
+    text-align: center !important;
+}
+
+/* КНОПКИ ОТВЕТОВ */
+#quiz-options button.cta-button {
+    padding: 1.3rem 2rem !important;
+    font-size: 1.1rem !important;
+    margin-bottom: 1rem !important;
+    border-radius: 18px !important;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12) !important;
+}
+
+/* ПРОГРЕСС */
+#quiz-progress {
+    font-size: 1.1rem !important;
+    font-weight: 700 !important;
+    background: rgba(255,255,255,0.8) !important;
+    padding: 0.8rem 1.5rem !important;
+    border-radius: 25px !important;
+    box-shadow: var(--shadow) !important;
+}
+
+.quiz-container {
+    margin: 1rem !important;
+    padding: 1.5rem !important;
+}
     
     /* Общие отступы секций */
     .section {
@@ -971,7 +998,29 @@ header { z-index: 1001 !important; }
         font-size: 2rem !important;
     }
 }
+@media (max-width: 768px) {
+  #quiz-question {
+    font-size: 1.15rem !important;
+    padding: 1.2rem 1rem !important;
+    min-height: 100px !important;
+  }
+  #quiz-options button.cta-button {
+    padding: 1.1rem 1.5rem !important;
+    font-size: 1rem !important;
+  }
+  #quiz-progress {
+    font-size: 1rem !important;
+    padding: 0.7rem 1.2rem !important;
+  }
+  #quiz-question strong {
+    font-size: 1.2rem !important;
+  }
+}
 
+@media (max-width: 480px) {
+  #quiz-question { font-size: 1rem !important; }
+  #quiz-options button.cta-button { font-size: 0.95rem !important; }
+}
 @media (max-width: 480px) {
     /* Сверхкомпактный режим */
     .countdown-number {
@@ -1821,7 +1870,10 @@ function showQuestion() {
   
   questionEl.style.opacity = '1';
   questionEl.style.transform = 'translateY(0)';
-  questionEl.innerHTML = `<strong>Вопрос ${currentQuestion + 1}:</strong><br>${q.question}`;
+  questionEl.innerHTML = `
+  <div style="font-size:1.3rem;font-weight:700;margin-bottom:1rem;color:var(--accent);">
+    Вопрос <strong>${currentQuestion + 1}/10</strong>
+  </div>
   
   optionsEl.innerHTML = '';
   q.options.forEach((opt, i) => {
