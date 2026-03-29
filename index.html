@@ -1,0 +1,2697 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Свадебная сказка Игорь и Мария</title>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=ваш-api-ключ-yandex-maps&lang=ru_RU" type="text/javascript"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+    <script>
+    document.oncopy = () => false;
+    document.oncut = () => false;
+    document.oncontextmenu = () => false;
+    document.onselectstart = () => false;
+    document.body.style.userSelect = "none";
+  </script>
+    <script>
+  const rsvpFirebaseConfig = {
+    apiKey: "AIzaSyC2zHfSvobeo0cpVVtUy0iPur2aoTE-1lA",
+    authDomain: "weddingllsezhunov.firebaseapp.com",
+    databaseURL: "https://weddingllsezhunov-default-rtdb.europe-west1.firebasedatabase.app",
+    projectId: "weddingllsezhunov",
+    storageBucket: "weddingllsezhunov.firebasestorage.app",
+    messagingSenderId: "838708765760",
+    appId: "1:838708765760:web:2844d915fc5fa7b91ceba5"
+  };
+  
+  firebase.initializeApp(rsvpFirebaseConfig);
+  const rsvpDb = firebase.database();
+</script>
+    <style>
+        :root {
+            /* Пастельная романтическая палитра */
+            --primary: #f4e4f0;      /* Светло-лавандовый */
+            --secondary: #e8d5e2;     /* Розово-сиреневый */
+            --accent: #d7b9d5;        /* Лавандовый акцент */
+            --accent-light: #f0e6f2;  /* Очень светлый лавандовый */
+            --dark: #4a3f5a;          /* Темно-фиолетовый */
+            --light: #faf7fc;         /* Кремовый белый */
+            --text-dark: #3a2e4f;     /* Основной текст */
+            --text-light: #6b5e7a;    /* Вторичный текст */
+            --shadow: 0 10px 40px rgba(74, 63, 90, 0.08);
+            --gradient: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            --border: 1px solid rgba(215, 185, 213, 0.3);
+            
+        /* Ночной режим - пастельный темный */
+            --night-bg: #2a2338;
+            --night-text: #e9d5f2;
+            --night-primary: #d7b9d5;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background: var(--light);
+            color: var(--text-dark);
+        }
+
+        .night-mode {
+            background: var(--night-bg);
+            color: var(--night-text);
+        }
+
+        .night-mode .section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(215, 185, 213, 0.1);
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(250, 247, 252, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow);
+            border-bottom: var(--border);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gradient);
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .nav-link:hover {
+            color: var(--dark);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 4px;
+        }
+
+        .mobile-menu-btn span {
+            width: 25px;
+            height: 3px;
+            background: var(--text-dark);
+            transition: 0.3s;
+        }    
+
+        /* Hero Section - Минималистичный */
+        .hero {
+  height: 100vh;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  /* УБРАЛИ background var(--gradient) */
+}
+
+        .hero::before {
+content: 'Игорь и Мария\AДва сердца бьются в унисон';
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+font-family: 'Great Vibes', 'Playfair Display', serif;
+font-size: clamp(2.5rem, 7vw, 5rem);
+color: rgba(255, 255, 255, 0.95);
+display: flex;
+flex-direction: column;
+align-items: center;
+justify-content: center;
+text-align: center;
+line-height: 1.8;
+text-shadow:
+0 2px 4px rgba(0,0,0,0.5),
+0 0 20px rgba(244, 228, 240, 0.2);
+z-index: 1;
+background: rgba(244, 228, 240, 0.1);
+white-space: pre;
+
+}
+
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            100% { transform: translateY(-100vh) rotate(360deg); }
+        }
+
+        .hero-content {
+            max-width: 800px;
+            padding: 0 2rem;
+            z-index: 2;
+            position: relative;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(3rem, 8vw, 6rem);
+            margin-bottom: 1rem;
+            opacity: 0;
+            animation: fadeInUp 1.5s 0.3s forwards;
+        }
+
+        .hero-date {
+            font-size: clamp(1.5rem, 4vw, 2.5rem);
+            font-weight: 600;
+            margin-bottom: 3rem;
+            opacity: 0;
+            animation: fadeInUp 1.5s 0.8s forwards;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            background: rgba(255, 255, 255, 0.95);
+            color: var(--dark);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            box-shadow: var(--shadow);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            opacity: 0;
+            animation: fadeInUp 1.5s 1.3s forwards;
+            border: var(--border);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 60px rgba(74, 63, 90, 0.2);
+        }
+
+        /* Секции */
+        .section {
+            padding: 120px 0;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: 2rem;
+            padding-right: 2rem;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 30px;
+            margin: 2rem auto;
+            border: var(--border);
+            backdrop-filter: blur(10px);
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            text-align: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: var(--gradient);
+            border-radius: 2px;
+        }
+
+        /* Love Story */
+        .love-story {
+            background: var(--accent-light);
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 4rem;
+            margin-top: 4rem;
+        }
+
+        .story-item {
+            text-align: center;
+            opacity: 0;
+            transition: all 0.6s ease;
+        }
+
+        .story-item[data-aos="fade-up"] {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .story-image {
+            width: 100%;
+            height: 350px;
+            object-fit: cover;
+            border-radius: 25px;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            transition: transform 0.5s ease;
+            border: var(--border);
+        }
+
+        .story-image:hover {
+            transform: scale(1.03);
+        }
+
+        /* Countdown */
+        .countdown {
+            background: var(--gradient);
+            color: white;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            border-radius: 30px;
+        }
+
+        .countdown::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle, transparent 40%, rgba(255,255,255,0.1) 50%);
+            animation: rotate 25s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .countdown-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 2rem;
+            max-width: 700px;
+            margin: 4rem auto 0;
+        }
+
+        .countdown-item {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            padding: 2.5rem 1rem;
+            border-radius: 25px;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .countdown-number {
+            font-family: 'Playfair Display', serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            display: block;
+        }
+
+        .countdown-label {
+            font-size: 0.95rem;
+            opacity: 0.9;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 300;
+        }
+
+        /* RSVP Форма */
+        .rsvp-form {
+            max-width: 650px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 4rem;
+            border-radius: 35px;
+            box-shadow: var(--shadow);
+            backdrop-filter: blur(25px);
+            border: var(--border);
+        }
+
+        .form-group {
+            margin-bottom: 2.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+            color: var(--text-dark);
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 1.25rem;
+            border: var(--border);
+            border-radius: 20px;
+            font-size: 1rem;
+            transition: all 0.4s ease;
+            font-family: inherit;
+            background: rgba(255, 255, 255, 0.8);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 4px rgba(215, 185, 213, 0.15);
+            background: white;
+            transform: translateY(-2px);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1.4rem;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.15rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 25px 60px rgba(74, 63, 90, 0.3);
+        }
+
+        /* Галерея */
+        .gallery {
+            background: var(--accent-light);
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 25px;
+            box-shadow: var(--shadow);
+            height: 320px;
+            border: var(--border);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.08);
+        }
+
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.85));
+            color: white;
+            padding: 2.5rem 2rem;
+            transform: translateY(100%);
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-item:hover .gallery-overlay {
+            transform: translateY(0);
+        }
+
+        /* Расписание */
+        .schedule {
+            background: var(--accent-light);
+        }
+
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .schedule-item {
+            background: white;
+            padding: 3rem;
+            border-radius: 25px;
+            box-shadow: var(--shadow);
+            border-left: 5px solid var(--accent);
+            border: var(--border);
+            transition: transform 0.3s ease;
+        }
+
+        .schedule-item:hover {
+            transform: translateY(-8px);
+        }
+
+        .schedule-time {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Карта */
+        .map-container {
+            height: 450px;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin-top: 3rem;
+            border: var(--border);
+        }
+
+        /* Dress Code - НОВЫЙ БЛОК */
+        .dresscode-section {
+            background: linear-gradient(135deg, var(--primary), var(--accent-light));
+            text-align: center;
+            padding: 80px 0;
+        }
+
+        .dresscode-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .dresscode-item {
+            background: white;
+            padding: 2rem;
+            border-radius: 25px;
+            box-shadow: var(--shadow);
+            border: var(--border);
+            transition: transform 0.3s ease;
+        }
+
+        .dresscode-item:hover {
+            transform: translateY(-10px);
+        }
+
+        .dresscode-image {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 20px;
+            margin-bottom: 1.5rem;
+            border: var(--border);
+        }
+
+        /* Админ панель - ШИРЕ */
+        .admin-panel {
+            position: fixed;
+            top: 0;
+            right: -600px;
+            width: 600px;
+            height: 100vh;
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: -8px 0 40px rgba(0,0,0,0.15);
+            z-index: 2000;
+            transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 2.5rem;
+            overflow-y: auto;
+            border-left: var(--border);
+            backdrop-filter: blur(20px);
+        }
+
+        .admin-panel.open {
+            right: 0;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 2px solid var(--accent);
+        }
+
+        .close-admin {
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--text-light);
+            padding: 0.5rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .close-admin:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        .entries-list {
+            max-height: 70vh;
+            overflow-y: auto;
+            padding-right: 1rem;
+        }
+
+        .entry-item {
+            background: var(--accent-light);
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            border-radius: 20px;
+            border-left: 4px solid var(--accent);
+            transition: transform 0.3s ease;
+        }
+
+        .entry-item:hover {
+            transform: translateX(8px);
+        }
+
+      /* Кнопки управления режимом + Telegram */
+        .controls-panel {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 1rem;
+            z-index: 1001;
+        }
+
+        .mode-toggle, .telegram-icon {
+            width: 65px;
+            height: 65px;
+            background: var(--gradient);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 1.3rem;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+        }
+
+        .mode-toggle:hover, .telegram-icon:hover {
+            transform: scale(1.15) rotate(360deg);
+            box-shadow: 0 20px 50px rgba(74, 63, 90, 0.3);
+        }  
+        /* Подтверждение участия - В КОНЦЕ */
+        .confirm-section {
+            background: linear-gradient(135deg, var(--accent), var(--primary));
+            text-align: center;
+            padding: 100px 0;
+            margin: 5rem auto;
+        }
+
+        .confirm-circle {
+            width: 200px;
+            height: 200px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            margin: 0 auto 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: var(--accent);
+            box-shadow: var(--shadow);
+            border: 3px solid rgba(255, 255, 255, 0.5);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Footer - LoveLink Studio */
+        .footer {
+            background: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 4rem 2rem 2rem;
+            position: relative;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .studio-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.3rem;
+            font-weight: 600;
+            opacity: 0.9;
+        }
+.gallery-item {
+  perspective: 1000px;
+  transform-style: preserve-3d;
+}
+
+.gallery-item img {
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.gallery-itemhover img {
+  transform: rotateY(10deg) rotateX(10deg) scale(1.05);
+}
+        .studio-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .studio-link:hover {
+            color: white;
+            text-shadow: 0 0 20px rgba(215, 185, 213, 0.5);
+        }
+
+        /* Guest Counter */
+        .guest-counter {
+            position: fixed;
+            bottom: 110px;
+            left: 30px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 1.25rem 2rem;
+            border-radius: 30px;
+            box-shadow: var(--shadow);
+            font-weight: 600;
+            z-index: 1002;
+            border: var(--border);
+            backdrop-filter: blur(20px);
+        }
+           
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0;
+            height: 4px;
+            background: var(--gradient);
+            z-index: 10000;
+            transition: width 0.2s ease;
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 120px;
+            right: -400px;
+            background: var(--gradient);
+            color: white;
+            padding: 1.5rem 2.5rem;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            z-index: 3000;
+            transition: right 0.4s ease;
+            font-weight: 500;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .notification.show {
+            right: 30px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .mobile-menu-btn {
+                display: flex;
+            }
+            .hero-bg-video {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  object-fit: cover; z-index: 1;
+  opacity: 0.3;
+}
+.hero-video { position: relative; }
+.hero-content { z-index: 2; }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            
+            .admin-panel {
+                width: 100%;
+                right: -100%;
+            }
+            
+            .controls-panel {
+                flex-direction: column;
+                right: 20px;
+            }
+            
+            .section {
+                margin: 1rem;
+                padding: 80px 1.5rem;
+            }
+        }
+
+        /* Анимации для слабых устройств */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+        /* 🎥 ФОНОВОЕ ВИДЕО */
+#bgVideo {
+  position: fixed !important;
+  top: 0; left: 0; width: 100%; height: 100vh;
+  object-fit: cover;
+  z-index: -2;
+}
+
+.hero-content { position: relative; z-index: 3; }
+header { z-index: 1001 !important; }
+
+@media (max-width: 768px) {
+  #bgVideo { object-fit: cover; object-position: center; }
+}
+     .map-buttons .cta-button {
+    display: flex; align-items: center; gap: 0.5rem; padding: 1rem 1.5rem;
+}   .wishlist-section {
+  background: linear-gradient(135deg, var(--accent), var(--primary));
+  text-align: center;
+  padding: 100px 0;
+  margin: 5rem auto;
+  border-radius: 30px;
+  border: var(--border);
+  backdrop-filter: blur(10px);
+}
+.wishlist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+.wishlist-item {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 2.5rem;
+  border-radius: 25px;
+  box-shadow: var(--shadow);
+  border: var(--border);
+  transition: transform 0.3s ease;
+}
+.wishlist-item:hover {
+  transform: translateY(-10px);
+}
+.wishlist-icon {
+  width: 80px;
+  height: 80px;
+  background: var(--gradient);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  font-size: 2rem;
+  color: white;
+}
+.wishlist-item h4 {
+  font-family: 'Playfair Display', serif;
+  margin-bottom: 1rem;
+  color: var(--dark);
+}
+        /* 🔥 МОБИЛЬНАЯ ОПТИМИЗАЦИЯ — Countdown, RSVP, Quiz */
+@media (max-width: 768px) {
+    /* Countdown — уменьшаем числа и блоки */
+    .countdown-item {
+        padding: 1.2rem 0.8rem !important;
+    }
+    .countdown-number {
+        font-size: 2rem !important;
+    }
+    .countdown-grid {
+        gap: 1rem;
+        max-width: 100%;
+    }
+    .countdown-label {
+        font-size: 0.75rem;
+    }
+    
+    /* RSVP — компактная форма */
+    .rsvp-form {
+        padding: 2rem 1.5rem !important;
+        margin: 1rem 0 !important;
+    }
+    .form-group input, .form-group select, .form-group textarea {
+        padding: 0.9rem 1rem !important;
+        font-size: 16px !important; /* Предотвращает зум */
+    }
+    .form-row {
+        grid-template-columns: 1fr !important;
+        gap: 1rem;
+    }
+    .submit-btn {
+        padding: 1rem 2rem !important;
+        font-size: 1rem !important;
+    }
+    
+    /* ✅ Quiz — улучшенные стили для всех экранов */
+.quiz-team {
+    padding: 1.5rem 1rem !important;
+    min-width: auto !important;
+}
+.quiz-team div:first-child {
+    font-size: 2rem !important;
+}
+.quiz-team .team-name {
+    font-size: 1.1rem !important;
+}
+
+/* ВОПРОСЫ — красиво и компактно */
+#quiz-question {
+  font-size: 1.4rem !important;     /* Чуть крупнее */
+  font-weight: 500 !important;
+  line-height: 1.7 !important;      /* Больше воздуха */
+  padding: 2rem 2rem !important;    /* Больше отступов */
+  margin-bottom: 3rem !important;
+  min-height: 140px !important;     /* Выше блок */
+  width: 100% !important;           /* ← НА ВСЮ ШИРИНУ */
+  max-width: 100% !important;
+  background: rgba(255,255,255,0.7) !important;
+  border-radius: 25px !important;
+  border: 2px solid var(--border) !important;
+  box-shadow: var(--shadow) !important;
+  text-align: center !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+/* КНОПКИ ОТВЕТОВ */
+#quiz-options button.cta-button {
+    padding: 1.3rem 2rem !important;
+    font-size: 1.1rem !important;
+    margin-bottom: 1rem !important;
+    border-radius: 18px !important;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.12) !important;
+}
+
+/* ПРОГРЕСС */
+#quiz-progress {
+    font-size: 1.1rem !important;
+    font-weight: 700 !important;
+    background: rgba(255,255,255,0.8) !important;
+    padding: 0.8rem 1.5rem !important;
+    border-radius: 25px !important;
+    box-shadow: var(--shadow) !important;
+}
+
+.quiz-container {
+    margin: 1rem !important;
+    padding: 1.5rem !important;
+}
+    
+    /* Общие отступы секций */
+    .section {
+        padding: 60px 1rem !important;
+        margin: 1rem 0 !important;
+    }
+    .section-title {
+        font-size: 2rem !important;
+    }
+}
+@media (max-width: 768px) {
+  #quiz-question {
+    font-size: 1.2rem !important;
+    padding: 1.8rem 1.2rem !important;
+    min-height: 120px !important;
+    margin-bottom: 2.5rem !important;
+  }
+}
+@media (max-width: 480px) {
+  #quiz-question { font-size: 1.1rem !important; padding: 1.5rem 1rem !important; }
+}
+  #quiz-options button.cta-button {
+    padding: 1.1rem 1.5rem !important;
+    font-size: 1rem !important;
+  }
+  #quiz-progress {
+    font-size: 1rem !important;
+    padding: 0.7rem 1.2rem !important;
+  }
+  #quiz-question strong {
+    font-size: 1.2rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  #quiz-question { font-size: 1rem !important; }
+  #quiz-options button.cta-button { font-size: 0.95rem !important; }
+}
+@media (max-width: 480px) {
+    /* Сверхкомпактный режим */
+    .countdown-number {
+        font-size: 1.6rem !important;
+    }
+    .rsvp-form {
+        padding: 1.5rem 1rem !important;
+    }
+    .quiz-team {
+        padding: 1.2rem 0.8rem !important;
+    }
+    #quiz-question {
+        font-size: 1rem !important;
+    }
+    .section {
+        padding: 40px 0.5rem !important;
+    }
+}
+        @media (max-width: 768px) {
+    .hero-title {
+        font-size: 3rem !important;
+    }
+    .hero-date {
+        font-size: 1.5rem !important;
+    }
+}
+        /* 🔥 ADMIN PANEL — МОБИЛЬНАЯ ОПТИМИЗАЦИЯ (сверхкомпакт) */
+@media (max-width: 768px) {
+    .admin-panel {
+        width: 100% !important;
+        right: -100% !important;
+    }
+    .admin-panel.open {
+        right: 0 !important;
+    }
+    .admin-header {
+        padding-bottom: 1rem !important;
+        margin-bottom: 1.5rem !important;
+    }
+    .entries-list {
+        max-height: 50vh !important;
+        padding-right: 0.5rem;
+    }
+    .entry-item {
+        padding: 1rem 0.8rem !important;
+        margin-bottom: 1rem !important;
+        font-size: 0.9rem !important;
+    }
+    .entry-item strong {
+        font-size: 1rem !important;
+    }
+    .submit-btn, .download-btn { /* Все админ-кнопки */
+        padding: 0.8rem 1.2rem !important;
+        font-size: 0.9rem !important;
+    }
+    #adminPassInput {
+        padding: 0.8rem !important;
+        font-size: 16px !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .admin-panel {
+        padding: 1rem 0.5rem !important;
+    }
+    .entry-item {
+        padding: 0.8rem 0.5rem !important;
+        font-size: 0.85rem !important;
+    }
+    .submit-btn, .download-btn {
+        padding: 0.7rem 1rem !important;
+        font-size: 0.85rem !important;
+    }
+    .entries-list {
+        max-height: 40vh !important;
+    }
+    .admin-header h3 {
+        font-size: 1.2rem !important;
+    }
+}
+@media (max-width: 768px) {
+  #quiz-section {
+    padding: 60px 1rem !important;
+  }
+  .quiz-container {
+    max-width: 100% !important;
+    margin: 0 0.5rem !important;
+  }
+  .quiz-header {
+    padding: 1.5rem 1rem !important;
+  }
+  .quiz-header h3 {
+    font-size: 1.4rem !important;
+  }
+  #quiz-welcome, #quiz-main, #quiz-results {
+    padding: 2rem 1rem !important;
+  }
+  #quiz-welcome > div {
+    flex-direction: column !important;
+    gap: 1rem !important;
+  }
+  .quiz-team {
+    min-width: auto !important;
+    max-width: 100% !important;
+    padding: 1.5rem 1rem !important;
+  }
+  .quiz-team div:first-child {
+    font-size: 2rem !important;
+  }
+  .team-name {
+    font-size: 1rem !important;
+  }
+  #quiz-question {
+    font-size: 1.1rem !important;
+    margin-bottom: 1.5rem !important;
+    min-height: 80px !important;
+    line-height: 1.4 !important;
+  }
+  .cta-button[onclick*="selectAnswer"] {
+    padding: 0.8rem 1rem !important;
+    font-size: 0.95rem !important;
+  }
+  #quiz-progress-fill {
+    height: 8px !important;
+  }
+    div[style*="grid-template-columns: repeat"] {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+  div[style*="padding: 2rem"] {
+    padding: 1.5rem 1rem !important;
+  }
+  #quiz-score {
+    font-size: 2.5rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .quiz-team {
+    padding: 1.2rem 0.8rem !important;
+  }
+  #quiz-question {
+    font-size: 1rem !important;
+  }
+  #quiz-leaderboard {
+    max-height: 120px !important;
+    overflow-x: auto !important;
+  }
+  .quiz-header h3 {
+    font-size: 1.2rem !important;
+  }
+}
+/* 🔥 ЛИДЕРБОРД — КРАЯ ЭКРАНА, 0 ОТСТУПОВ, КОМПАКТНО */
+@media (max-width: 768px) {
+    #quiz-leaderboard {
+        max-height: 420px !important;
+        width: 120% !important;  /* СВЕРХШИРИНА */
+        margin: 0 -3rem 0 -2.5rem !important;  /* ← К ЛЕВОМУ КРАЮ */
+        font-size: 0.72rem !important;  /* ЕЩЁ МЕЛЧЕ */
+        padding: 0.8rem 1.2rem !important;  /* МИНИМУМ */
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        background: rgba(255,255,255,0.98) !important;
+        border-radius: 0 !important;
+        border: none !important;
+        border-top: 1px solid var(--accent) !important;
+        border-bottom: 1px solid var(--accent) !important;
+    }
+    
+    #quiz-leaderboard div {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        width: 100% !important;
+        padding: 0.45rem 0.6rem !important;  /* СВЕРХКОМПАКТ */
+        gap: 0.6rem !important;
+        min-height: 36px !important;  /* МЕНЬШЕ */
+        border-bottom: 1px solid rgba(0,0,0,0.03) !important;
+        margin: 0 !important;
+    }
+    
+    /* #1 #2 #3... — КОМПАКТ */
+    #quiz-leaderboard span:first-child {
+        font-weight: 800 !important;
+        font-size: 0.92rem !important;
+        color: #d7b9d5 !important;
+        min-width: 30px !important;
+        flex-shrink: 0 !important;
+        text-align: center !important;
+        background: transparent !important;  /* Без фона */
+        padding: 0.1rem 0.3rem !important;
+        border-radius: 4px !important;
+    }
+    
+    /* ИМЯ — БОЛЬШЕ МЕСТА */
+    #quiz-leaderboard span:nth-child(2) {
+        flex: 1 !important;
+        min-width: 0 !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+        text-overflow: ellipsis !important;
+        max-width: 220px !important;  /* МАКСИМУМ */
+        font-weight: 600 !important;
+        color: #333 !important;
+        font-size: 0.75rem !important;
+        padding: 0 !important;
+    }
+    
+    /* ТЕГИ — СКРЫТЫ */
+    #quiz-leaderboard span:nth-child(3) {
+        display: none !important;
+    }
+    
+    /* РЕЗУЛЬТАТ — ПРАВЫЙ край */
+    #quiz-leaderboard span:last-child {
+        font-weight: 900 !important;
+        font-size: 0.98rem !important;
+        color: #d7b9d5 !important;
+        text-align: right !important;
+        min-width: 55px !important;
+        flex-shrink: 0 !important;
+        padding-left: 0.6rem !important;
+        background: transparent !important;  /* Без фона */
+    }
+    
+    h4[style*="Топ-7"] {
+        font-size: 0.95rem !important;
+        margin: 0.5rem 0 0.3rem 0 !important;
+        padding: 0.4rem 1.2rem !important;
+        font-weight: 700 !important;
+        border-bottom: none !important;
+        text-align: left !important;
+        background: rgba(215,185,213,0.1) !important;
+        border-radius: 6px 6px 0 0 !important;
+    }
+}
+
+@media (max-width: 480px) {
+    #quiz-leaderboard {
+        width: 130% !important;
+        margin: 0 -3.5rem 0 -3rem !important;
+        padding: 0.6rem 1rem !important;
+    }
+    #quiz-leaderboard div {
+        padding: 0.4rem 0.5rem !important;
+        min-height: 34px !important;
+    }
+}
+.footer a[href*="max.ru"]:hover {
+  transform: scale(1.15) !important;
+  box-shadow: 0 20px 50px rgba(139, 92, 246, 0.5) !important;
+}
+
+
+
+
+
+
+
+        
+    </style>
+</head>
+<body>
+    <!-- Progress Bar -->
+    <div class="progress-bar" id="progressBar"></div>
+
+    <!-- Header -->
+    <header id="header">
+        <div class="nav-container">
+            <div class="logo">Наш милый сайт</div>
+            <ul class="nav-menu">
+                <li><a href="#hero" class="nav-link">Главная</a></li>
+                <li><a href="#story" class="nav-link">Знакомство</a></li>
+                <li><a href="#countdown" class="nav-link">Отсчет</a></li>
+                <li><a href="#gallery" class="nav-link">Галерея</a></li>
+                <li><a href="#schedule" class="nav-link">Тайминг</a></li>
+                <li><a href="#location" class="nav-link">Место</a></li>
+                <li><a href="#rsvp" class="nav-link">Подтвердить</a></li>
+            </ul>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <span></span><span></span><span></span>
+            </button>
+            <button class="admin-btn" id="adminBtn" title="Админ панель">
+                <i class="fas fa-cog"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section id="hero" class="hero">
+        
+  <div class="hero-content">
+    <!-- существующий контент -->
+  </div>
+
+    </section>
+
+    <!-- Love Story -->
+    <section id="story" class="section love-story">
+        <h2 class="section-title" data-aos="fade-up">Наша любовь</h2>
+        <div class="story-item" data-aos="fade-up" data-aos-delay="100">
+    <img src="https://raw.githubusercontent.com/LoveLinkStudio/WeddingLLS/main/pervoe.JPG" 
+         alt="Первая встреча" 
+         class="story-image" 
+         loading="lazy">
+                <h3>Первая встреча</h3>
+                <p>В тот день мир остановился. Встретив друг друга, мы поняли — это судьба.</p>
+            </div>
+            <div class="story-item" data-aos="fade-up" data-aos-delay="200">
+                <img src="https://raw.githubusercontent.com/LoveLinkStudio/WeddingLLS/main/vtoroe.JPG" alt="Первые моменты" class="story-image">
+                <h3>Первые моменты</h3>
+                <p>Каждый взгляд, каждое слово — начало самой красивой истории нашей жизни.</p>
+            </div>
+            <div class="story-item" data-aos="fade-up" data-aos-delay="300">
+                <img src="https://raw.githubusercontent.com/LoveLinkStudio/WeddingLLS/main/tretie.JPG" alt="Вместе навсегда" class="story-image">
+                <h3>Вместе навсегда</h3>
+                <p>07.07.2027 мы скажем "Да" самой большой любви в нашей жизни.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Countdown -->
+    <section id="countdown" class="section countdown">
+        <h2 class="section-title" style="color: white;" data-aos="fade-up">До самого важного дня</h2>
+        <div class="countdown-grid" id="countdownGrid">
+            <div class="countdown-item">
+                <span class="countdown-number" id="days">00</span>
+                <span class="countdown-label">дней</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="hours">00</span>
+                <span class="countdown-label">часов</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="minutes">00</span>
+                <span class="countdown-label">минут</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="seconds">00</span>
+                <span class="countdown-label">секунд</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dress Code -->
+    <section class="dresscode-section">
+        <div style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+            <h2 class="section-title" style="color: var(--dark);">Dress Code</h2>
+            <p style="font-size: 1.2rem; margin-bottom: 3rem; max-width: 700px; margin-left: auto; margin-right: auto;">
+                Пастельные тона — нежные оттенки любви и гармонии
+            </p>
+            <div class="dresscode-grid">
+                <div class="dresscode-item">
+                    <img src="https://raw.githubusercontent.com/LoveLinkStudio/WeddingLLS/main/dress1.JPG" alt="Пастельный костюм" class="dresscode-image">
+                    <h4>Для мужчин</h4>
+                    <p>Светлые костюмы, бежевые брюки, пастельные рубашки</p>
+                </div>
+                <div class="dresscode-item">
+                    <img src="https://raw.githubusercontent.com/LoveLinkStudio/WeddingLLS/main/dress2.JPG" alt="Пастельное платье" class="dresscode-image">
+                    <h4>Для женщин</h4>
+                    <p>Нежные платья, пастельные оттенки, легкие ткани</p>
+                </div>
+                <div class="dresscode-item">
+                    <img src="https://raw.githubusercontent.com/LoveLinkStudio/WeddingLLS/main/dress3.JPG" alt="Детский дресс код" class="dresscode-image">
+                    <h4>Для детей</h4>
+                    <p>Пастельные комплекты, милые образы</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+        <!-- Gallery -->
+    <section id="gallery" class="section gallery">
+        <h2 class="section-title" data-aos="fade-up">Наши моменты</h2>
+        <div class="gallery-grid">
+            <div class="gallery-item" data-aos="zoom-in" data-aos-delay="100">
+                <img src="https://raw.githubusercontent.com/LoveLinkStudio/WeddingLLS/main/momenti1.JPG" alt="Love">
+                <div class="gallery-overlay">
+                    <h4>Вместе навсегда</h4>
+                    <p>Каждый момент с тобой — счастье</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-aos="zoom-in" data-aos-delay="200">
+                <img src="https://raw.githubusercontent.com/LoveLinkStudio/WeddingLLS/main/momenti2.JPG" alt="Love">
+                <div class="gallery-overlay">
+                    <h4>Твоя улыбка</h4>
+                    <p>Освещает весь мой мир</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-aos="zoom-in" data-aos-delay="300">
+                <img src="https://raw.githubusercontent.com/LoveLinkStudio/WeddingLLS/main/momenti3.JPG" alt="Love">
+                <div class="gallery-overlay">
+                    <h4>Любовь бесконечна</h4>
+                    <p>Как небо над нами</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-aos="zoom-in" data-aos-delay="400">
+                <img src="https://raw.githubusercontent.com/LoveLinkStudio/WeddingLLS/main/momenti4.JPG" alt="Love">
+                <div class="gallery-overlay">
+                    <h4>Ты и я</h4>
+                    <p>Против всего мира</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-aos="zoom-in" data-aos-delay="500">
+                <img src="https://raw.githubusercontent.com/LoveLinkStudio/WeddingLLS/main/momenti5.JPG" alt="Love">
+                <div class="gallery-overlay">
+                    <h4>Будущие мечты</h4>
+                    <p>Мы создадим вместе</p>
+                </div>
+            </div>
+            <div class="gallery-item" data-aos="zoom-in" data-aos-delay="600">
+                <img src="https://raw.githubusercontent.com/LoveLinkStudio/WeddingLLS/main/momenti6.JPG" alt="Love">
+                <div class="gallery-overlay">
+                    <h4>Вечная любовь</h4>
+                    <p>Навсегда в наших сердцах</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Schedule -->
+    <section id="schedule" class="section schedule">
+        <h2 class="section-title" data-aos="fade-up">Тайминг</h2>
+        <div class="schedule-grid">
+            <div class="schedule-item" data-aos="fade-right">
+                <div class="schedule-time">14:00</div>
+                <h3>Регистрация гостей</h3>
+                <p>Встреча гостей. Шампанское и легкие закуски.</p>
+            </div>
+            <div class="schedule-item" data-aos="fade-up">
+                <div class="schedule-time">16:00</div>
+                <h3>Церемония</h3>
+                <p>Самый волнующий момент. Слова любви и клятвы.</p>
+            </div>
+            <div class="schedule-item" data-aos="fade-left">
+                <div class="schedule-time">18:00</div>
+                <h3>Праздничный банкет</h3>
+                <p>Вкуснейшие блюда, тосты и танцы до утра.</p>
+            </div>
+            <div class="schedule-item" data-aos="fade-right" data-aos-delay="100">
+                <div class="schedule-time">22:00</div>
+                <h3>Первый танец</h3>
+                <p>Особенный танец молодоженов под звездами.</p>
+            </div>
+            <div class="schedule-item" data-aos="fade-up" data-aos-delay="200">
+                <div class="schedule-time">00:00</div>
+                <h3>Торт и сюрпризы</h3>
+                <p>Сладкий финал незабываемого дня.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Location -->
+    <section id="location" class="section">
+    <h2 class="section-title" data-aos="fade-up">Место проведения</h2>
+     <div class="location-name" data-aos="fade-up" data-aos-delay="200" style="
+        font-family: 'Playfair Display', serif;
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        text-align: center;
+        margin: 1rem 0 3rem;
+        background: var(--gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        font-weight: 700;
+    ">
+        Камнево — загородный клуб
+    </div>
+    <div class="container">
+        <div class="map-container" id="map"></div>
+        <!-- Новые кнопки такси -->
+        <div class="map-buttons" style="display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem;">
+    <a href="https://taxi.yandex.ru/ru_ru?utm_source=yamaps&utm_medium=api&gfrom=%2C&gto=57.258832%2C65.10849&level&ref=2334695&tariff&referrer=appmetrica_tracking_id%3D241755468559577482%26ym_tracking_id%3D8467453618275674929" 
+       class="cta-button" 
+       style="background: linear-gradient(135deg, #FFF9C4, #FFE082); color: #EAA800; border: 1px solid #FFE082; margin-right: 0.5rem;" 
+       target="_blank">
+        <i class="fab fa-yandex"></i> Яндекс Go
+    </a>
+    <a href="https://2gis.ru/tyumen/firm/70000001041618161" 
+       class="cta-button" 
+       style="background: linear-gradient(135deg, #E8F5E8, #C8E6C9); color: #689F38; border: 1px solid #C8E6C9;" 
+       target="_blank">
+        <i class="fas fa-map-marked-alt"></i> 2ГИС
+    </a>
+</div>
+        <div style="text-align: center; margin-top: 3rem;">
+            <p data-aos="fade-up" data-aos-delay="100">
+                <strong>Улица Виктора Соколова, 7</strong><br>
+                с. Кулига, Тюменский район, Тюменская область
+            </p>
+            <p data-aos="fade-up" data-aos-delay="200">Расстояние от Тюмени ~30 км</p>
+        </div>
+    </div>
+</section>
+
+    <!-- Колодец желаний -->
+<section class="wishlist-section" id="wishlist">
+    <div style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
+        <h2 class="section-title" style="color: white; margin-bottom: 2rem;">Колодец желаний</h2>
+        <p style="text-align: center; font-size: 1.2rem; margin-bottom: 3rem; color: rgba(255,255,255,0.9); max-width: 700px; margin-left: auto; margin-right: auto;">
+            Ваше присутствие — лучший подарок! Но если хотите порадовать нас, вот идеи. Ссылки ведут на магазины.
+        </p>
+        <div class="wishlist-grid">
+            <div class="wishlist-item" data-aos="fade-up" data-aos-delay="100">
+                <div class="wishlist-icon"><i class="fas fa-gift"></i></div>
+                <h4>Путешествие в медовый месяц</h4>
+                <p>Сертификат на романтическую поездку</p>
+                <a href="https://www.ozon.ru/" target="_blank" class="cta-button" style="margin-top: 1rem; display: block;">Выбрать на Ozon</a>
+            </div>
+            <div class="wishlist-item" data-aos="fade-up" data-aos-delay="200">
+                <div class="wishlist-icon"><i class="fas fa-utensils"></i></div>
+                <h4>Посуда для дома</h4>
+                <p>Сервиз или кухонный набор премиум-класса</p>
+                <a href="https://www.wildberries.ru/" target="_blank" class="cta-button" style="margin-top: 1rem; display: block;">Wildberries</a>
+            </div>
+            <div class="wishlist-item" data-aos="fade-up" data-aos-delay="300">
+                <div class="wishlist-icon"><i class="fas fa-money-bill-wave"></i></div>
+                <h4>Конверт</h4>
+                <p>На счёт для будущих покупок</p>
+                <p style="font-size: 1rem; color: var(--text-light);">Реквизиты в личном сообщении</p>
+            </div>
+        </div>
+        <div style="text-align: center; margin-top: 3rem; padding: 2rem; background: rgba(255,255,255,0.1); border-radius: 20px; border: var(--border);">
+            <i class="fas fa-exclamation-triangle" style="color: #ffd700; font-size: 2rem; margin-bottom: 1rem;"></i>
+            <p style="font-weight: 600;">Согласуйте подарок заранее, чтобы избежать дубликатов!</p>
+        </div>
+    </div>
+</section>
+
+    
+    
+    
+    
+    
+    
+    
+    
+    <!-- Викторина для Игоря и Марии с Firebase + МОДАЛЬНОЕ ОКНО ИМЕНИ -->
+
+<!-- Подключение Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+
+<!-- Викторина для Игоря и Марии -->
+<section id="quiz-section" class="section" style="background: linear-gradient(135deg, var(--accent-light), var(--primary)); text-align: center; border-radius: 30px; border: var(--border);">
+  <h2 class="section-title" style="color: var(--dark);">🧠 Викторина для гостей</h2>
+  <p style="font-size: 1.2rem; max-width: 700px; margin: 0 auto 3rem; color: var(--text-dark);">Кто лучше знает Игоря и Марию? Выберите команду и проверьте себя! Имя появится в общем лидерборде.</p>
+  
+  <div class="quiz-container" style="max-width: 800px; margin: 0 auto; background: rgba(255,255,255,0.98); border-radius: 25px; box-shadow: var(--shadow); border: var(--border); overflow: hidden;">
+    
+    <!-- Header викторины -->
+    <div class="quiz-header" style="padding: 2rem; background: var(--gradient); color: white; text-align: center;">
+      <h3 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; margin: 0;">Викторина: Игорь и Мария</h3>
+      <p style="margin: 0.5rem 0 0; opacity: 0.9;">10 вопросов • Онлайн лидерборд • Реальное время</p>
+    </div>
+
+    <!-- ✅ ИСПРАВЛЕННЫЕ КНОПКИ -->
+    <div id="quiz-welcome" style="padding: 3rem; text-align: center;">
+      <h4 style="font-size: 1.5rem; margin-bottom: 2rem; color: var(--dark);">Выберите свою команду:</h4>
+      <div style="display: flex; gap: 2rem; justify-content: center; margin-bottom: 2rem; flex-wrap: wrap;">
+        
+        <!-- КОМАНДА ИГОРЬ -->
+        <div style="flex: 1; min-width: 250px; max-width: 280px;">
+          <button class="quiz-team groom-team" data-team="groom" style="
+            width: 100%; padding: 2.5rem 2rem; border: 3px solid #e0e0e0; border-radius: 20px; 
+            cursor: pointer; transition: all 0.3s ease; background: #ffffff; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); font-family: inherit; font-size: 1rem;
+            user-select: none; position: relative; overflow: visible;">
+            <div style="font-size: 3rem; margin-bottom: 1.2rem; transition: all 0.3s ease;">🤵‍♂️</div>
+            <div class="team-name" style="font-size: 1.2rem; font-weight: 700; margin-bottom: 0.8rem; color: #333;">Команда Жениха</div>
+            <div style="color: #666; font-size: 1.1rem; font-weight: 500;">За жениха и точность!</div>
+          </button>
+        </div>
+
+        <!-- КОМАНДА МАРИЯ -->
+        <div style="flex: 1; min-width: 250px; max-width: 280px;">
+          <button class="quiz-team bride-team" data-team="bride" style="
+            width: 100%; padding: 2.5rem 2rem; border: 3px solid #e0e0e0; border-radius: 20px; 
+            cursor: pointer; transition: all 0.3s ease; background: #ffffff; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); font-family: inherit; font-size: 1rem;
+            user-select: none; position: relative; overflow: visible;">
+            <div style="font-size: 3rem; margin-bottom: 1.2rem; transition: all 0.3s ease;">👰‍♀️</div>
+            <div class="team-name" style="font-size: 1.2rem; font-weight: 700; margin-bottom: 0.8rem; color: #333;">Команда Невесты</div>
+            <div style="color: #666; font-size: 1.1rem; font-weight: 500;">За невесту и романтику!</div>
+          </button>
+        </div>
+        
+      </div>
+      <button id="quiz-start" class="cta-button" style="padding: 1.2rem 3rem; font-size: 1.1rem; cursor: not-allowed; opacity: 0.6; background: #ccc; border: none; border-radius: 15px; font-weight: 600;" disabled>Выберите команду</button>
+    </div>
+
+    <!-- Основной экран викторины -->
+    <div id="quiz-main" style="padding: 3rem; display: none;">
+      <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; font-weight: 600; flex-wrap: wrap; gap: 1rem;">
+        <span style="font-size: 1.1rem;">Команда: <span id="quiz-team-name" style="color: var(--accent); font-weight: 700; font-size: 1.2rem;"></span></span>
+        <span id="quiz-progress" style="font-size: 1.2rem; font-weight: 700;">0/10</span>
+      </div>
+      <div class="progress-bar" style="height: 10px; background: var(--accent-light); border-radius: 5px; overflow: hidden; margin-bottom: 2rem; border: var(--border);">
+        <div id="quiz-progress-fill" style="height: 100%; width: 0%; background: var(--gradient); transition: width 0.5s ease;"></div>
+      </div>
+      <div id="quiz-question" style="font-size: 1.4rem; font-weight: 500; line-height: 1.5; margin-bottom: 2rem; min-height: 100px; display: flex; align-items: center; justify-content: center; opacity: 0; transform: translateY(20px); transition: all 0.6s ease; text-align: center;"></div>
+      <div id="quiz-options" style="display: flex; flex-direction: column; gap: 1rem; max-width: 600px; margin: 0 auto;"></div>
+    </div>
+
+    <!-- Результаты -->
+    <div id="quiz-results" style="padding: 3rem; display: none; text-align: center;">
+      <h3 style="font-family: 'Playfair Display', serif; font-size: 2.2rem; margin-bottom: 1rem;">Ваш результат:</h3>
+      <div style="font-size: 3.5rem; font-weight: 700; color: var(--accent); margin-bottom: 1rem;" id="quiz-score">0</div>
+      <div id="quiz-player-name" style="font-size: 1.3rem; font-weight: 500; color: var(--dark); margin-bottom: 1.5rem; background: rgba(255,255,255,0.7); padding: 0.5rem 1.5rem; border-radius: 25px; display: inline-block;"></div>
+      <p style="font-size: 1.2rem; margin-bottom: 2.5rem; color: var(--text-dark);">Спасибо за участие! 🎉</p>
+    </div>
+
+    <!-- ЛИДЕРБОРД — ВСЕГДА ВИДИМ -->
+    <div style="background: rgba(255,255,255,0.6); padding: 2rem; border-radius: 20px; margin-bottom: 2.5rem; border: var(--border); display: block;">
+      <h4 style="margin-bottom: 1.5rem; font-family: 'Playfair Display', serif;">🏆 ТОП лучших</h4>
+      <div id="quiz-leaderboard" style="max-height: 250px; overflow-y: auto; text-align: left; background: white; border-radius: 15px; padding: 1rem;"></div>
+    </div>
+
+    <!-- Средние баллы команд -->
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
+      <div style="background: linear-gradient(135deg, #e8f5e8, #c8e6c9); padding: 2rem; border-radius: 20px; box-shadow: var(--shadow);">
+        <div style="font-size: 0.95rem; opacity: 0.9; margin-bottom: 0.5rem;">Средний счёт</div>
+        <div id="avg-groom" style="font-size: 2.5rem; font-weight: 700; color: #2196f3;">0</div>
+        <div style="font-weight: 600;">Команда Жениха</div>
+        <div id="count-groom" style="font-size: 0.85rem; opacity: 0.8;">0 игроков</div>
+      </div>
+      <div style="background: linear-gradient(135deg, #fce4ec, #f8bbd9); padding: 2rem; border-radius: 20px; box-shadow: var(--shadow);">
+        <div style="font-size: 0.95rem; opacity: 0.9; margin-bottom: 0.5rem;">Средний счёт</div>
+        <div id="avg-bride" style="font-size: 2.5rem; font-weight: 700; color: #c2185b;">0</div>
+        <div style="font-weight: 600;">Команда Невесты</div>
+        <div id="count-bride" style="font-size: 0.85rem; opacity: 0.8;">0 игроков</div>
+      </div>
+    </div>
+    
+    
+  </div>
+</section>
+
+<!-- МОДАЛЬНОЕ ОКНО - убрал backdrop-filter -->
+<div id="name-modal" class="name-modal" style="position: fixed; inset: 0; background: rgba(0,0,0,0.7); display: none; justify-content: center; align-items: center; z-index: 10000;">
+  <div class="name-modal-content" style="background: white; border-radius: 25px; box-shadow: 0 25px 60px rgba(0,0,0,0.3); padding: 3rem 2.5rem; max-width: 450px; width: 90%; text-align: center; border: var(--border);">
+    <h3 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--dark); margin-bottom: 1rem;">✨ Представьтесь, пожалуйста!</h3>
+    <p style="color: var(--text-light); margin-bottom: 2rem; line-height: 1.5;">Введите ваше имя — оно появится в общем лидерборде для всех гостей!</p>
+    <input type="text" id="player-name-input" class="name-input" placeholder="Иван Иванов" maxlength="25" style="width: 100%; padding: 1.2rem 1.5rem; font-size: 1.1rem; border: 2px solid var(--border); border-radius: 15px; margin-bottom: 1.5rem; font-family: inherit; transition: all 0.3s ease;">
+    <div style="display: flex; gap: 1rem;">
+      <button id="name-skip" style="flex: 1; padding: 1rem; background: var(--accent-light); color: var(--dark); border: none; border-radius: 12px; font-size: 1rem; cursor: pointer; transition: all 0.3s;">Пропустить</button>
+      <button id="name-confirm" style="flex: 1; padding: 1rem; background: var(--gradient); color: white; border: none; border-radius: 12px; font-size: 1rem; cursor: pointer; transition: all 0.3s; font-weight: 600;">Сохранить имя</button>
+    </div>
+  </div>
+</div>
+
+<!-- Скрипт викторины (без изменений, лидерборд всегда обновляется) -->
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyC2zHfSvobeo0cpVVtUy0iPur2aoTE-1lA",
+  authDomain: "weddingllsezhunov.firebaseapp.com",
+  databaseURL: "https://weddingllsezhunov-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "weddingllsezhunov",
+  storageBucket: "weddingllsezhunov.firebasestorage.app",
+  messagingSenderId: "838708765760",
+  appId: "1:838708765760:web:2844d915fc5fa7b91ceba5"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
+
+const questions = [
+  { question: "Где Игорь и Мария познакомились?", options: ["На работе", "Через друзей", "В университете", "В интернете"], correct: 1 },
+  { question: "Кто сделал первое предложение?", options: ["Игорь", "Мария", "Оба одновременно", "Родители"], correct: 0 },
+  { question: "Любимое место пары для свиданий?", options: ["Парк", "Ресторан", "Кино", "Дома с вином"], correct: 3 },
+  { question: "Чья любимая еда - суши?", options: ["Игоря", "Марии", "Обоих", "Никого"], correct: 2 },
+  { question: "Какой фильм они смотрят на повтор?", options: ["Комедия", "Романтика", "Боевик", "Не смотрят фильмы"], correct: 1 },
+  { question: "Кто лучше готовит?", options: ["Игорь", "Мария", "Вместе", "Заказывают"], correct: 2 },
+  { question: "Любимое путешествие пары?", options: ["Море", "Горы", "Город", "Дома"], correct: 0 },
+  { question: "Чей любимый цвет - розовый?", options: ["Игоря", "Марии", "Обоих", "Синий"], correct: 1 },
+  { question: "Кто танцует лучше?", options: ["Игорь", "Мария", "Оба", "Никто"], correct: 2 },
+  { question: "Сколько лет они вместе?", options: ["1 год", "2 года", "3 года", "Больше 3"], correct: 3 }
+];
+
+let currentTeam = '', currentQuestion = 0, score = 0, playerName = 'Гость', userId = '';
+function checkQuizPlayed() {
+  if (localStorage.getItem('weddingQuizPlayed') === 'true') {
+    showNotification('❌ Вы уже проходил викторину!', 'error');
+    // Показать лидерборд и статистику, скрыть всё остальное
+    document.getElementById('quiz-welcome').style.display = 'none';
+    document.getElementById('quiz-main').style.display = 'none';
+    document.getElementById('quiz-results').style.display = 'block';
+    // Загрузить лидерборд (listenToLeaderboard уже работает)
+    return true;
+  }
+  return false;
+}
+const welcomeEl = document.getElementById('quiz-welcome');
+const mainEl = document.getElementById('quiz-main');
+const resultsEl = document.getElementById('quiz-results');
+const nameModal = document.getElementById('name-modal');
+const nameInput = document.getElementById('player-name-input');
+const nameConfirm = document.getElementById('name-confirm');
+const nameSkip = document.getElementById('name-skip');
+const startBtn = document.getElementById('quiz-start');
+const teamNameEl = document.getElementById('quiz-team-name');
+const progressEl = document.getElementById('quiz-progress');
+const progressFill = document.getElementById('quiz-progress-fill');
+const questionEl = document.getElementById('quiz-question');
+const optionsEl = document.getElementById('quiz-options');
+const scoreEl = document.getElementById('quiz-score');
+const playerNameEl = document.getElementById('quiz-player-name');
+const leaderboardEl = document.getElementById('quiz-leaderboard');
+const restartBtn = document.getElementById('quiz-restart');
+
+    // Инициализация
+function init() {
+  userId = 'guest_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+    localStorage.setItem('weddingQuizUserId', userId);  // Сохранить ID устройства
+
+  const teamElements = document.querySelectorAll('.quiz-team');
+
+  teamElements.forEach((team) => {
+    team.addEventListener('click', function () {
+      console.log('Команда кликнута:', this.dataset.team);
+
+      // Сбрасываем все команды
+      teamElements.forEach(t => {
+        t.style.borderColor = '#e0e0e0';
+        t.style.boxShadow = '0 10px 30px rgba(0,0,0,0.1)';
+        t.style.transform = 'scale(1)';
+        t.querySelector('div').style.transform = 'scale(1)';
+      });
+
+      // Активируем выбранную
+      this.style.borderColor = 'var(--accent)';
+      this.style.boxShadow = '0 20px 40px rgba(215, 185, 213, 0.4)';
+      this.style.transform = 'scale(1.02)';
+      this.querySelector('div').style.transform = 'scale(1.1)';
+      
+      currentTeam = this.dataset.team;
+
+      // Активируем кнопку старта
+      startBtn.disabled = false;
+      startBtn.style.opacity = '1';
+      startBtn.style.cursor = 'pointer';
+      startBtn.style.background = 'var(--gradient)';
+      startBtn.innerHTML = `🚀 Начать за команду ${currentTeam === 'groom' ? 'Жениха' : 'Невесты'}`;
+    });
+
+    // Ховер эффект
+    team.addEventListener('mouseenter', function() {
+      if (!currentTeam || this.dataset.team !== currentTeam) {
+        this.style.transform = 'scale(1.02)';
+        this.style.boxShadow = '0 15px 35px rgba(0,0,0,0.15)';
+      }
+    });
+    
+    team.addEventListener('mouseleave', function() {
+      if (!currentTeam || this.dataset.team !== currentTeam) {
+        this.style.transform = 'scale(1)';
+        this.style.boxShadow = '0 10px 30px rgba(0,0,0,0.1)';
+      }
+    });
+  });
+
+  // Модальное окно имени
+  nameConfirm.addEventListener('click', () => {
+    const name = nameInput.value.trim();
+    playerName = name || 'Гость #' + Math.floor(Math.random()*999);
+    nameModal.style.display = 'none';
+    startQuiz();
+  });
+
+  nameSkip.addEventListener('click', () => {
+    playerName = 'Гость #' + Math.floor(Math.random()*999);
+    nameModal.style.display = 'none';
+    startQuiz();
+  });
+
+  nameInput.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') nameConfirm.click();
+  });
+
+startBtn.addEventListener('click', function() {
+  if (!currentTeam) {
+    alert('Выберите команду!');
+    return;
+  }
+  if (checkQuizPlayed()) return;  // ← НОВОЕ: блокировка повторного прохождения
+  
+  showNameModal();
+});
+  
+  // Real-time Firebase — лидерборд и статистика всегда обновляются
+  listenToLeaderboard();
+  listenToStats();
+  
+  // Фокус на инпуте
+  nameInput.addEventListener('focus', () => {
+    nameInput.style.borderColor = 'var(--accent)';
+    nameInput.style.boxShadow = '0 0 0 3px rgba(215, 185, 213, 0.2)';
+  });
+}
+    
+function waitForElements() {
+    const avgGroomEl = document.getElementById('avg-groom');
+    const avgBrideEl = document.getElementById('avg-bride');
+
+    if (!avgGroomEl || !avgBrideEl) {
+    console.warn('avg-groom / avg-bride not found yet, scheduling retry');
+    setTimeout(init, 50); // запустить init снова через 50 мс
+    return;
+  }
+
+  // Дальше выполняем всё, как обычно
+  const teamElements = document.querySelectorAll('.quiz-team');
+  // ... твой код initialize ...
+
+  console.log('✅ Section loaded, DOM is ready');
+
+  // Теперь уже можно запускать Firebase‑подписки
+  listenToLeaderboard();
+  listenToStats();
+}
+function showNameModal() {
+  console.log('Показываем модалку имени, команда:', currentTeam);
+  if (!currentTeam) {
+    alert('Сначала выберите команду!');
+    return;
+  }
+  nameInput.value = '';
+  nameModal.style.display = 'flex';
+  setTimeout(() => nameInput.focus(), 300);
+}
+
+function startQuiz() {
+  console.log('Старт викторины для:', playerName, currentTeam);
+  welcomeEl.style.display = 'none';
+  mainEl.style.display = 'block';
+  teamNameEl.textContent = currentTeam === 'groom' ? 'Жениха' : 'Невесты';
+  currentQuestion = 0;
+  score = 0;
+  showQuestion();
+}
+
+function showQuestion() {
+  const q = questions[currentQuestion];
+  progressEl.textContent = `${currentQuestion + 1}/10`;
+  progressFill.style.width = `${((currentQuestion + 1) / 10) * 100}%`;
+  
+  questionEl.style.opacity = '1';
+  questionEl.style.transform = 'translateY(0)';
+  questionEl.innerHTML = `${q.question}`;
+  
+  optionsEl.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'cta-button';
+    btn.style.cssText = `
+      padding: 1.2rem 1.8rem; font-size: 1.05rem; margin-bottom: 0.8rem;
+      background: rgba(255,255,255,0.9); color: var(--text-dark); border: 2px solid var(--border);
+      border-radius: 15px; cursor: pointer; transition: all 0.3s ease; width: 100%;
+      font-weight: 500; box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    `;
+    btn.innerHTML = opt;
+    btn.onclick = () => selectAnswer(i, btn);
+    optionsEl.appendChild(btn);
+  });
+}
+
+function selectAnswer(selected, btn) {
+  const q = questions[currentQuestion];
+
+  const buttons = optionsEl.querySelectorAll('button');
+  buttons.forEach(b => {
+    b.disabled = true;
+    b.style.cursor = 'not-allowed';
+  });
+
+  buttons.forEach((b, i) => {
+    if (i === q.correct) {
+      b.style.background = 'linear-gradient(135deg, #d4edda, #c3e6cb)';
+      b.style.borderColor = '#28a745';
+      b.style.color = '#155724';
+      b.style.transform = 'scale(1.02)';
+    } else if (i === selected) {
+      b.style.background = 'linear-gradient(135deg, #f8d7da, #f5c6cb)';
+      b.style.borderColor = '#dc3545';
+      b.style.color = '#721c24';
+    }
+  });
+
+  if (selected === q.correct) score++;
+
+  setTimeout(() => {
+    currentQuestion++;
+    if (currentQuestion < 10) {
+      showQuestion();
+    } else {
+      finishQuiz();
+    }
+  }, 1600);
+}
+
+function finishQuiz() {
+    localStorage.setItem('weddingQuizPlayed', 'true');  // Навсегда блокируем
+  mainEl.style.display = 'none';
+  resultsEl.style.display = 'block';
+  scoreEl.textContent = score;
+  playerNameEl.textContent = playerName;
+
+  // Firebase save
+  const result = {
+    id: userId,
+    team: currentTeam === 'groom' ? 'igor' : 'maria',
+    name: playerName,
+    score: score,
+    timestamp: firebase.database.ServerValue.TIMESTAMP,
+    date: new Date().toISOString()
+  };
+
+  console.log('Сохраняем результат в Firebase:', result);
+  db.ref('quiz_results').push(result);
+  
+  if (score >= 7) {
+    showCelebration();
+  }
+}
+
+function listenToLeaderboard() {
+  db.ref('quiz_results')
+    .orderByChild('score')
+    .on('value', (snapshot) => {
+      const leaders = [];
+      const results = [];  // ← объявляем внутри
+
+      snapshot.forEach(child => {
+        const r = child.val();
+        results.push(r);
+        if (r.score >= 7) {
+          leaders.unshift(r);
+        }
+      });
+
+      allResultsForStats = results;  // ← присваиваем
+
+      console.log('LEADERS (все 7+):', leaders);
+      updateLeaderboard(leaders);
+    });
+}
+
+function listenToStats() {
+  db.ref('quiz_results')
+    .on('value', () => {
+      const igorResults = allResultsForStats.filter(r => r.team === 'igor');
+      const mariaResults = allResultsForStats.filter(r => r.team === 'maria');
+
+      const avgIgor = igorResults.length
+        ? Math.round(igorResults.reduce((s, r) => s + r.score, 0) / igorResults.length)
+        : 0;
+      const avgMaria = mariaResults.length
+        ? Math.round(mariaResults.reduce((s, r) => s + r.score, 0) / mariaResults.length)
+        : 0;
+
+      const avgGroomEl = document.getElementById('avg-groom');
+      const avgBrideEl = document.getElementById('avg-bride');
+      const countGroomEl = document.getElementById('count-groom');
+      const countBrideEl = document.getElementById('count-bride');
+
+      if (avgGroomEl) avgGroomEl.textContent = avgIgor;
+      if (avgBrideEl) avgBrideEl.textContent = avgMaria;
+      if (countGroomEl) countGroomEl.textContent = igorResults.length + ' игроков';
+      if (countBrideEl) countBrideEl.textContent = mariaResults.length + ' игроков';
+
+      console.log('📊 stats igor:', avgIgor, 'maria:', avgMaria);
+    });
+}
+function updateLeaderboard(leaders) {
+  if (!leaders.length) {
+    leaderboardEl.innerHTML = '<div style="padding: 1.5rem; color: var(--text-light); font-style: italic;">⏳ Ждём первых чемпионов...</div>';
+    return;
+  }
+  
+  leaderboardEl.innerHTML = leaders.map((r, i) => `
+    <div style="display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 1rem; border-bottom: 1px solid #eee; font-size: 1rem; transition: background 0.2s; border-radius: 8px; margin-bottom: 0.5rem;">
+      <div style="display: flex; align-items: center; gap: 0.8rem; flex: 1;">
+        <span style="font-weight: 700; font-size: 1.2rem; min-width: 25px; background: var(--accent); color: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">${i+1}</span>
+        <span style="font-weight: 600; max-width: 150px; overflow: hidden; text-overflow: ellipsis; color: #333;">${r.name}</span>
+        <span style="font-size: 0.85rem; color: var(--text-light); padding: 0.3rem 0.8rem; background: ${r.team === 'igor' ? '#e3f2fd' : '#fce4ec'}; border-radius: 15px; font-weight: 500;">${r.team === 'igor' ? ' ' : ' '}</span>
+      </div>
+      <span style="font-weight: 700; color: var(--accent); font-size: 1.2rem; min-width: 60px; text-align: right;">${r.score}/10</span>
+    </div>
+  `).join('');
+}
+
+function showCelebration() {
+  for (let i = 0; i < 40; i++) {
+    setTimeout(() => createHeart(), i * 80);
+  }
+}
+
+function createHeart() {
+  const heart = document.createElement('div');
+  heart.innerHTML = ['💖','💕','💗','🌸','✨'][Math.floor(Math.random()*5)];
+  heart.style.cssText = `
+    position: fixed; top: 30%; left: ${Math.random() * 90}vw; 
+    font-size: ${1.5 + Math.random()}rem; z-index: 10001; pointer-events: none;
+    animation: heartFloat 4s ease-out forwards;
+  `;
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 4000);
+}
+
+const style = document.createElement('style');
+style.textContent = `
+  @keyframes heartFloat {
+    0% { transform: translateY(0) scale(0) rotate(0deg); opacity: 1; }
+    20% { transform: translateY(-20px) scale(1.2) rotate(180deg); opacity: 1; }
+    100% { transform: translateY(-200vh) scale(0.5) rotate(720deg); opacity: 0; }
+  }
+  .name-input:focus {
+    border-color: var(--accent) !important;
+    box-shadow: 0 0 0 4px rgba(215, 185, 213, 0.25) !important;
+    transform: translateY(-2px);
+    outline: none;
+  }
+  .quiz-team:active {
+    transform: scale(0.98) !important;
+  }
+`;
+document.head.appendChild(style);
+
+function resetQuiz() {
+  if (confirm('🎮 Начать викторину заново?')) {
+    welcomeEl.style.display = 'block';
+    mainEl.style.display = 'none';
+    resultsEl.style.display = 'none';
+    document.querySelectorAll('.quiz-team').forEach(t => {
+      t.style.borderColor = '#e0e0e0';
+      t.style.boxShadow = '0 10px 30px rgba(0,0,0,0.1)';
+      t.style.transform = 'scale(1)';
+    });
+    startBtn.disabled = true;
+    startBtn.style.opacity = '0.6';
+    startBtn.style.cursor = 'not-allowed';
+    startBtn.style.background = '#ccc';
+    startBtn.innerHTML = 'Выберите команду';
+    currentTeam = '';
+    currentQuestion = 0;
+    score = 0;
+  }
+}
+
+// Старт
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    // ждём, пока DOM‑элементы появятся
+    function waitForDOM() {
+      const avgGroomEl = document.getElementById('avg-groom');
+      const avgBrideEl = document.getElementById('avg-bride');
+
+      if (!avgGroomEl || !avgBrideEl) {
+        console.log('avg-groom / avg-bride not found yet, retry');
+        setTimeout(waitForDOM, 50);
+        return;
+      }
+
+      console.log('✅ DOM ready, init');
+      init();
+    }
+    waitForDOM();
+  });
+} else {
+  init();
+}
+</script>
+
+
+
+
+
+
+
+
+    
+
+    
+    <!-- RSVP - НЕ В КОНЦЕ -->
+    <section id="rsvp" class="section">
+    <h2 class="section-title" data-aos="fade-up">Подтверждение участия</h2>
+    <form class="rsvp-form" id="rsvpForm" data-aos="zoom-in">
+        <div class="form-row">
+            <div class="form-group">
+                <label>Ваше имя *</label>
+                <input type="text" id="guestName" required>
+            </div>
+            <div class="form-group">
+                <label>Количество гостей</label>
+                <select id="guestCount" required>
+                    <option value="">Выберите</option>
+                    <option value="1">1 гость</option>
+                    <option value="2">2 гостя</option>
+                    <option value="3">3 гостя</option>
+                    <option value="4+">4+ гостей</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Присутствуете? *</label>
+                <select id="attendance" required>
+                    <option value="">Выберите</option>
+                    <option value="yes">Да, приеду ❤️</option>
+                    <option value="no">К сожалению, нет</option>
+                </select>
+            </div>
+            <!-- Новые поля в отдельном form-row для двух колонок на десктопе -->
+        </div>
+        <div class="form-row">
+            <div class="form-group">
+                <label>Телефон для рассылки *</label>
+                <input type="tel" id="phone" required placeholder="+7 (XXX) XXX-XX-XX">
+            </div>
+            <div class="form-group">
+                <label>Особые предпочтения</label>
+                <textarea id="preferences" rows="4" placeholder="Аллергия (на орехи, глютен и т.д.), диета (вегетарианская, веганская), другие пожелания..."></textarea>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Пожелания молодоженам</label>
+            <textarea id="wishes" rows="4" placeholder="Поделитесь теплыми словами, вопросами или пожеланиями..."></textarea>
+        </div>
+        <button type="submit" class="submit-btn">
+            Отправить подтверждение
+        </button>
+    </form>
+</section>
+    
+
+    <!-- Admin Panel -->
+    <div class="admin-panel" id="adminPanel">
+        <div class="admin-header">
+            <h3>👰🤵 Админ панель</h3>
+            <button class="close-admin" id="closeAdmin">×</button>
+        </div>
+        
+        <div id="adminPassword" style="text-align: center;">
+            <input type="password" id="adminPassInput" placeholder="🔑 Пароль админа" 
+                   style="width: 100%; padding: 1.5rem; margin-bottom: 1.5rem; border-radius: 20px; border: 2px solid var(--accent); font-size: 1.1rem;">
+            <button id="adminLoginBtn" class="submit-btn">Войти</button>
+        </div>
+        
+        <div id="adminContent" style="display: none;">
+            <h4>📊 Статистика: <span id="totalEntries">0</span> откликов</h4>
+            
+            <!-- Экспорт в Excel -->
+            <button id="exportExcelBtn" class="submit-btn" style="background: linear-gradient(135deg, #4CAF50, #45a049); margin-bottom: 1.5rem;">
+                📥 Экспорт в Excel
+            </button>
+            
+            <div class="entries-list" id="entriesList"></div>
+            <!-- ✅ КНОПКА СБРОСА ВИКТОРИНЫ (только для админа) -->
+<div style="margin-top: 2rem; padding: 1.5rem; background: rgba(255, 255, 255, 0.1); border-radius: 15px; border-left: 4px solid var(--accent);">
+  <h4 style="margin-bottom: 1rem; color: var(--dark);">🔧 Админ: Управление викториной</h4>
+  <button onclick="localStorage.removeItem('weddingQuizPlayed'); localStorage.removeItem('weddingQuizUserId'); location.reload();" 
+          style="background: linear-gradient(135deg, #ff4444, #cc0000); color: white; padding: 0.8rem 1.5rem; border: none; border-radius: 12px; font-weight: 600; cursor: pointer; transition: all 0.3s; box-shadow: 0 5px 15px rgba(255,68,68,0.3);">
+    🔄 Сброс викторины (для этого устройства)
+  </button>
+  <p style="font-size: 0.85rem; color: var(--text-light); margin-top: 0.5rem; opacity: 0.8;">
+    Очищает localStorage и перезагружает страницу
+  </p>
+</div>
+            
+            <button id="clearAllBtn" class="submit-btn" style="background: linear-gradient(135deg, #ff4757, #ff3742); margin-top: 1.5rem;">
+                🗑️ Очистить все данные
+            </button>
+            
+            <div style="margin-top: 2rem; padding: 1.5rem; background: var(--accent-light); border-radius: 20px; font-size: 0.95rem; color: var(--text-light);">
+                <strong>Статистика:</strong><br>
+                Подтвердило: <span id="adminConfirmed">0</span><br>
+                Отказалось: <span id="adminDeclined">0</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div class="notification" id="notification"></div>
+    <!-- 🎥 ФОНОВОЕ ВИДЕО LoveLinkStudio -->
+<video id="bgVideo" autoplay muted loop playsinline style="position: fixed; top: 0; left: 0; width: 100%; height: 100vh; object-fit: cover; z-index: -2;">
+  <source src="https://raw.githubusercontent.com/LoveLinkStudio/WeddingLLS/main/10.mp4" type="video/mp4">
+</video>
+   
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">           
+            <div class="studio-text">
+                Сайт сделан с любовью 
+                <a href="https://max.ru/join/CFhqBmlIZ61YACk-PwY1wYb-cV3bgNK1bwTBmUM5rl4" class="studio-link" target="_blank">
+                    "LoveLink Studio"
+                </a>
+            </div>
+            <a href="https://max.ru/join/CFhqBmlIZ61YACk-PwY1wYb-cV3bgNK1bwTBmUM5rl4" target="_blank" title="MAX мессенджер" style="width: 70px; height: 70px; border-radius: 18px; background: linear-gradient(135deg, #8B5CF6, #A78BFA); display: flex; align-items: center; justify-content: center; box-shadow: var(--shadow); transition: all 0.3s ease; text-decoration: none;">
+  <img src="https://max.ru/s/img/big-logo.png" alt="MAX" style="width: 44px; height: 44px; object-fit: contain;" loading="lazy">
+</a>
+
+            
+        </div>
+    </footer>
+
+    <script>
+        // Сохраненные функции из оригинального кода
+        let allResultsForStats = [];
+        let entries = JSON.parse(localStorage.getItem('weddingEntries') || '[]');
+        let confirmedCount = 0;
+        let isNightMode = false;
+        let weddingDate = new Date('2027-07-07T14:00:00').getTime();
+        let adminPassword = 'igormaria2027';
+        let map = null;
+
+        // 1. AOS
+        function initAOS() {
+            AOS.init({
+                duration: 1200,
+                once: true,
+                offset: 120
+            });
+        }
+
+        // 2. Progress Bar
+        function initProgressBar() {
+            window.addEventListener('scroll', () => {
+                const scrolled = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+                document.getElementById('progressBar').style.width = scrolled + '%';
+            });
+        }
+
+        // 3. Countdown
+        function initCountdown() {
+            const updateCountdown = () => {
+                const now = new Date().getTime();
+                const distance = weddingDate - now;
+                
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                document.getElementById('days').textContent = days.toString().padStart(2, '0');
+                document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+                document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+                document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+                
+                if (distance < 0) {
+                    document.getElementById('countdownGrid').innerHTML = 
+                        '<h2 style="grid-column: 1/-1; color: white; font-size: 3rem;">Свадебный день! 💕</h2>';
+                }
+            };
+            updateCountdown();
+            setInterval(updateCountdown, 1000);
+        }
+
+        function initRSVPForm() {
+  const form = document.getElementById('rsvpForm');
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const submitBtn = form.querySelector('.submit-btn');
+    submitBtn.textContent = 'Отправляем...';
+    submitBtn.disabled = true;
+
+    const entry = {
+      id: Date.now(),
+      name: document.getElementById('guestName').value,
+      count: document.getElementById('guestCount').value,
+      attendance: document.getElementById('attendance').value,
+      phone: document.getElementById('phone').value,
+      preferences: document.getElementById('preferences').value,
+      wishes: document.getElementById('wishes').value,
+      timestamp: firebase.database.ServerValue.TIMESTAMP,
+      confirmed: document.getElementById('attendance').value === 'yes' ? 1 : 0
+    };
+
+    rsvpDb.ref('rsvpEntries').push(entry)
+      .then(() => {
+        showNotification('✅ RSVP отправлен! Спасибо!');
+        form.reset();
+        
+        // Безопасные эффекты
+        if (typeof createFloatingHeart === 'function') createFloatingHeart();
+        if (typeof launchConfetti === 'function') launchConfetti();
+        updateGuestCounter();
+        
+        submitBtn.textContent = 'Отправлено!';
+        setTimeout(() => {
+          submitBtn.textContent = 'Отправить RSVP';
+          submitBtn.disabled = false;
+        }, 2000);
+      })
+      .catch(error => {
+        console.error('Firebase error:', error);
+        showNotification('❌ Ошибка отправки!', 'error');
+        submitBtn.textContent = 'Отправить RSVP';
+        submitBtn.disabled = false;
+      });
+  });
+}
+
+       // 5. Guest Counter из Firebase
+function updateGuestCounter() {
+  const guestCounterEl = document.querySelector('.guest-counter'); // Если есть элемент с счетчиком
+  rsvpDb.ref('rsvpEntries').once('value')
+    .then(snapshot => {
+      let confirmedCount = 0;
+      snapshot.forEach(child => {
+        if (child.val().attendance === 'yes' || child.val().confirmed === 1) {
+          confirmedCount++;
+        }
+      });
+      if (guestCounterEl) {
+        guestCounterEl.innerHTML = `Подтверждено гостей: <strong>${confirmedCount}</strong>`;
+      }
+      window.confirmedCount = confirmedCount; // Для админки
+    });
+}
+
+        // 6. Floating Hearts
+        function launchConfetti() {
+  const canvas = document.createElement('canvas');
+  canvas.style.cssText = 'position:fixed;top:0;left:0;pointer-events:none;z-index:5000;width:100%;height:100vh';
+  document.body.appendChild(canvas);
+  const ctx = canvas.getContext('2d');
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+  
+  const colors = ['#ff6b9d', '#f8c8dc', '#d4a5a5', '#e91e63', '#f4e4f0'];
+  const particles = [];
+  
+  for(let i = 0; i < 100; i++) {
+    particles.push({
+      x: Math.random() * canvas.width,
+      y: canvas.height + 10,
+      vx: (Math.random() - 0.5) * 10,
+      vy: Math.random() * -15 - 5,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      size: Math.random() * 5 + 3,
+      rotation: Math.random() * 360,
+      rotSpeed: (Math.random() - 0.5) * 5
+    });
+  }
+  
+  function animate() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach((p, i) => {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.vy += 0.2;
+      p.rotation += p.rotSpeed;
+      
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rotation * Math.PI / 180);
+      ctx.fillStyle = p.color;
+      ctx.fillRect(-p.size/2, -p.size/2, p.size, p.size);
+      ctx.restore();
+      
+      if(p.y > canvas.height) particles.splice(i, 1);
+    });
+    
+    if(particles.length) requestAnimationFrame(animate);
+    else document.body.removeChild(canvas);
+  }
+  animate();
+}
+
+// В initRSVPForm замените createFloatingHeart() на:
+launchConfetti();
+
+       
+// 7. Night Mode
+        function initNightMode() {
+            const toggle = document.getElementById('modeToggle');
+            toggle.addEventListener('click', () => {
+                document.body.classList.toggle('night-mode');
+                isNightMode = !isNightMode;
+                toggle.querySelector('i').className = isNightMode ? 'fas fa-sun' : 'fas fa-moon';
+                localStorage.setItem('nightMode', isNightMode);
+            });
+            
+            if (localStorage.getItem('nightMode') === 'true') {
+                document.body.classList.add('night-mode');
+                isNightMode = true;
+                document.querySelector('.mode-toggle i').className = 'fas fa-sun';
+            }
+        }
+        // 8. Admin Panel
+        function initAdminPanel() {
+            const adminBtn = document.getElementById('adminBtn');
+            const adminPanel = document.getElementById('adminPanel');
+            const closeAdmin = document.getElementById('closeAdmin');
+            const loginBtn = document.getElementById('adminLoginBtn');
+            const passInput = document.getElementById('adminPassInput');
+
+            adminBtn.addEventListener('click', () => {
+                adminPanel.classList.toggle('open');
+            });
+
+            closeAdmin.addEventListener('click', () => {
+                adminPanel.classList.remove('open');
+            });
+
+            loginBtn.addEventListener('click', () => {
+                if (passInput.value === adminPassword) {
+                    document.getElementById('adminPassword').style.display = 'none';
+                    document.getElementById('adminContent').style.display = 'block';
+                    loadAdminEntries();
+                } else {
+                    showNotification('❌ Неверный пароль!', 'error');
+                }
+                passInput.value = '';
+            });
+
+            passInput.addEventListener('keypress', e => {
+                if (e.key === 'Enter') loginBtn.click();
+            });
+        }
+
+        // 9. Load Admin Entries из Firebase
+function loadAdminEntries() {
+  const list = document.getElementById('entriesList');
+  const totalEl = document.getElementById('totalEntries');
+  const confirmedEl = document.getElementById('adminConfirmed');
+  const declinedEl = document.getElementById('adminDeclined');
+  
+  rsvpDb.ref('rsvpEntries').once('value')
+    .then(snapshot => {
+      const entries = [];
+      let conf = 0, dec = 0;
+      
+      snapshot.forEach(child => {
+        const entry = child.val();
+        entries.push(entry);
+        if (entry.attendance === 'yes' || entry.confirmed === 1) conf++;
+        else if (entry.attendance === 'no') dec++;
+      });
+
+      list.innerHTML = '';
+      entries.forEach(entry => {
+        const item = document.createElement('div');
+        item.className = 'entry-item';
+        item.innerHTML = `
+          <strong>${entry.name}</strong> (${entry.count} чел.)<br>
+          <small>${entry.phone}</small><br>
+          <span style="color: ${entry.attendance === 'yes' ? '#27ae60' : '#e74c3c'}">
+            ${entry.attendance === 'yes' ? '✅ Приедет' : '❌ Не приедет'}
+          </span><br>
+          <em>${entry.preferences}</em><br>
+          <em>"${entry.wishes}"</em>
+        `;
+        list.appendChild(item);
+      });
+
+      totalEl.textContent = entries.length;
+      confirmedEl.textContent = conf;
+      declinedEl.textContent = dec;
+    })
+    .catch(error => {
+      console.error('Firebase load error:', error);
+      list.innerHTML = '<div style="color: red;">Ошибка загрузки данных</div>';
+    });
+}
+        // 10. Notification
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.className = 'notification show ' + type;
+            setTimeout(() => notification.classList.remove('show'), 4500);
+        }
+
+        // 11. Mobile Menu
+        function initMobileMenu() {
+            const btn = document.getElementById('mobileMenuBtn');
+            const menu = document.querySelector('.nav-menu');
+            btn.addEventListener('click', () => {
+                menu.classList.toggle('mobile-open');
+            });
+        }
+
+        // 12. Map
+        function initMap() {
+    ymaps.ready(function() {
+        map = new ymaps.Map('map', {
+            center: [57.258832, 65.108490],  // Новые координаты!
+            zoom: 16,
+            controls: ['zoomControl', 'fullscreenControl']
+        });
+        const placemark = new ymaps.Placemark([57.258832, 65.108490], {
+            hintContent: 'Ул. Виктора Соколова, 7',
+            balloonContent: '<strong>Свадьба Игоря & Марии</strong><br>с. Кулига, Тюменская обл.<br>07.07.2027',
+        }, {
+            preset: 'islands#icon',
+            iconColor: '#ff69b4'
+        });
+        map.geoObjects.add(placemark);
+    });
+}
+
+        // 13. Smooth Scroll
+        function initSmoothScroll() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', e => {
+                    e.preventDefault();
+                    const target = document.querySelector(anchor.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        }
+
+        // 14. Export Excel (исправленный — как в опроснике)
+function initExportExcel() {
+    const exportBtn = document.getElementById('exportExcelBtn');
+    exportBtn.addEventListener('click', () => {
+        rsvpDb.ref('rsvpEntries').once('value').then(snapshot => {
+            let htmlContent = `
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>RSVP результаты свадьбы</title>
+<style>
+table { border-collapse: collapse; width: 100%; font-family: Arial; }
+th, td { border: 1px solid #ddd; padding: 12px; text-align: left; }
+th { background-color: #ff9a9e; color: white; font-weight: bold; }
+tr:nth-child(even) { background-color: #f9f9f9; }
+</style>
+</head>
+<body>
+<table>
+<tr>
+<th>Имя</th><th>Гостей</th><th>Участие</th><th>Телефон</th><th>Питание</th><th>Пожелания</th><th>Дата</th>
+</tr>`;
+
+            snapshot.forEach(child => {
+                const entry = child.val();
+                const clean = (text) => String(text || '').replace(/[<>&"]/g, '').slice(0, 100);
+                
+                htmlContent += `
+<tr>
+<td>${clean(entry.name)}</td>
+<td>${clean(entry.count)}</td>
+<td>${clean(entry.attendance)}</td>
+<td>${clean(entry.phone)}</td>
+<td>${clean(entry.preferences || entry.preference)}</td>
+<td>${clean(entry.wishes)}</td>
+<td>${entry.timestamp ? new Date(entry.timestamp).toLocaleString('ru-RU') : ''}</td>
+</tr>`;
+            });
+
+            htmlContent += '</table></body></html>';
+
+            const BOM = '\\uFEFF';
+            const blob = new Blob([BOM + htmlContent], { 
+                type: 'application/vnd.ms-excel;charset=utf-8;' 
+            });
+            
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `rsvp-results-${new Date().toISOString().split('T')[0]}.xls`;
+            a.click();
+            URL.revokeObjectURL(url);
+            
+            showNotification('📥 Данные экспортированы в Excel!');
+        }).catch(error => {
+            console.error('Ошибка экспорта:', error);
+            showNotification('❌ Ошибка экспорта!');
+        });
+    });
+}
+
+        // 15. Clear Entries
+        function initClearEntries() {
+            document.getElementById('clearAllBtn').addEventListener('click', () => {
+                if (confirm('🗑️ Удалить все ответы гостей?')) {
+                    entries = [];
+                    localStorage.removeItem('weddingEntries');
+                    confirmedCount = 0;
+                    updateGuestCounter();
+                    loadAdminEntries();
+                    showNotification('✅ Данные очищены');
+                }
+            });
+        }
+
+
+
+
+
+        
+
+
+        // Инициализация
+        document.addEventListener('DOMContentLoaded', () => {
+            initAOS();
+            initProgressBar();
+            initCountdown();
+            initRSVPForm();
+            updateGuestCounter();
+            initAdminPanel();
+            initMobileMenu();
+            //initNightMode();
+            initSmoothScroll();
+            initMap();
+            initExportExcel();
+            initClearEntries();
+            
+            
+            // Auto hearts
+            setInterval(createFloatingHeart, 10000);
+        });
+
+        // Responsive map
+        window.addEventListener('resize', () => {
+            if (map) map.container.fitToViewport();
+        });
+        // 🎥 Фоновое видео
+function initBgVideo() {
+  const video = document.getElementById('bgVideo');
+  video.volume = 0;
+  video.muted = true; // Обязательно для autoplay
+  video.play().catch(e => console.log('Autoplay blocked:', e));
+}
+
+// После загрузки
+document.addEventListener('DOMContentLoaded', function() {
+  initAOS(); initProgressBar(); initCountdown(); // ... остальные init
+  initBgVideo(); // ДОБАВИЛИ!
+});
+    </script>
+    <script>
+// Адаптация видео под ориентацию экрана
+function adaptVideo() {
+  const video = document.getElementById('bgVideo');
+  if (window.innerHeight > window.innerWidth) {
+    // Вертикальная ориентация телефона
+    video.style.objectPosition = '70% center';  // ← ЧУТЬ ПРАВЕЕ ЦЕНТРА
+  } else {
+    video.style.objectPosition = '50% center';  // Центр для горизонтальной
+  }
+}
+
+window.addEventListener('resize', adaptVideo);
+window.addEventListener('orientationchange', adaptVideo);
+adaptVideo(); // Запуск при загрузке
+</script>
+</body>
+</html>
